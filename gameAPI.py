@@ -1,5 +1,5 @@
 MAX_ROWS = 7
-MAX_COLS = 7
+MAX_COLS = 8
 
 #correct
 def empty_board():
