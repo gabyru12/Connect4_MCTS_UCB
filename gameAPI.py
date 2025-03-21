@@ -1,3 +1,5 @@
+# hard copy this blog https://www.harrycodes.com/blog/monte-carlo-tree-search
+
 MAX_ROWS = 7
 MAX_COLS = 7
 
