@@ -26,7 +26,7 @@ def play():
 
         print("Thinking...")
 
-        mcts.search(8)
+        mcts.search(3)
         num_rollouts, run_time = mcts.statistics()
         print("Statistics: ", num_rollouts, "rollouts in", run_time, "seconds")
         move = mcts.best_move()
@@ -37,6 +37,7 @@ def play():
         mcts.move(move)
 
         if state.game_over():
+            state.print()
             print("Player two won!")
             break
 
