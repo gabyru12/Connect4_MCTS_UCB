@@ -41,6 +41,5 @@ def play():
             print("Player two won!")
             break
 
-
 if __name__ == "__main__":
     play()
