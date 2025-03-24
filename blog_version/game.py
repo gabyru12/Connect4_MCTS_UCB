@@ -27,6 +27,9 @@ def play():
         print("Thinking...")
 
         mcts.search(3)
+        for child in mcts.root.children.values():
+            print(f"{child.Q} / {child.N}")
+
         num_rollouts, run_time = mcts.statistics()
         print("Statistics: ", num_rollouts, "rollouts in", run_time, "seconds")
         move = mcts.best_move()

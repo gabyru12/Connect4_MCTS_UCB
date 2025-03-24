@@ -8,6 +8,9 @@ class Connect4:
         else:
             self.state = [["-"] * self.MAX_COLS for row in range(self.MAX_ROWS)]
 
+    def reset(self):
+        self.turn = "X"
+        self.state = [["-"] * self.MAX_COLS for row in range(self.MAX_ROWS)]
 
     def printState(self):
         print("==========================")
@@ -54,6 +57,14 @@ class Connect4:
     def checkGameOver(self) -> bool:
         return self.checkPlayerWon("X") or self.checkPlayerWon("O") or self.checkTie()
 
+    def checkGameResult(self):
+        if self.checkTie():
+            return "-"
+        elif self.checkPlayerWon("X"):
+            return "X"
+        else:
+            return "O"
+
     def checkAvailableMoves(self) -> list[int]:
         availableMoves = []
         for col in range(self.MAX_COLS):
@@ -61,11 +72,12 @@ class Connect4:
                 availableMoves.append(col+1)
         return availableMoves
 
-    def updateState(self, move: int) -> bool:
-        if move not in range(1,8):
-            return False
+    def updateGameState(self, move: int) -> bool:
+        if move < 1 or move > self.MAX_COLS:
+            raise ValueError(f"Invalid move: {move}. Must be between 1 and {self.MAX_COLS}.")
         if self.state[0][move-1] != "-":
-            return False
+            self.printState()
+            raise ValueError(f"Column {move} is full.")
         for row in range(self.MAX_ROWS - 1, -1, -1):
             if self.state[row][move-1] == "-":
                 self.state[row][move-1] = self.turn
@@ -74,17 +86,9 @@ class Connect4:
         return True
 
     def getIntoDesiredState(self, movesPlayed: list[int]) -> list[list[str]]:
+        self.reset()
         for i in range(len(movesPlayed)):
-            updateState(movesPlayed[i])
+            self.updateGameState(movesPlayed[i])
         return self.state
-
-board = [["-","-","-","-","-","-","-"],
-        ["-","-","-","-","-","-","-"],
-        ["-","-","-","-","-","-","-"],
-        ["-","-","-","-","-","-","-"],
-        ["-","-","-","-","-","-","-"],
-        ["-","-","-","-","-","-","-"]]
-                
-connect4 = Connect4(6, 7)
-print(connect4.checkAvailableMoves())
+            
 
