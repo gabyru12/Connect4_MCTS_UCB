@@ -2,6 +2,9 @@ from copy import deepcopy
 import numpy as np
 from meta import GameMeta
 
+# |---------------------------------------------------------|
+# | https://www.harrycodes.com/blog/monte-carlo-tree-search |
+# |---------------------------------------------------------|
 
 class ConnectState:
     def __init__(self):

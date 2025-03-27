@@ -6,6 +6,9 @@ from copy import deepcopy
 from ConnectState import ConnectState
 from meta import GameMeta, MCTSMeta
 
+# |---------------------------------------------------------|
+# | https://www.harrycodes.com/blog/monte-carlo-tree-search |
+# |---------------------------------------------------------|
 
 class Node:
     def __init__(self, move, parent):

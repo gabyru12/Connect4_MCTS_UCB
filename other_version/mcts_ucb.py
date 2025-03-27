@@ -8,9 +8,9 @@ class Node:
         self.N = 0
         self.depth = depth
         if self.depth % 2 == 1:
-            self.playerTurn = "O"
-        else:
             self.playerTurn = "X"
+        else:
+            self.playerTurn = "O"
         self.move = move
         self.parent = parent
         self.children = {}
@@ -24,19 +24,22 @@ class MctsAlgo:
         self.iteration = 0
         self.actualState = self.root
 
-    def reset(self):
-        self.connect4.reset()
-        self.currentState = self.root
+    def reset(self, connect4Actual: Connect4):
+        self.connect4.reset(connect4Actual.state, connect4Actual.turn)
+        self.currentState = self.actualState
 
     def selection_phase(self):
         valuesForEachChildren = {}
         promissingChildren = []
         childrenWithNZero = []
-        bestValue = -1
         self.currentState = self.actualState
 
         #trying to find a node without children
         while len(self.currentState.children) != 0:
+            valuesForEachChildren = {}
+            promissingChildren = []
+            childrenWithNZero = []
+            bestValue = -1
             for move in self.currentState.children.keys():
                 if self.currentState.children[move].N > 0: 
                     valuesForEachChildren[move] = self.upper_confidence_bound(self.currentState.children[move])
@@ -82,23 +85,25 @@ class MctsAlgo:
         return gameResult
         
     def backPropagation_phase(self, gameResult: str):
-        while self.currentState != self.root:
+        while self.currentState != self.actualState.parent:
             self.currentState.N += 1
             if(self.currentState.playerTurn == gameResult):
                 self.currentState.Q += 1
             self.currentState = self.currentState.parent
-        self.currentState.N += 1
         self.iteration += 1
 
     def updateMCTSState(self, move: int):
         self.currentState = self.currentState.children[move]
         
     def upper_confidence_bound(self, node: Node):
-        return node.Q / node.N + self.C * math.sqrt(math.log(node.parent.N) / node.N)
+        return (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N)))
 
-    def run_mcts(self, iterations: int):
+    def run_mcts(self, iterations: int, connect4Actual: Connect4, moveBefore: int):
+        if(self.iteration == 0): 
+            self.expansion_phase()
+        self.actualState = self.actualState.children[moveBefore]
         for i in range(iterations):
-            self.reset()
+            self.reset(connect4Actual)
             self.selection_phase()
             wasExpansionSuccessful = self.expansion_phase()
             gameResult = self.simulation_phase(wasExpansionSuccessful)

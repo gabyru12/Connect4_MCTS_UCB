@@ -20,7 +20,7 @@ def play():
 
         connect4.printState()
         print("AI is thinking...")
-        mcts.run_mcts(10000)
+        mcts.run_mcts(10000, connect4, move)
         bestMove = mcts.choose_best_move()
         connect4.updateGameState(bestMove)
 

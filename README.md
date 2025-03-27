@@ -37,5 +37,8 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 ## Future Improvements (Destined for my project group)
 - Add a graphical interface 
 - Optimize AI
-- Implement additional difficulty levels for AI
+- Implement additional difficulty levels for AI:
+    - AI inicia o mcts desde o root Node vs a partir do Node atual do jogo
+    - AI com mais tempo para pensar
+    - AI com heuristica vs sem heuristica
 - Display the tree like structure of the AI

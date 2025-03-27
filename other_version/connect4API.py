@@ -1,14 +1,8 @@
+from copy import deepcopy
 class Connect4:
-    def __init__(self, MAX_ROWS: int, MAX_COLS: int, state: list[str] = None):
+    def __init__(self, MAX_ROWS: int, MAX_COLS: int):
         self.MAX_ROWS = MAX_ROWS
         self.MAX_COLS = MAX_COLS
-        self.turn = "X"
-        if(state != None):
-            self.state = state
-        else:
-            self.state = [["-"] * self.MAX_COLS for row in range(self.MAX_ROWS)]
-
-    def reset(self):
         self.turn = "X"
         self.state = [["-"] * self.MAX_COLS for row in range(self.MAX_ROWS)]
 
@@ -19,6 +13,10 @@ class Connect4:
                 print(f"{self.state[row][col]} | ", end="")
             print(f"{self.state[row][self.MAX_COLS-1]}")
         print("==========================")
+
+    def reset(self, connect4ActualState: list[int], connect4ActualTurn: str):
+        self.turn = connect4ActualTurn
+        self.state = deepcopy(connect4ActualState)
 
     def checkPlayerWon(self, player: str) -> bool:
         #horizontal
@@ -76,7 +74,6 @@ class Connect4:
         if move < 1 or move > self.MAX_COLS:
             raise ValueError(f"Invalid move: {move}. Must be between 1 and {self.MAX_COLS}.")
         if self.state[0][move-1] != "-":
-            self.printState()
             raise ValueError(f"Column {move} is full.")
         for row in range(self.MAX_ROWS - 1, -1, -1):
             if self.state[row][move-1] == "-":
@@ -85,10 +82,10 @@ class Connect4:
         self.turn = "O" if self.turn == "X" else "X"
         return True
 
-    def getIntoDesiredState(self, movesPlayed: list[int]) -> list[list[str]]:
-        self.reset()
-        for i in range(len(movesPlayed)):
-            self.updateGameState(movesPlayed[i])
-        return self.state
+    def getIntoDesiredState(self, turn: str, gameState: list[list[int]]):
+        for row in range(self.MAX_ROWS):
+            for col in range(self.MAX_COLS):
+                self.state[row][col] = gameState[row][col]
+        self.turn = turn
             
 

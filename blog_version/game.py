@@ -1,6 +1,9 @@
 from ConnectState import ConnectState
 from mcts import MCTS
 
+# |---------------------------------------------------------|
+# | https://www.harrycodes.com/blog/monte-carlo-tree-search |
+# |---------------------------------------------------------|
 
 def play():
     state = ConnectState()
