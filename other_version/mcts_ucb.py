@@ -100,9 +100,9 @@ class MctsAlgo:
         return (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N)))
 
     def run_mcts(self, iterations: int, connect4Actual: Connect4, moveBefore: int = None):
-        if(self.iteration == 0): 
+        if self.iteration == 0: 
             self.expansion_phase()
-        if moveBefore != None:
+        if moveBefore != None:                
             self.actualState = self.actualState.children[moveBefore]
         for i in range(iterations):
             self.reset(connect4Actual)
