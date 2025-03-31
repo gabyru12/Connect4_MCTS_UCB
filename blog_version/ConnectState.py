@@ -113,7 +113,7 @@ class ConnectState:
         return GameMeta.OUTCOMES['one'] if self.check_win() == GameMeta.PLAYERS['one'] else GameMeta.OUTCOMES['two']
 
     def print(self):
-        print('=============================')
+        # print('=============================')
 
         for row in range(GameMeta.ROWS):
             for col in range(GameMeta.COLS):
@@ -121,3 +121,5 @@ class ConnectState:
             print('|')
 
         print('=============================')
+        print('==1===2===3===4===5===6===7==')
+        

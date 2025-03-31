@@ -7,12 +7,13 @@ class Connect4:
         self.state = [["-"] * self.MAX_COLS for row in range(self.MAX_ROWS)]
 
     def printState(self):
-        print("==========================")
+        print("===========================")
         for row in range(self.MAX_ROWS):
             for col in range(self.MAX_COLS - 1):
-                print(f"{self.state[row][col]} | ", end="")
-            print(f"{self.state[row][self.MAX_COLS-1]}")
-        print("==========================")
+                print(f" {self.state[row][col]} |", end="")
+            print(f" {self.state[row][self.MAX_COLS-1]}")
+        print("===========================")
+        print(' 1 | 2 | 3 | 4 | 5 | 6 | 7 ')
 
     def reset(self, connect4ActualState: list[int], connect4ActualTurn: str):
         self.turn = connect4ActualTurn
@@ -87,5 +88,3 @@ class Connect4:
             for col in range(self.MAX_COLS):
                 self.state[row][col] = gameState[row][col]
         self.turn = turn
-            
-
