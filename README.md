@@ -6,7 +6,6 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 ## Features
 - **Interactive Gameplay**: Play Connect4 against the AI or another human player or let an AI play against another AI
 - **AI with MCTS and UCB**: The AI uses Monte Carlo simulations and UCB to evaluate the best moves.
-- **Customizable Board**: Supports different board sizes and configurations.
 - **Scalable AI**: Adjust the time given to generate simulations for the AI to balance between performance and computation time.
 
 ## How It Works
@@ -30,7 +29,6 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 
 ## Project Structure
 - game.py: Entry point for the game
-- meta.py: Meta data and specification for the game and the AI
 - mcts.py: Algorithm that implements the Monte Carlo Tree Search
 - ConnectState.py: Implementation of the rules and board to play Connect4 
 
@@ -40,5 +38,4 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 - Implement additional difficulty levels for AI:
     - AI inicia o mcts desde o root Node vs a partir do Node atual do jogo
     - AI com mais tempo para pensar
-    - AI com heuristica vs sem heuristica
 - Display the tree like structure of the AI

@@ -101,7 +101,11 @@ class MctsAlgo:
 
     def run_mcts(self, iterations: int, connect4Actual: Connect4, moveBefore: int = None):
         if self.iteration == 0: 
+            self.reset(connect4Actual)
             self.expansion_phase()
+            self.iteration += 1
+            # print(self.connect4.checkGameOver())
+            # print(self.connect4.checkAvailableMoves())
         if moveBefore != None:                
             self.actualState = self.actualState.children[moveBefore]
         for i in range(iterations):
