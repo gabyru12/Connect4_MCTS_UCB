@@ -2,6 +2,8 @@ import math
 import graphviz
 from connect4API import *
 import random
+import gc
+
 
 class Node:
     def __init__(self, parent: 'Node', move: int, depth: int):
@@ -17,13 +19,14 @@ class Node:
         self.children = {}
 
 class MctsAlgo:
-    def __init__(self, C: int, connect4: Connect4 = Connect4(6, 7)):
+    def __init__(self, C: int, reset: bool, connect4: Connect4 = Connect4(6, 7)):
         self.C = C
         self.root = Node(None, None, 0)
         self.connect4 = connect4
         self.currentState = self.root
         self.iteration = 0
         self.actualState = self.root
+        self.resetTree = reset
 
     def reset(self, connect4Actual: Connect4):
         self.connect4.reset(connect4Actual.state, connect4Actual.turn)
@@ -100,14 +103,16 @@ class MctsAlgo:
         return (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N)))
 
     def run_mcts(self, iterations: int, connect4Actual: Connect4, moveBefore: int = None):
-        if self.iteration == 0: 
+        if moveBefore != None:
+            if len(self.actualState.children) == 0: 
+                self.reset(connect4Actual)
+                self.expansion_phase()                
+            self.actualState = self.actualState.children[moveBefore]
+        if self.resetTree:
+            self.actualState.children = {}
+        if len(self.actualState.children) == 0: 
             self.reset(connect4Actual)
             self.expansion_phase()
-            self.iteration += 1
-            # print(self.connect4.checkGameOver())
-            # print(self.connect4.checkAvailableMoves())
-        if moveBefore != None:                
-            self.actualState = self.actualState.children[moveBefore]
         for i in range(iterations):
             self.reset(connect4Actual)
             self.selection_phase()
@@ -118,34 +123,14 @@ class MctsAlgo:
     def choose_best_move(self) -> int:
         bestMove = None
         highestN = 0
-        for move, child in self.actualState.children.items():
-            print(f"{move}: {child.Q} / {child.N}")
         for move in self.actualState.children.keys():
             if self.actualState.children[move].N > highestN:
                 highestN = self.actualState.children[move].N
                 bestMove = move
+        for move, child in self.actualState.children.items():
+            if move == bestMove:
+                print(f"\033[93m{move}: {child.Q} / {child.N}\033[0m")
+            else:
+                print(f"{move}: {child.Q} / {child.N}")
         self.actualState = self.actualState.children[bestMove]
         return bestMove
-
-    def visualize_mcts_tree_graphviz(self, root: Node, max_depth=1):
-        dot = graphviz.Digraph(comment="MCTS Tree")
-
-        def traverse(node, parent_name=None, depth=0):
-            if node is None or depth > max_depth:  # Ensure depth is an integer
-                return
-            node_label = f"Move: {node.move}\nQ: {node.Q:.1f} / N: {node.N}"
-            node_name = f"{node.move}_{depth}_{id(node)}"
-            dot.node(node_name, node_label)
-            if parent_name:
-                dot.edge(parent_name, node_name)
-            for child in node.children.values():
-                traverse(child, node_name, depth + 1)  # Increment depth correctly
-
-        traverse(root)
-        dot.render("mcts_tree", format="png", view=True)  # Saves and opens the tree
-
-if __name__ == "__main__":
-    mcts = MctsAlgo(2)
-    connect4 = Connect4(6, 7)
-    mcts.run_mcts(10000, connect4)
-    mcts.visualize_mcts_tree_graphviz(mcts.root)

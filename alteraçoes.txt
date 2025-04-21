@@ -1,5 +1,5 @@
 Implemented:
     - mcts search from root -> mcts search from actual game state
+    - mcts node tree doesn't reset for each turn -> mcts node tree resets after each turn 
 
 To implement:
-    - mcts node tree doesn't reset for each turn -> mcts node tree resets after each turn 

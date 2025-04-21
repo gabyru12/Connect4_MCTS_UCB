@@ -10,8 +10,18 @@ class Connect4:
         print("===========================")
         for row in range(self.MAX_ROWS):
             for col in range(self.MAX_COLS - 1):
-                print(f" {self.state[row][col]} |", end="")
-            print(f" {self.state[row][self.MAX_COLS-1]}")
+                if self.state[row][col] == "X":
+                    print(f" \033[94m{self.state[row][col]}\033[0m |", end="")
+                elif self.state[row][col] == "O":
+                    print(f" \033[91m{self.state[row][col]}\033[0m |", end="")
+                else:
+                    print(f" {self.state[row][col]} |", end="")
+            if self.state[row][self.MAX_COLS-1] == "X":
+                print(f" \033[94m{self.state[row][self.MAX_COLS-1]}\033[0m")
+            elif self.state[row][self.MAX_COLS-1] == "O":
+                print(f" \033[91m{self.state[row][self.MAX_COLS-1]}\033[0m")
+            else:
+                print(f" {self.state[row][self.MAX_COLS-1]}")
         print("===========================")
         print(' 1 | 2 | 3 | 4 | 5 | 6 | 7 ')
 

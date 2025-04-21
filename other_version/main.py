@@ -3,8 +3,8 @@ from connect4API import Connect4
 import math
 import gc
 
-def AI_first_vs_user(c_constant_mcts: int, iterations: int):
-    mcts = MctsAlgo(c_constant_mcts)
+def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool):
+    mcts = MctsAlgo(c_constant_mcts, reset)
     connect4 = Connect4(6, 7)
     move = None
     while not connect4.checkGameOver():
@@ -34,10 +34,14 @@ def AI_first_vs_user(c_constant_mcts: int, iterations: int):
             print("Tie")
             break
 
-def user_first_vs_AI(c_constant_mcts: int, iterations: int):
-    mcts = MctsAlgo(c_constant_mcts)
+    del mcts
+    del connect4
+    gc.collect()
+
+def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool):
+    mcts = MctsAlgo(c_constant_mcts, reset)
     connect4 = Connect4(6, 7)
-    while not connect4.checkGameOver():
+    while True:
         connect4.printState()
         move = int(input("Choose your move: "))
         connect4.updateGameState(move)
@@ -64,10 +68,14 @@ def user_first_vs_AI(c_constant_mcts: int, iterations: int):
             print("Tie")
             break
 
-def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, c_constant_mcts_2nd: int, iterations_2nd: int):
+    del mcts
+    del connect4
+    gc.collect()
+
+def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, c_constant_mcts_2nd: int, iterations_2nd: int, reset2: bool):
     connect4 = Connect4(6, 7)
-    mcts1 = MctsAlgo(c_constant_mcts_1st)
-    mcts2 = MctsAlgo(c_constant_mcts_2nd)
+    mcts1 = MctsAlgo(c_constant_mcts_1st, reset1)
+    mcts2 = MctsAlgo(c_constant_mcts_2nd, reset2)
     bestMove = None
     mcts1.run_mcts(0, connect4, bestMove)
     mcts2.run_mcts(0, connect4, bestMove)
@@ -101,10 +109,6 @@ def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, c_constant_mcts_2nd:
             print("Tie")
             break
 
-    mcts1.root = None
-    mcts2.root = None
-    mcts1.actualState = None
-    mcts2.actualState = None
     del mcts1
     del mcts2
     del connect4
@@ -112,7 +116,7 @@ def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, c_constant_mcts_2nd:
 
 if __name__ == "__main__":
     typeOfGame = ""
-    while True:
+    while typeOfGame.lower() != "exit":
         print("""
 <---------------------------------------->
         What do you want to play:
@@ -126,35 +130,56 @@ if __name__ == "__main__":
 """)
         typeOfGame = input("Choose: ")
         if typeOfGame == "1":
-            C_constant = input("Choose the value for the C constant for MCTS(eg. X, sqrt_X): ")
+            C_constant, nIterations, reset = input("Enter the (C_constant[sqrt_X or X] / nIterations[INT] / resetTree[BOOL]) for MCTS: ").split()
+
             if C_constant[0:5] == "sqrt_":
                 C_constant = math.sqrt(int(C_constant[5]))
             else:
                 C_constant = int(C_constant)
-            nIterations = int(input("Choose the value for the number of iterations: "))    
-            user_first_vs_AI(C_constant, nIterations)
+            if reset.lower() == "true":
+                reset = True
+            else:
+                reset = False
+
+            user_first_vs_AI(C_constant, int(nIterations), reset)
         elif typeOfGame == "2":
-            C_constant = input("Choose the value for the C constant for MCTS(eg. X, sqrt_X): ")
+            C_constant, nIterations, reset = input("Enter the (C_constant[sqrt_X or X] / nIterations[INT] / resetTree[BOOL]) for MCTS: ").split()
+
             if C_constant[0:5] == "sqrt_":
                 C_constant = math.sqrt(int(C_constant[5]))
             else:
                 C_constant = int(C_constant)
-            nIterations = int(input("Choose the value for the number of iterations: "))
-            AI_first_vs_user(C_constant, nIterations)
+            if reset.lower() == "true":
+                reset = True
+            else:
+                reset = False
+
+            AI_first_vs_user(C_constant, int(nIterations), reset)
         elif typeOfGame == "3":
-            C_constant1 = input("Choose the value for the C constant for MCTS_1st(eg. X, sqrt_X): ")
+            C_constant1, nIterations1, reset1 = input("Enter the (C_constant[sqrt_X or X] / nIterations[INT] / resetTree[BOOL]) for MCTS1: ").split()
+            C_constant2, nIterations2, reset2 = input("Enter the (C_constant[sqrt_X or X] / nIterations[INT] / resetTree[BOOL]) for MCTS2: ").split()
+
             if C_constant1[0:5] == "sqrt_":
                 C_constant1 = math.sqrt(int(C_constant1[5]))
             else:
                 C_constant1 = int(C_constant1)
-            nIterations1 = int(input("Choose the value for the number of iterations for MCTS_1st: "))
-            C_constant2 = input("Choose the value for the C constant for MCTS_2st(eg. X, sqrt_X): ")
+            if reset1.lower() == "true":
+                reset1 = True
+            else:
+                reset1 = False
+
             if C_constant2[0:5] == "sqrt_":
                 C_constant2 = math.sqrt(int(C_constant2[5]))
             else:
                 C_constant2 = int(C_constant2)
-            nIterations2 = int(input("Choose the value for the number of iterations for MCTS_2st: "))
-            AI_vs_AI(C_constant1, nIterations1, C_constant2, nIterations2)
+            if reset2.lower() == "true":
+                reset2 = True
+            else:
+                reset2 = False
+
+            nIterations1 = int(nIterations1)
+            nIterations2 = int(nIterations2)
+            AI_vs_AI(C_constant1, nIterations1, reset1, C_constant2, nIterations2, reset2)
         else:
             if typeOfGame.lower() != "exit":
                 print("\nPlease choose between the options available!\n")
