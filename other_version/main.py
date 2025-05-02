@@ -2,9 +2,10 @@ from mcts_ucb import Node, MctsAlgo
 from connect4API import Connect4
 import math
 import gc
+from multiprocessing import Process
 
-def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool):
-    mcts = MctsAlgo(c_constant_mcts, reset)
+def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool, drawValue):
+    mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
     connect4 = Connect4(6, 7)
     move = None
     while not connect4.checkGameOver():
@@ -38,8 +39,8 @@ def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool):
     del connect4
     gc.collect()
 
-def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool):
-    mcts = MctsAlgo(c_constant_mcts, reset)
+def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool, drawValue: float):
+    mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
     connect4 = Connect4(6, 7)
     while True:
         connect4.printState()
@@ -72,10 +73,10 @@ def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool):
     del connect4
     gc.collect()
 
-def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, c_constant_mcts_2nd: int, iterations_2nd: int, reset2: bool):
+def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: int, iterations_2nd: int, reset2: bool, drawValue2: float):
     connect4 = Connect4(6, 7)
-    mcts1 = MctsAlgo(c_constant_mcts_1st, reset1)
-    mcts2 = MctsAlgo(c_constant_mcts_2nd, reset2)
+    mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
+    mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2)
     bestMove = None
     mcts1.run_mcts(0, connect4, bestMove)
     mcts2.run_mcts(0, connect4, bestMove)
@@ -114,8 +115,29 @@ def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, c_cons
     del connect4
     gc.collect()
 
+def read_input(config_filePath: str):
+    with open(config_filePath, "r") as file:
+        lines = file.readlines()
+        C0 = lines[1].strip().split(" = ")[1]
+        iterations0 = lines[2].strip().split(" = ")[1]
+        resetTree0 = lines[3].strip().split(" = ")[1]
+        drawValue0 = lines[4].strip().split(" = ")[1]
+        C1 = lines[7].strip().split(" = ")[1]
+        iterations1 = lines[8].strip().split(" = ")[1]
+        resetTree1 = lines[9].strip().split(" = ")[1]
+        drawValue1 = lines[10].strip().split(" = ")[1]
+        C2 = lines[11].strip().split(" = ")[1]
+        iterations2 = lines[12].strip().split(" = ")[1]
+        resetTree2 = lines[13].strip().split(" = ")[1]
+        drawValue2 = lines[14].strip().split(" = ")[1]
+    
+    return {"C0": C0, "iterations0": iterations0, "resetTree0": resetTree0, "drawValue0": drawValue0,
+            "C1": C1, "iterations1": iterations1, "resetTree1": resetTree1, "drawValue1": drawValue1,
+            "C2": C2, "iterations2": iterations2, "resetTree2": resetTree2, "drawValue2": drawValue2}
+
 if __name__ == "__main__":
     typeOfGame = ""
+    config = read_input(r"C:\Users\arcan\OneDrive\Ambiente de Trabalho\My apps\python\connect4Project\other_version\configs.txt")
     while typeOfGame.lower() != "exit":
         print("""
 <---------------------------------------->
@@ -123,15 +145,15 @@ if __name__ == "__main__":
 
             1. User vs AI
             2. AI vs User
-            3. AI vs AI
+             3. AI vs AI
+        4. Run concurrently (5)
 
-            -- Exit --
+              -- Exit --
 <---------------------------------------->
 """)
         typeOfGame = input("Choose: ")
         if typeOfGame == "1":
-            C_constant, nIterations, reset = input("Enter the (C_constant[sqrt_X or X] / nIterations[INT] / resetTree[BOOL]) for MCTS: ").split()
-
+            C_constant, nIterations, resetTree, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"] 
             if C_constant[0:5] == "sqrt_":
                 C_constant = math.sqrt(int(C_constant[5]))
             else:
@@ -140,11 +162,10 @@ if __name__ == "__main__":
                 reset = True
             else:
                 reset = False
+            user_first_vs_AI(C_constant, int(nIterations), resetTree, float(drawValue))
 
-            user_first_vs_AI(C_constant, int(nIterations), reset)
         elif typeOfGame == "2":
-            C_constant, nIterations, reset = input("Enter the (C_constant[sqrt_X or X] / nIterations[INT] / resetTree[BOOL]) for MCTS: ").split()
-
+            C_constant, nIterations, reset, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
             if C_constant[0:5] == "sqrt_":
                 C_constant = math.sqrt(int(C_constant[5]))
             else:
@@ -153,12 +174,11 @@ if __name__ == "__main__":
                 reset = True
             else:
                 reset = False
+            AI_first_vs_user(C_constant, int(nIterations), reset, float(drawValue))
 
-            AI_first_vs_user(C_constant, int(nIterations), reset)
         elif typeOfGame == "3":
-            C_constant1, nIterations1, reset1 = input("Enter the (C_constant[sqrt_X or X] / nIterations[INT] / resetTree[BOOL]) for MCTS1: ").split()
-            C_constant2, nIterations2, reset2 = input("Enter the (C_constant[sqrt_X or X] / nIterations[INT] / resetTree[BOOL]) for MCTS2: ").split()
-
+            C_constant1, nIterations1, reset1, drawValue1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"]
+            C_constant2, nIterations2, reset2, drawValue2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"]
             if C_constant1[0:5] == "sqrt_":
                 C_constant1 = math.sqrt(int(C_constant1[5]))
             else:
@@ -179,7 +199,42 @@ if __name__ == "__main__":
 
             nIterations1 = int(nIterations1)
             nIterations2 = int(nIterations2)
-            AI_vs_AI(C_constant1, nIterations1, reset1, C_constant2, nIterations2, reset2)
+            drawValue1 = float(drawValue1)
+            drawValue2 = float(drawValue2)
+            AI_vs_AI(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2)
+
+        elif typeOfGame == "4":
+            # Concurrent AI vs AI
+            C_constant1, nIterations1, reset1, drawValue1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"]
+            C_constant2, nIterations2, reset2, drawValue2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"]
+            if C_constant1[0:5] == "sqrt_":
+                C_constant1 = math.sqrt(int(C_constant1[5]))
+            else:
+                C_constant1 = int(C_constant1)
+            if reset1.lower() == "true":
+                reset1 = True
+            else:
+                reset1 = False
+            if C_constant2[0:5] == "sqrt_":
+                C_constant2 = math.sqrt(int(C_constant2[5]))
+            else:
+                C_constant2 = int(C_constant2)
+            if reset2.lower() == "true":
+                reset2 = True
+            else:
+                reset2 = False
+            nIterations1 = int(nIterations1)
+            nIterations2 = int(nIterations2)
+            # Create and start 5 processes
+            processes = []
+            for _ in range(5):
+                p = Process(target=AI_vs_AI, args=(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2))
+                processes.append(p)
+                p.start()
+            # Wait for all processes to complete
+            for p in processes:
+                p.join()
+
         else:
             if typeOfGame.lower() != "exit":
                 print("\nPlease choose between the options available!\n")

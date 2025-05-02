@@ -3,3 +3,5 @@ Implemented:
     - mcts node tree doesn't reset for each turn -> mcts node tree resets after each turn 
 
 To implement:
+    - draws don't count as losses -> draws count as wins, don't count at all, count them as half a win (0.5)
+    - connect4 matrix is a list -> connect4 matrix is a numpy array (6,7)

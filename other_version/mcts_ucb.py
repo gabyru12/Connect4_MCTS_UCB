@@ -19,7 +19,7 @@ class Node:
         self.children = {}
 
 class MctsAlgo:
-    def __init__(self, C: int, reset: bool, connect4: Connect4 = Connect4(6, 7)):
+    def __init__(self, C: int = math.sqrt(2), reset: bool = True, connect4: Connect4 = Connect4(6, 7), drawValue: float = 0):
         self.C = C
         self.root = Node(None, None, 0)
         self.connect4 = connect4
@@ -27,6 +27,7 @@ class MctsAlgo:
         self.iteration = 0
         self.actualState = self.root
         self.resetTree = reset
+        self.drawValue = drawValue
 
     def reset(self, connect4Actual: Connect4):
         self.connect4.reset(connect4Actual.state, connect4Actual.turn)
@@ -89,11 +90,18 @@ class MctsAlgo:
         return gameResult
         
     def backPropagation_phase(self, gameResult: str):
-        while self.currentState != self.actualState.parent:
+        while self.currentState != self.actualState:
             self.currentState.N += 1
-            if(self.currentState.playerTurn == gameResult):
+            if self.currentState.playerTurn == gameResult:
                 self.currentState.Q += 1
+            elif gameResult == "-":
+                self.currentState.Q += self.drawValue
             self.currentState = self.currentState.parent
+        self.currentState.N += 1
+        if self.currentState.playerTurn == gameResult:
+            self.currentState.Q += 1
+        elif gameResult == "-":
+            self.currentState.Q += self.drawValue
         self.iteration += 1
 
     def updateMCTSState(self, move: int):
@@ -109,7 +117,9 @@ class MctsAlgo:
                 self.expansion_phase()                
             self.actualState = self.actualState.children[moveBefore]
         if self.resetTree:
-            self.actualState.children = {}
+            self.actualState.children = {}   # Resets tree by clearing every child node
+            self.currentState.children = {}  # Definetely resets tree by clearing every child node
+            gc.collect()
         if len(self.actualState.children) == 0: 
             self.reset(connect4Actual)
             self.expansion_phase()
@@ -133,4 +143,7 @@ class MctsAlgo:
             else:
                 print(f"{move}: {child.Q} / {child.N}")
         self.actualState = self.actualState.children[bestMove]
+        self.actualState.parent = None    # Clears the parent Node from memory
+        self.currentState.parent = None   # Definetely clears the parent Node from memory  
+        gc.collect()
         return bestMove
