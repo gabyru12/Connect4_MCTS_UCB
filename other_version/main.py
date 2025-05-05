@@ -4,6 +4,46 @@ import math
 import gc
 from multiprocessing import Process
 
+def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool, drawValue: float):
+    mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
+    connect4 = Connect4(6, 7)
+    while True:
+        connect4.printState()
+        while True: 
+            try:
+                move = int(input("Choose your move: "))
+                connect4.updateGameState(move)
+                break
+            except ValueError as e:
+                print(f"{e}")
+                continue 
+
+        if connect4.checkPlayerWon("O"):
+            connect4.printState()
+            print("You win")
+            break
+        elif connect4.checkTie():
+            print("Tie")
+            break
+
+        connect4.printState()
+        print("AI is thinking...")
+        mcts.run_mcts(iterations, connect4, move)
+        bestMove = mcts.choose_best_move()
+        connect4.updateGameState(bestMove)
+
+        if connect4.checkPlayerWon("X"):
+            connect4.printState()
+            print("AI win")
+            break
+        elif connect4.checkTie():
+            print("Tie")
+            break
+
+    del mcts
+    del connect4
+    gc.collect()
+
 def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool, drawValue):
     mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
     connect4 = Connect4(6, 7)
@@ -15,7 +55,7 @@ def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool, drawVal
         bestMove = mcts.choose_best_move()
         connect4.updateGameState(bestMove)
 
-        if connect4.checkPlayerWon("X"):
+        if connect4.checkPlayerWon("O"):
             connect4.printState()
             print("AI win")
             break
@@ -24,46 +64,18 @@ def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool, drawVal
             break
 
         connect4.printState()
-        move = int(input("Choose your move: "))
-        connect4.updateGameState(move)
-
-        if connect4.checkPlayerWon("O"):
-            connect4.printState()
-            print("You win")
-            break
-        elif connect4.checkTie():
-            print("Tie")
-            break
-
-    del mcts
-    del connect4
-    gc.collect()
-
-def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool, drawValue: float):
-    mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
-    connect4 = Connect4(6, 7)
-    while True:
-        connect4.printState()
-        move = int(input("Choose your move: "))
-        connect4.updateGameState(move)
+        while True: 
+            try:
+                move = int(input("Choose your move: "))
+                connect4.updateGameState(move)
+                break
+            except ValueError as e:
+                print(f"{e}")
+                continue 
 
         if connect4.checkPlayerWon("X"):
             connect4.printState()
             print("You win")
-            break
-        elif connect4.checkTie():
-            print("Tie")
-            break
-
-        connect4.printState()
-        print("AI is thinking...")
-        mcts.run_mcts(iterations, connect4, move)
-        bestMove = mcts.choose_best_move()
-        connect4.updateGameState(bestMove)
-
-        if connect4.checkPlayerWon("O"):
-            connect4.printState()
-            print("AI win")
             break
         elif connect4.checkTie():
             print("Tie")
@@ -88,7 +100,7 @@ def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, drawVa
         bestMove = mcts1.choose_best_move()
         connect4.updateGameState(bestMove)
 
-        if connect4.checkPlayerWon("X"):
+        if connect4.checkPlayerWon("O"):
             connect4.printState()
             print("AI_1st win")
             break
@@ -102,7 +114,7 @@ def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, drawVa
         bestMove = mcts2.choose_best_move()
         connect4.updateGameState(bestMove)
 
-        if connect4.checkPlayerWon("O"):
+        if connect4.checkPlayerWon("X"):
             connect4.printState()
             print("AI_2nd win")
             break
@@ -137,7 +149,7 @@ def read_input(config_filePath: str):
 
 if __name__ == "__main__":
     typeOfGame = ""
-    config = read_input(r"C:\Users\arcan\OneDrive\Ambiente de Trabalho\My apps\python\connect4Project\other_version\configs.txt")
+    config = read_input(r"C:\Users\zebru\OneDrive\Desktop\FCUP\2ยบ ano\2ยบ semestre\IA\Connect4_MCTS\other_version\configs.txt")
     while typeOfGame.lower() != "exit":
         print("""
 <---------------------------------------->
@@ -153,7 +165,7 @@ if __name__ == "__main__":
 """)
         typeOfGame = input("Choose: ")
         if typeOfGame == "1":
-            C_constant, nIterations, resetTree, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"] 
+            C_constant, nIterations, reset, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"] 
             if C_constant[0:5] == "sqrt_":
                 C_constant = math.sqrt(int(C_constant[5]))
             else:
@@ -162,7 +174,7 @@ if __name__ == "__main__":
                 reset = True
             else:
                 reset = False
-            user_first_vs_AI(C_constant, int(nIterations), resetTree, float(drawValue))
+            user_first_vs_AI(C_constant, int(nIterations), reset, float(drawValue))
 
         elif typeOfGame == "2":
             C_constant, nIterations, reset, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
@@ -238,5 +250,3 @@ if __name__ == "__main__":
         else:
             if typeOfGame.lower() != "exit":
                 print("\nPlease choose between the options available!\n")
-
-

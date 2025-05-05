@@ -11,9 +11,9 @@ class Node:
         self.N = 0
         self.depth = depth
         if self.depth % 2 == 1:
-            self.playerTurn = "X"
-        else:
             self.playerTurn = "O"
+        else:
+            self.playerTurn = "X"
         self.move = move
         self.parent = parent
         self.children = {}
@@ -46,7 +46,7 @@ class MctsAlgo:
             childrenWithNZero = []
             bestValue = -1
             for move in self.currentState.children.keys():
-                if self.currentState.children[move].N > 0: 
+                if self.currentState.children[move].N > 0:
                     valuesForEachChildren[move] = self.upper_confidence_bound(self.currentState.children[move])
                     if valuesForEachChildren[move] > bestValue:
                         promissingChildren.clear()
