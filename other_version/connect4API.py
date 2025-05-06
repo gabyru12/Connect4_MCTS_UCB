@@ -1,4 +1,7 @@
 from copy import deepcopy
+import random
+import numpy as np
+
 class Connect4:
     def __init__(self, MAX_ROWS: int, MAX_COLS: int):
         self.MAX_ROWS = MAX_ROWS

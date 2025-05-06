@@ -2,7 +2,7 @@
 C0 = sqrt_2
 iterations0 = 10000
 resetTree0 = True
-drawValue0 = 0
+drawValue0 = 0.5
 
 [AI_vs_AI]
 C1 = sqrt_2

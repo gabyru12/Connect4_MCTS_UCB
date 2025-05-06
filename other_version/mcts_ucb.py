@@ -3,6 +3,7 @@ import graphviz
 from connect4API import *
 import random
 import gc
+import time
 
 
 class Node:
@@ -28,6 +29,7 @@ class MctsAlgo:
         self.actualState = self.root
         self.resetTree = reset
         self.drawValue = drawValue
+        self.runTimes = []
 
     def reset(self, connect4Actual: Connect4):
         self.connect4.reset(connect4Actual.state, connect4Actual.turn)
@@ -111,6 +113,7 @@ class MctsAlgo:
         return (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N)))
 
     def run_mcts(self, iterations: int, connect4Actual: Connect4, moveBefore: int = None):
+        start_time = time.time()  # Start timing
         if moveBefore != None:
             if len(self.actualState.children) == 0: 
                 self.reset(connect4Actual)
@@ -129,6 +132,9 @@ class MctsAlgo:
             wasExpansionSuccessful = self.expansion_phase()
             gameResult = self.simulation_phase(wasExpansionSuccessful)
             self.backPropagation_phase(gameResult)
+        end_time = time.time()  # End timing
+        self.runTimes.append(round(end_time - start_time, 4))
+        #print(f"run_mcts executed in {end_time - start_time:.4f} seconds")  # Print execution time
 
     def choose_best_move(self) -> int:
         bestMove = None

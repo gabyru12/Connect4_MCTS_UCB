@@ -121,7 +121,9 @@ def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, drawVa
         elif connect4.checkTie():
             print("Tie")
             break
-
+    
+    print(mcts1.runTimes)
+    print(mcts2.runTimes)
     del mcts1
     del mcts2
     del connect4
@@ -149,7 +151,7 @@ def read_input(config_filePath: str):
 
 if __name__ == "__main__":
     typeOfGame = ""
-    config = read_input(r"C:\Users\zebru\OneDrive\Desktop\FCUP\2ยบ ano\2ยบ semestre\IA\Connect4_MCTS\other_version\configs.txt")
+    config = read_input(r"C:\Users\arcan\OneDrive\Ambiente de Trabalho\My apps\python\connect4Project\other_version\configs.txt")
     while typeOfGame.lower() != "exit":
         print("""
 <---------------------------------------->
