@@ -112,13 +112,14 @@ class MctsAlgo:
     def upper_confidence_bound(self, node: Node) -> int:
         return (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N)))
 
+    def updateAfterAdversaryTurn(self, connect4Actual: Connect4, moveBefore: int):
+        if len(self.actualState.children) == 0: 
+            self.reset(connect4Actual)
+            self.expansion_phase()                
+        self.actualState = self.actualState.children[moveBefore]
+    
     def run_mcts(self, iterations: int, connect4Actual: Connect4, moveBefore: int = None):
         start_time = time.time()  # Start timing
-        if moveBefore != None:
-            if len(self.actualState.children) == 0: 
-                self.reset(connect4Actual)
-                self.expansion_phase()                
-            self.actualState = self.actualState.children[moveBefore]
         if self.resetTree:
             self.actualState.children = {}   # Resets tree by clearing every child node
             self.currentState.children = {}  # Definetely resets tree by clearing every child node
@@ -136,20 +137,24 @@ class MctsAlgo:
         self.runTimes.append(round(end_time - start_time, 4))
         #print(f"run_mcts executed in {end_time - start_time:.4f} seconds")  # Print execution time
 
-    def choose_best_move(self) -> int:
+    def choose_best_move(self, showStats: bool = False) -> int:
         bestMove = None
         highestN = 0
         for move in self.actualState.children.keys():
             if self.actualState.children[move].N > highestN:
                 highestN = self.actualState.children[move].N
                 bestMove = move
-        for move, child in self.actualState.children.items():
-            if move == bestMove:
-                print(f"\033[93m{move}: {child.Q} / {child.N}\033[0m")
-            else:
-                print(f"{move}: {child.Q} / {child.N}")
+        if showStats:
+            self.print_childrenStats(bestMove)
         self.actualState = self.actualState.children[bestMove]
         self.actualState.parent = None    # Clears the parent Node from memory
         self.currentState.parent = None   # Definetely clears the parent Node from memory  
         gc.collect()
         return bestMove
+
+    def print_childrenStats(self, bestMove: int):
+        for move, child in self.actualState.children.items():
+            if move == bestMove:
+                print(f"\033[93m{move}: {child.Q} / {child.N}\033[0m")
+            else:
+                print(f"{move}: {child.Q} / {child.N}")

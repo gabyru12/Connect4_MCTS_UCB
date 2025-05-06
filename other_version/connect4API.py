@@ -60,10 +60,8 @@ class Connect4:
         return False
 
     def checkTie(self) -> bool:
-        for row in range(self.MAX_ROWS):
-            for col in range(self.MAX_COLS):
-                if self.state[row][col] == "-":
-                    return False
+        if any(self.state[0][col] == "-" for col in range(self.MAX_COLS)):
+            return False
         return True
 
     def checkGameOver(self) -> bool:

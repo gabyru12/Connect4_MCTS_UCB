@@ -22,6 +22,6 @@ MCTS vs. Itself with Different Settings:
     - How impactful is being the first to play
     - Choose the settings of the mcts_control_unit_for_testing
 
-Fixed Simulations vs. Fixed Time: Compare performance when limiting MCTS by a number of simulations vs. by a fixed time budget.
-
 Scaling with Time: Run experiments to determine how performance improves as computation time increases (e.g., 1 sec vs. 10 sec per move).
+
+Compare best_moves for mcts at 1k iterations vs 10k iterations with non-parametric tests

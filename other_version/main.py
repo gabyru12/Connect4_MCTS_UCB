@@ -18,6 +18,8 @@ def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool, drawVal
                 print(f"{e}")
                 continue 
 
+        mcts.updateAfterAdversaryTurn(connect4, move)
+        
         if connect4.checkPlayerWon("O"):
             connect4.printState()
             print("You win")
@@ -28,8 +30,8 @@ def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool, drawVal
 
         connect4.printState()
         print("AI is thinking...")
-        mcts.run_mcts(iterations, connect4, move)
-        bestMove = mcts.choose_best_move()
+        mcts.run_mcts(iterations, connect4)
+        bestMove = mcts.choose_best_move(True)
         connect4.updateGameState(bestMove)
 
         if connect4.checkPlayerWon("X"):
@@ -47,12 +49,11 @@ def user_first_vs_AI(c_constant_mcts: int, iterations: int, reset: bool, drawVal
 def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool, drawValue):
     mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
     connect4 = Connect4(6, 7)
-    move = None
     while not connect4.checkGameOver():
         connect4.printState()
         print("AI is thinking...")
-        mcts.run_mcts(iterations, connect4, move)
-        bestMove = mcts.choose_best_move()
+        mcts.run_mcts(iterations, connect4)
+        bestMove = mcts.choose_best_move(True)
         connect4.updateGameState(bestMove)
 
         if connect4.checkPlayerWon("O"):
@@ -72,6 +73,8 @@ def AI_first_vs_user(c_constant_mcts: int, iterations: int, reset: bool, drawVal
             except ValueError as e:
                 print(f"{e}")
                 continue 
+        
+        mcts.updateAfterAdversaryTurn(connect4, move)
 
         if connect4.checkPlayerWon("X"):
             connect4.printState()
@@ -89,16 +92,16 @@ def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, drawVa
     connect4 = Connect4(6, 7)
     mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
     mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2)
-    bestMove = None
-    mcts1.run_mcts(0, connect4, bestMove)
-    mcts2.run_mcts(0, connect4, bestMove)
+    mcts1.run_mcts(0, connect4)
+    mcts2.run_mcts(0, connect4)
     
     while not connect4.checkGameOver():
         connect4.printState()
         print("AI_1st is thinking...")
-        mcts1.run_mcts(iterations_1st, connect4, bestMove)
-        bestMove = mcts1.choose_best_move()
+        mcts1.run_mcts(iterations_1st, connect4)
+        bestMove = mcts1.choose_best_move(True)
         connect4.updateGameState(bestMove)
+        mcts2.updateAfterAdversaryTurn(connect4, bestMove)
 
         if connect4.checkPlayerWon("O"):
             connect4.printState()
@@ -110,9 +113,10 @@ def AI_vs_AI(c_constant_mcts_1st: int, iterations_1st: int, reset1: bool, drawVa
 
         connect4.printState()
         print("AI_2nd is thinking...")
-        mcts2.run_mcts(iterations_2nd, connect4, bestMove)
-        bestMove = mcts2.choose_best_move()
+        mcts2.run_mcts(iterations_2nd, connect4)
+        bestMove = mcts2.choose_best_move(True)
         connect4.updateGameState(bestMove)
+        mcts1.updateAfterAdversaryTurn(connect4, bestMove)
 
         if connect4.checkPlayerWon("X"):
             connect4.printState()
