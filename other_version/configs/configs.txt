@@ -6,16 +6,16 @@ drawValue0 = 0.5
 
 [AI_vs_AI]
 C1 = sqrt_2
-iterations1 = 500
+iterations1 = 10000
 resetTree1 = True
 drawValue1 = 0
 C2 = sqrt_2
-iterations2 = 500
+iterations2 = 10000
 resetTree2 = True
 drawValue2 = 0
 
 [mcts running time]
-showMCTSTime = False
+showMCTSTime = True
 
 [show Q & N for Nodes]
 showNodesStats = False

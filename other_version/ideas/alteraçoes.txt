@@ -1,16 +1,17 @@
 Implemented:
     - mcts search from root -> mcts search from actual game state
     - mcts node tree doesn't reset for each turn -> mcts node tree resets after each turn 
+    - instead of checking every: horizontal, vertical, diagonal and anti-diagonal if someone won the game, it only checks the the line of the last inserted piece
+    - draws didn't count as wins -> draws count as whatever you want them to count as
 
 To implement:
-    - draws don't count as losses -> draws count as wins, don't count at all, count them as half a win (0.5)
-    - connect4 matrix is a list -> connect4 matrix is a numpy array (6,7)
+    - connect4 matrix is a list -> connect4 matrix is a numpy array (6,7) (numpy is trash for connect4)
 
  _________________________________________________________________________________
 |                                                                                 |
 |   5000 iterações no mcts por tabuleiro em 20000 early games demora 5h36min :/   |
 |   numpy faz o mcts mais lento                                                   |
 |   manter uma lista ex.[1,3,2,1,5,5,2] de onde colocar as peças foi mais lento   |
-|   check_tie é muito lento caso o tabuleiro já esteja cheio
+|   check_tie é muito lento caso o tabuleiro já esteja cheio -> já foi mudado     |
 |_________________________________________________________________________________|
 
