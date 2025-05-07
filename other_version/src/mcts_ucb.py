@@ -287,6 +287,7 @@ class MctsAlgo1:
             self.backPropagation_phase(gameResult)
         end_time = time.time()  # End timing
         self.runTimes.append(round(end_time - start_time, 4))
+        print(f"{round(end_time - start_time, 4)}")
 
     def choose_best_move(self, showStats: bool = False) -> int:
         bestMove = None
