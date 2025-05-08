@@ -96,8 +96,6 @@ def AI_first_vs_user(c_constant_mcts: float, iterations: int, reset: bool, drawV
 
 def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, speed1: str, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, speed2: str, showMCTSTime: bool, showNodesStats: bool):
     connect4 = Connect4(6, 7)
-    print(speed1)
-    print(speed2)
     mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1, speed=speed1)
     mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2, speed=speed2)
     mcts1.run_mcts(0, connect4)
@@ -220,11 +218,11 @@ if __name__ == "__main__":
         typeOfGame = input("Choose: ")
         if typeOfGame == "1":
             C_constant, nIterations, reset, drawValue, speed = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"], config["speed0"] 
-            user_first_vs_AI(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats)
+            user_first_vs_AI(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats, speed)
 
         elif typeOfGame == "2":
             C_constant, nIterations, reset, drawValue, speed = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"], config["speed0"]
-            AI_first_vs_user(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats)
+            AI_first_vs_user(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats, speed)
 
         elif typeOfGame == "3":
             C_constant1, nIterations1, reset1, drawValue1, speed1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"], config["speed1"]
