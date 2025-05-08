@@ -9,9 +9,7 @@ Exploration vs. Exploitation
     - Different UCB1 Constants: The exploration constant CC in UCT (Upper Confidence Bound) affects the balance between exploration and exploitation. Test different values (e.g., 0.1, 0.5, 1, 2, 5) to see how aggressive exploration impacts gameplay.
     - Adaptive Exploration: Adjust CC dynamically based on game progress. For example, explore more in the early game and exploit more in the late game.
 
-Node Pruning: If a move has been heavily explored and has a poor win rate, consider pruning it to focus on better options.
-
-Early Cutoff for Deterministic Wins: Detect winning moves before running full simulations and prioritize them.
+!!!!!! Node Pruning: If a move has been heavily explored and has a poor win rate, consider pruning it to focus on better options. !!!!!!
 
 Batch Simulations: Run multiple simulations in parallel and compare performance.
 
@@ -22,6 +20,4 @@ MCTS vs. Itself with Different Settings:
     - How impactful is being the first to play
     - Choose the settings of the mcts_control_unit_for_testing
 
-Scaling with Time: Run experiments to determine how performance improves as computation time increases (e.g., 1 sec vs. 10 sec per move).
-
-Compare best_moves for mcts at 1k iterations vs 10k iterations with non-parametric tests
+Compare best_moves for mcts at 1k iterations vs 10k iterations with non-parametric tests wilcoxon and determine which is better
