@@ -52,11 +52,18 @@ def flatten_board(board: list[list[str]]) -> list[str]:
     return [cell for row in board for cell in row]
 
 def save_to_csv(dataset: list[list[str]], saveFor: str):
-    col_names = [f"cell_{i}" for i in range(42)] + ["result"]
-    df = pd.DataFrame(dataset, columns=col_names)
-    csv_path = f'other_version/datasets/connect4_{saveFor}.csv'
-    df.to_csv(csv_path, index=False)
-    print(f"\nDataset saved as connect4_{saveFor}.csv")
+    colnames = [f"cell{i}" for i in range(42)] + ["result"]
+    df_new = pd.DataFrame(dataset, columns=col_names)
+    csv_path = f'otherversion/datasets/connect4{saveFor}.csv'
+
+    if os.path.exists(csv_path):
+        df_existing = pd.read_csv(csv_path)
+        df_combined = pd.concat([df_existing, df_new], ignore_index=True)
+        df_combined.to_csv(csvpath, index=False)
+        print(f"\nAppended to existing connect4{saveFor}.csv (total: {len(df_combined)} rows)")
+    else:
+        df_new.to_csv(csvpath, index=False)
+        print(f"\nDataset saved as new connect4{saveFor}.csv")
 
 # === Dataset Generation (child process) ===
 def generate_dataset(createFor: str, iterations: int, sendTo, progress_queue) -> None:
@@ -123,6 +130,6 @@ def generate_dataset_multiprocess(process_count: int, createFor: str):
 
 # === Entry Point ===
 if __name__ == '__main__':
-    #generate_dataset_multiprocess(process_count=5, createFor="early")
-    generate_dataset_multiprocess(process_count=5, createFor="mid")
+    generate_dataset_multiprocess(process_count=5, createFor="early")
+    #generate_dataset_multiprocess(process_count=5, createFor="mid")
     #generate_dataset_multiprocess(process_count=5, createFor="late")
