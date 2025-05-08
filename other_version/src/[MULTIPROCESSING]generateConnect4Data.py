@@ -9,7 +9,7 @@ import os
 from multiprocessing import Manager, Process, Queue
 from tqdm import tqdm  # Add tqdm for the main progress bar
 
-# Constants
+# === Constants ===
 C0 = math.sqrt(2)
 iterations0 = 15000
 resetTree0 = True
@@ -52,7 +52,7 @@ def flatten_board(board: list[list[str]]) -> list[str]:
     return [cell for row in board for cell in row]
 
 def save_to_csv(dataset: list[list[str]], saveFor: str):
-    col_names = [f"cell{i}" for i in range(42)] + ["result"]
+    col_names = [f"cell_{i}" for i in range(42)] + ["result"]
     df_new = pd.DataFrame(dataset, columns=col_names)
     csv_path = f'other_version/datasets/connect4_{saveFor}.csv'
 
@@ -130,6 +130,6 @@ def generate_dataset_multiprocess(process_count: int, createFor: str):
 
 # === Entry Point ===
 if __name__ == '__main__':
-    generate_dataset_multiprocess(process_count=5, createFor="early")
+    generate_dataset_multiprocess(process_count=10, createFor="early")
     #generate_dataset_multiprocess(process_count=5, createFor="mid")
     #generate_dataset_multiprocess(process_count=5, createFor="late")
