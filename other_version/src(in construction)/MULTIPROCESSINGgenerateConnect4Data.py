@@ -123,6 +123,6 @@ def generate_dataset_multiprocess(process_count: int, createFor: str):
 
 # === Entry Point ===
 if __name__ == '__main__':
-    #generate_dataset_early_multiprocess(process_count=5, createFor="early")
-    generate_dataset_early_multiprocess(process_count=5, createFor="mid")
+    #generate_dataset_multiprocess(process_count=5, createFor="early")
+    generate_dataset_multiprocess(process_count=5, createFor="mid")
     #generate_dataset_multiprocess(process_count=5, createFor="late")
