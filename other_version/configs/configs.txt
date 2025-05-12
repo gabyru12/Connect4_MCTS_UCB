@@ -13,12 +13,15 @@ drawValue1 = 0
 speed1 = fast
 C2 = sqrt_2
 iterations2 = 10000
-resetTree2 = True
+resetTree2 = False
 drawValue2 = 0
-speed2 = slow
+speed2 = fast
 
 [mcts running time]
-showMCTSTime = True
+showMCTSTime = False
 
 [show Q & N for Nodes]
-showNodesStats = False
+showNodesStats = True
+
+[output file for benchmarking]
+name = Reset_vs_noReset.txt
