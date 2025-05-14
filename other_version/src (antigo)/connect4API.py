@@ -30,39 +30,12 @@ class Connect4:
         print("===========================")
         print(' 1 | 2 | 3 | 4 | 5 | 6 | 7 ')
 
-    def reset(self, connect4ActualState: list[int], connect4ActualTurn: str):
+    def reset(self, connect4ActualState: list[list[str]], connect4ActualTurn: str):
         self.turn = connect4ActualTurn
         self.state = deepcopy(connect4ActualState)
 
     def checkPlayerWon(self, player: str, speed: str, row: int = None, col: int = None) -> bool:
-        if speed.lower() == "slow":
-            #horizontal
-            for row in range(self.MAX_ROWS - 1, -1, -1):
-                for col in range(self.MAX_COLS - 3):
-                    if(self.state[row][col] == player and self.state[row][col+1] == player and self.state[row][col+2] == player and self.state[row][col+3] == player):
-                        return True
-
-            #vertical
-            for col in range(self.MAX_COLS - 1, -1, -1):
-                for row in range(self.MAX_ROWS - 3):
-                    if(self.state[row][col] == player and self.state[row+1][col] == player and self.state[row+2][col] == player and self.state[row+3][col] == player):
-                        return True
-
-            #diagonal
-            for row in range(self.MAX_ROWS - 1, 2, -1):
-                for col in range(self.MAX_COLS - 3):
-                    if(self.state[row][col] == player and self.state[row-1][col+1] == player and self.state[row-2][col+2] == player and self.state[row-3][col+3] == player):
-                        return True
-
-            #anti diagonal
-            for row in range(self.MAX_ROWS - 3):
-                for col in range(self.MAX_COLS - 3):
-                    if(self.state[row][col] == player and self.state[row+1][col+1] == player and self.state[row+2][col+2] == player and self.state[row+3][col+3] == player):
-                        return True
-
-            return False
-
-        elif speed.lower() == "fast":
+        if speed.lower() == "fast":
             # Horizontal
             line = ''.join(self.state[row])
             if player * 4 in line:
@@ -103,29 +76,57 @@ class Connect4:
 
             return False
 
+        elif speed.lower() == "slow":
+            #horizontal
+            for row in range(self.MAX_ROWS - 1, -1, -1):
+                for col in range(self.MAX_COLS - 3):
+                    if(self.state[row][col] == player and self.state[row][col+1] == player and self.state[row][col+2] == player and self.state[row][col+3] == player):
+                        return True
+
+            #vertical
+            for col in range(self.MAX_COLS - 1, -1, -1):
+                for row in range(self.MAX_ROWS - 3):
+                    if(self.state[row][col] == player and self.state[row+1][col] == player and self.state[row+2][col] == player and self.state[row+3][col] == player):
+                        return True
+
+            #diagonal
+            for row in range(self.MAX_ROWS - 1, 2, -1):
+                for col in range(self.MAX_COLS - 3):
+                    if(self.state[row][col] == player and self.state[row-1][col+1] == player and self.state[row-2][col+2] == player and self.state[row-3][col+3] == player):
+                        return True
+
+            #anti diagonal
+            for row in range(self.MAX_ROWS - 3):
+                for col in range(self.MAX_COLS - 3):
+                    if(self.state[row][col] == player and self.state[row+1][col+1] == player and self.state[row+2][col+2] == player and self.state[row+3][col+3] == player):
+                        return True
+
+            return False
+
+
     def checkTie(self) -> bool:
         if any(self.state[0][col] == "-" for col in range(self.MAX_COLS)):
             return False
         return True
 
     def checkGameOver(self, speed: str) -> bool:
-        if speed.lower() == "slow":
-            return self.checkPlayerWon(player="O", speed="slow") or self.checkPlayerWon(player="X", speed="slow") or self.checkTie()
-        elif speed.lower() == "fast":
+        if speed.lower() == "fast":
             return self.checkPlayerWon(row=self.lastMovementRow, col=self.lastMovementCol, player="O", speed="fast") or self.checkPlayerWon(row=self.lastMovementRow, col=self.lastMovementCol, player="X", speed="fast") or self.checkTie()
+        elif speed.lower() == "slow":
+            return self.checkPlayerWon(player="O", speed="slow") or self.checkPlayerWon(player="X", speed="slow") or self.checkTie()
 
     def checkGameResult(self, speed: str) -> str:
-        if speed.lower() == "slow":
-            if self.checkTie():
-                return "-"
-            elif self.checkPlayerWon(player="O", speed="slow"):
-                return "O"
-            else:
-                return "X"
-        elif speed.lower() == "fast":
+        if speed.lower() == "fast":
             if self.checkTie():
                 return "-"
             elif self.checkPlayerWon(row=self.lastMovementRow, col=self.lastMovementCol, player="O", speed="fast"):
+                return "O"
+            else:
+                return "X"
+        elif speed.lower() == "slow":
+            if self.checkTie():
+                return "-"
+            elif self.checkPlayerWon(player="O", speed="slow"):
                 return "O"
             else:
                 return "X"
@@ -151,6 +152,6 @@ class Connect4:
         self.turn = "X" if self.turn == "O" else "O"
         return True
 
-    def getIntoDesiredState(self, turn: str, gameState: list[list[int]]):
+    def getIntoDesiredState(self, turn: str, gameState: list[list[str]]):
         self.turn = turn
         self.state = deepcopy(gameState)

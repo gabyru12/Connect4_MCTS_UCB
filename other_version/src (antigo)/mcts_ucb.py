@@ -1,7 +1,5 @@
 import math
 from connect4API import *
-#from connect4APIslow import *
-from copy import deepcopy
 import random
 import gc
 import time
@@ -21,7 +19,7 @@ class Node:
         self.children = {}
 
 class MctsAlgo:
-    def __init__(self, C: float = math.sqrt(2), reset: bool = True, connect4: Connect4 = Connect4(), drawValue: float = 0):
+    def __init__(self, C: float = math.sqrt(2), reset: bool = True, connect4: Connect4 = Connect4(6, 7), drawValue: float = 0, speed: str = "fast"):
         self.C = C
         self.root = Node(None, None, 0)
         self.connect4 = connect4
@@ -31,22 +29,11 @@ class MctsAlgo:
         self.resetTree = reset
         self.drawValue = drawValue
         self.runTimes = []
+        self.speed = speed
 
     def reset(self, connect4Actual: Connect4):
-        self.connect4.reset(connect4Actual)
+        self.connect4.reset(connect4Actual.state, connect4Actual.turn)
         self.currentState = self.actualState
-
-    def updateMCTSState(self, move: int):
-        self.currentState = self.currentState.children[move]
-
-    def upper_confidence_bound(self, node: Node) -> int:
-        return (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N)))
-
-    def updateAfterAdversaryTurn(self, connect4Actual: Connect4, moveBefore: int):
-        if len(self.actualState.children) == 0: 
-            self.reset(connect4Actual)
-            self.expansion_phase(checkIfGameFinished=False)                
-        self.actualState = self.actualState.children[moveBefore]
 
     def selection_phase(self) -> None:
         valuesForEachChildren = {}
@@ -84,7 +71,7 @@ class MctsAlgo:
 
     def expansion_phase(self, checkIfGameFinished: bool) -> bool:
         if checkIfGameFinished:
-            isGameFinished = self.connect4.checkGameOver()
+            isGameFinished = self.connect4.checkGameOver(speed=self.speed)
             if isGameFinished:
                 return False
         availableMoves = self.connect4.checkAvailableMoves()
@@ -94,15 +81,15 @@ class MctsAlgo:
 
     def simulation_phase(self, wasExpansionSuccessful: bool) -> str:
         if wasExpansionSuccessful == False:
-            gameResult = self.connect4.checkGameResult()
+            gameResult = self.connect4.checkGameResult(speed=self.speed)
             return gameResult
         moves = [key for key in self.currentState.children.keys()]
         randomChoice = random.choice(moves)
         self.updateMCTSState(randomChoice)
         self.connect4.updateGameState(randomChoice)
-        while not self.connect4.checkGameOver():
+        while not self.connect4.checkGameOver(speed=self.speed):
             self.connect4.updateGameState(random.choice(self.connect4.checkAvailableMoves()))
-        gameResult = self.connect4.checkGameResult()
+        gameResult = self.connect4.checkGameResult(speed=self.speed)
         return gameResult
         
     def backPropagation_phase(self, gameResult: str):
@@ -120,7 +107,19 @@ class MctsAlgo:
             self.currentState.Q += self.drawValue
         self.iteration += 1
 
-    def run_mcts(self, iterations: int, connect4Actual: Connect4, dataset = None):
+    def updateMCTSState(self, move: int):
+        self.currentState = self.currentState.children[move]
+        
+    def upper_confidence_bound(self, node: Node) -> int:
+        return (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N)))
+
+    def updateAfterAdversaryTurn(self, connect4Actual: Connect4, moveBefore: int):
+        if len(self.actualState.children) == 0: 
+            self.reset(connect4Actual)
+            self.expansion_phase(checkIfGameFinished=False)                
+        self.actualState = self.actualState.children[moveBefore]
+    
+    def run_mcts(self, iterations: int, connect4Actual: Connect4):
         start_time = time.time()  # Start timing
         if self.resetTree:
             self.actualState.children = {}   # Resets tree by clearing every child node
@@ -129,56 +128,28 @@ class MctsAlgo:
         if len(self.actualState.children) == 0: 
             self.reset(connect4Actual)
             self.expansion_phase(checkIfGameFinished=False)
-        if dataset is None:
-            for i in range(iterations):
-                self.reset(connect4Actual)
-                self.selection_phase()
-                wasExpansionSuccessful = self.expansion_phase(checkIfGameFinished=True)
-                gameResult = self.simulation_phase(wasExpansionSuccessful)
-                self.backPropagation_phase(gameResult)
-        else:
-            matrix = self.connect4.bitboard_to_matrix()
-            flat_board = self.connect4.flatten_board(matrix)
-            for i in range(iterations):
-                if i == 200:
-                    bestMove = self.choose_best_move(datasetFlag=True)
-                    flat_board.append(str(bestMove))
-                elif i == 400:
-                    bestMove = self.choose_best_move(datasetFlag=True)
-                    flat_board.append(str(bestMove))
-                elif i == 600:
-                    bestMove = self.choose_best_move(datasetFlag=True)
-                    flat_board.append(str(bestMove))
-                elif i == 800:
-                    bestMove = self.choose_best_move(datasetFlag=True)
-                    flat_board.append(str(bestMove))
-                elif i == 999:
-                    bestMove = self.choose_best_move(datasetFlag=True)
-                    flat_board.append(str(bestMove))
-    
-                self.reset(connect4Actual)
-                self.selection_phase()
-                wasExpansionSuccessful = self.expansion_phase(checkIfGameFinished=True)
-                gameResult = self.simulation_phase(wasExpansionSuccessful)
-                self.backPropagation_phase(gameResult)
-            dataset.append(flat_board)
+        for i in range(iterations):
+            self.reset(connect4Actual)
+            self.selection_phase()
+            wasExpansionSuccessful = self.expansion_phase(checkIfGameFinished=True)
+            gameResult = self.simulation_phase(wasExpansionSuccessful)
+            self.backPropagation_phase(gameResult)
         end_time = time.time()  # End timing
         self.runTimes.append(round(end_time - start_time, 4))
 
-    def choose_best_move(self, showStats: bool = False, datasetFlag: bool = False) -> int:
+    def choose_best_move(self, showStats: bool = False) -> int:
         bestMove = None
         highestN = 0
         for move in self.actualState.children.keys():
             if self.actualState.children[move].N > highestN:
                 highestN = self.actualState.children[move].N
                 bestMove = move
-        if not datasetFlag:
-            if showStats:
-                self.print_childrenStats(bestMove)
-            self.actualState = self.actualState.children[bestMove]
-            self.actualState.parent = None    # Clears the parent Node from memory
-            self.currentState.parent = None   # Definetely clears the parent Node from memory  
-            gc.collect()
+        if showStats:
+            self.print_childrenStats(bestMove)
+        self.actualState = self.actualState.children[bestMove]
+        self.actualState.parent = None    # Clears the parent Node from memory
+        self.currentState.parent = None   # Definetely clears the parent Node from memory  
+        gc.collect()
         return bestMove
 
     def print_childrenStats(self, bestMove: int):

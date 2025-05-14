@@ -1,19 +1,19 @@
 [User_vs_AI]
 C0 = sqrt_2
-iterations0 = 10000
+iterations0 = 50000
 resetTree0 = True
 drawValue0 = 0.5
 speed0 = fast
 
 [AI_vs_AI]
 C1 = sqrt_2
-iterations1 = 10000
+iterations1 = 50000
 resetTree1 = True
 drawValue1 = 0
 speed1 = fast
 C2 = sqrt_2
-iterations2 = 10000
-resetTree2 = False
+iterations2 = 50000
+resetTree2 = True
 drawValue2 = 0
 speed2 = fast
 
@@ -21,7 +21,7 @@ speed2 = fast
 showMCTSTime = False
 
 [show Q & N for Nodes]
-showNodesStats = True
+showNodesStats = False
 
 [output file for benchmarking]
-name = Reset_vs_noReset.txt
+name = MCTSGeneratedDataset.txt

@@ -1,15 +1,14 @@
 from mcts_ucb import *
 from connect4API import *
-#from connect4APIslow import *
 import math
 import gc
 from multiprocessing import Process, Manager
 from tqdm import tqdm  
-import os 
+import os  # Add this import at the top of the file
 
-def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawValue: float, showMCTSTime: bool, showNodesStats: bool):
-    mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
-    connect4 = Connect4()
+def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawValue: float, showMCTSTime: bool, showNodesStats: bool, speed: str):
+    mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue, speed=speed)
+    connect4 = Connect4(6, 7)
     while True:
         connect4.printState()
         while True: 
@@ -23,7 +22,7 @@ def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawV
 
         mcts.updateAfterAdversaryTurn(connect4, move)
         
-        if connect4.checkPlayerWon(player="O"):
+        if connect4.checkPlayerWon(row=connect4.lastMovementRow, col=connect4.lastMovementCol, player="O", speed="fast"):
             connect4.printState()
             print("You win")
             break
@@ -37,7 +36,7 @@ def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawV
         bestMove = mcts.choose_best_move(showNodesStats)
         connect4.updateGameState(bestMove)
 
-        if connect4.checkPlayerWon(player="X"):
+        if connect4.checkPlayerWon(row=connect4.lastMovementRow, col=connect4.lastMovementCol, player="X", speed="fast"):
             connect4.printState()
             print("AI win")
             break
@@ -52,9 +51,9 @@ def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawV
     del connect4
     gc.collect()
 
-def AI_first_vs_user(c_constant_mcts: float, iterations: int, reset: bool, drawValue: float, showMCTSTime: bool, showNodesStats: bool):
-    mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
-    connect4 = Connect4()
+def AI_first_vs_user(c_constant_mcts: float, iterations: int, reset: bool, drawValue: float, showMCTSTime: bool, showNodesStats: bool, speed: str):
+    mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue, speed=speed)
+    connect4 = Connect4(6, 7)
     while True:
         connect4.printState()
         print("AI is thinking...")
@@ -62,7 +61,7 @@ def AI_first_vs_user(c_constant_mcts: float, iterations: int, reset: bool, drawV
         bestMove = mcts.choose_best_move(showNodesStats)
         connect4.updateGameState(bestMove)
 
-        if connect4.checkPlayerWon(player="O"):
+        if connect4.checkPlayerWon(row=connect4.lastMovementRow, col=connect4.lastMovementCol, player="O", speed="fast"):
             connect4.printState()
             print("AI win")
             break
@@ -82,7 +81,7 @@ def AI_first_vs_user(c_constant_mcts: float, iterations: int, reset: bool, drawV
         
         mcts.updateAfterAdversaryTurn(connect4, move)
 
-        if connect4.checkPlayerWon(player="X"):
+        if connect4.checkPlayerWon(row=connect4.lastMovementRow, col=connect4.lastMovementCol, player="X", speed="fast"):
             connect4.printState()
             print("You win")
             break
@@ -97,10 +96,13 @@ def AI_first_vs_user(c_constant_mcts: float, iterations: int, reset: bool, drawV
     del connect4
     gc.collect()
 
-def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, showMCTSTime: bool, showNodesStats: bool):
-    connect4 = Connect4()
-    mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
-    mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2)    
+def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, speed1: str, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, speed2: str, showMCTSTime: bool, showNodesStats: bool, benchMarkingList = None):
+    connect4 = Connect4(6, 7)
+    mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1, speed=speed1)
+    mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2, speed=speed2)
+    mcts1.run_mcts(0, connect4)
+    mcts2.run_mcts(0, connect4)
+    
     while True:
         connect4.printState()
         print("AI_1st is thinking...")
@@ -109,7 +111,7 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
         connect4.updateGameState(bestMove)
         mcts2.updateAfterAdversaryTurn(connect4, bestMove)
 
-        if connect4.checkPlayerWon(player="O"):
+        if connect4.checkPlayerWon(row=connect4.lastMovementRow, col=connect4.lastMovementCol, player="O", speed="fast"):
             connect4.printState()
             print("AI_1st win")
             break
@@ -125,7 +127,7 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
         connect4.updateGameState(bestMove)
         mcts1.updateAfterAdversaryTurn(connect4, bestMove)
 
-        if connect4.checkPlayerWon(player="X"):
+        if connect4.checkPlayerWon(row=connect4.lastMovementRow, col=connect4.lastMovementCol, player="X", speed="fast"):
             connect4.printState()
             print("AI_2nd win")
             break
@@ -147,29 +149,36 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
     del connect4
     gc.collect()
 
-def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, showMCTSTime: bool, showNodesStats: bool, dataset):
-    connect4 = Connect4()
-    mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
-    mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2)
+def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, speed1: str, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, speed2: str, showMCTSTime: bool, showNodesStats: bool, benchMarkingList):
+    connect4 = Connect4(6, 7)
+    mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1, speed=speed1)
+    mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2, speed=speed2)
+    mcts1.run_mcts(0, connect4)
+    mcts2.run_mcts(0, connect4)
     while True:
-        mcts1.run_mcts(iterations_1st, connect4, dataset)
+        mcts1.run_mcts(iterations_1st, connect4)
         bestMove = mcts1.choose_best_move(showNodesStats)
         connect4.updateGameState(bestMove)
         mcts2.updateAfterAdversaryTurn(connect4, bestMove)
 
-        if connect4.checkPlayerWon(player="O"):
+        if connect4.checkPlayerWon(row=connect4.lastMovementRow, col=connect4.lastMovementCol, player="O", speed="fast"):
+            benchMarkingList.append("1")
             break
         elif connect4.checkTie():
+            benchMarkingList.append("-")
             break
 
-        mcts2.run_mcts(iterations_2nd, connect4, dataset)
+
+        mcts2.run_mcts(iterations_2nd, connect4)
         bestMove = mcts2.choose_best_move(showNodesStats)
         connect4.updateGameState(bestMove)
         mcts1.updateAfterAdversaryTurn(connect4, bestMove)
 
-        if connect4.checkPlayerWon(player="X"):
+        if connect4.checkPlayerWon(row=connect4.lastMovementRow, col=connect4.lastMovementCol, player="X", speed="fast"):
+            benchMarkingList.append("2")
             break
         elif connect4.checkTie():
+            benchMarkingList.append("-")
             break
     
     if showMCTSTime:
@@ -219,7 +228,7 @@ def read_input(config_filePath: str):
         if Cs[i][0:5] == "sqrt_":
             Cs[i] = math.sqrt(int(Cs[i][5]))
         else:
-            Cs[i] = float(Cs[i])
+            Cs[i] = float(C)
 
     for i in range(len(resets)):
         if resets[i].lower() == "true":
@@ -262,27 +271,27 @@ if __name__ == "__main__":
 """)
         typeOfGame = input("Choose: ")
         if typeOfGame == "1":
-            C_constant, nIterations, reset, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
-            user_first_vs_AI(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats)
+            C_constant, nIterations, reset, drawValue, speed = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"], config["speed0"] 
+            user_first_vs_AI(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats, speed)
 
         elif typeOfGame == "2":
-            C_constant, nIterations, reset, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
-            AI_first_vs_user(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats)
+            C_constant, nIterations, reset, drawValue, speed = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"], config["speed0"]
+            AI_first_vs_user(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats, speed)
 
         elif typeOfGame == "3":
-            C_constant1, nIterations1, reset1, drawValue1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"]
-            C_constant2, nIterations2, reset2, drawValue2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"]
+            C_constant1, nIterations1, reset1, drawValue1, speed1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"], config["speed1"]
+            C_constant2, nIterations2, reset2, drawValue2, speed2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"], config["speed2"]
 
-            AI_vs_AI(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2, showMCTSTime, showNodesStats)
+            AI_vs_AI(C_constant1, nIterations1, reset1, drawValue1, speed1, C_constant2, nIterations2, reset2, drawValue2, speed2, showMCTSTime, showNodesStats)
 
 
         elif typeOfGame == "4":
             # Concurrent AI vs AI
-            C_constant1, nIterations1, reset1, drawValue1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"]
-            C_constant2, nIterations2, reset2, drawValue2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"]
+            C_constant1, nIterations1, reset1, drawValue1, speed1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"], config["speed1"]
+            C_constant2, nIterations2, reset2, drawValue2, speed2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"], config["speed2"]
             
             manager = Manager()
-            dataset = manager.list()
+            return_list = manager.list()
             total_iterations = 78
 
             with tqdm(total=total_iterations, desc="Benchmarking Progress", unit="iteration") as pbar:
@@ -290,7 +299,7 @@ if __name__ == "__main__":
                     # Create and start 5 processes
                     processes = []
                     for _ in range(5):
-                        p = Process(target=Benchmarking_AI_vs_AI, args=(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2, showMCTSTime, showNodesStats, dataset))
+                        p = Process(target=Benchmarking_AI_vs_AI, args=(C_constant1, nIterations1, reset1, drawValue1, speed1, C_constant2, nIterations2, reset2, drawValue2, speed2, showMCTSTime, showNodesStats, return_list))
                         processes.append(p)
                         p.start()
                     # Wait for all processes to complete
@@ -300,14 +309,14 @@ if __name__ == "__main__":
                     pbar.update(1)
             
             # Ensure the directory exists
-            output_dir = r"other_version\datasets"
+            output_dir = r"other_version\AI_vs_AI_statistics"
             os.makedirs(output_dir, exist_ok=True)
 
             # Write the results to a file
             output_file_path = os.path.join(output_dir, config["benchmarkingFile"])
             with open(output_file_path, "w") as file:
-                for row in dataset:
-                    file.write(f"{row}\n")
+                for result in return_list:
+                    file.write(f"{result}\n")
             print(f"Results written to {output_file_path}")
 
         else:

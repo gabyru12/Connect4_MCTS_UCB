@@ -1,14 +1,1 @@
-array = []
-with open(r"C:\Users\arcan\OneDrive\Ambiente de Trabalho\My apps\python\connect4Project\other_version\AI_vs_AI_statistics\noReset_vs_Reset.txt", "r") as file:
-        lines = file.readlines()
-        for line in lines:
-            array.append(line.strip())
-
-count = 0
-
-for i in array:
-    if i == "1":
-        count += 1
-
-print(count)
-        
+print(sum([0.0, 7.5693, 6.8952, 7.1155, 6.9037, 7.3078, 7.8592, 6.8162, 6.25, 4.8929, 3.7825, 2.7806, 1.953, 1.7633, 1.9878, 1.902, 1.7225]))
