@@ -7,12 +7,12 @@ speed0 = fast
 
 [AI_vs_AI]
 C1 = sqrt_2
-iterations1 = 50000
+iterations1 = 100
 resetTree1 = True
 drawValue1 = 0
 speed1 = fast
 C2 = sqrt_2
-iterations2 = 50000
+iterations2 = 100
 resetTree2 = True
 drawValue2 = 0
 speed2 = fast

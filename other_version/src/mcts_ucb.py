@@ -140,19 +140,19 @@ class MctsAlgo:
             matrix = self.connect4.bitboard_to_matrix()
             flat_board = self.connect4.flatten_board(matrix)
             for i in range(iterations):
-                if i == 200:
+                if i == iterations//5:
                     bestMove = self.choose_best_move(datasetFlag=True)
                     flat_board.append(str(bestMove))
-                elif i == 400:
+                elif i == iterations//5*2:
                     bestMove = self.choose_best_move(datasetFlag=True)
                     flat_board.append(str(bestMove))
-                elif i == 600:
+                elif i == iterations//5*3:
                     bestMove = self.choose_best_move(datasetFlag=True)
                     flat_board.append(str(bestMove))
-                elif i == 800:
+                elif i == iterations//5*4:
                     bestMove = self.choose_best_move(datasetFlag=True)
                     flat_board.append(str(bestMove))
-                elif i == 999:
+                elif i == iterations//5*5-1:
                     bestMove = self.choose_best_move(datasetFlag=True)
                     flat_board.append(str(bestMove))
     
