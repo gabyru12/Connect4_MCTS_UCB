@@ -3,19 +3,16 @@ C0 = sqrt_2
 iterations0 = 50000
 resetTree0 = True
 drawValue0 = 0.5
-speed0 = fast
 
 [AI_vs_AI]
 C1 = sqrt_2
-iterations1 = 100
+iterations1 = 50000
 resetTree1 = True
 drawValue1 = 0
-speed1 = fast
 C2 = sqrt_2
-iterations2 = 100
+iterations2 = 50000
 resetTree2 = True
 drawValue2 = 0
-speed2 = fast
 
 [mcts running time]
 showMCTSTime = False
@@ -24,4 +21,4 @@ showMCTSTime = False
 showNodesStats = False
 
 [output file for benchmarking]
-name = MCTSGeneratedDataset.txt
+name = MCTSGeneratedDatasetSoftmax.csv

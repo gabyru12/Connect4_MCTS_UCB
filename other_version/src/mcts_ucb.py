@@ -45,8 +45,13 @@ class MctsAlgo:
     def updateAfterAdversaryTurn(self, connect4Actual: Connect4, moveBefore: int):
         if len(self.actualState.children) == 0: 
             self.reset(connect4Actual)
-            self.expansion_phase(checkIfGameFinished=False)                
+            self.expansion_phase(checkIfGameFinished=False)          
         self.actualState = self.actualState.children[moveBefore]
+
+    def test(self, moveBefore):
+        self.connect4.current_player()
+        print(moveBefore)
+        self.connect4.printState()
 
     def selection_phase(self) -> None:
         valuesForEachChildren = {}
@@ -165,25 +170,56 @@ class MctsAlgo:
         end_time = time.time()  # End timing
         self.runTimes.append(round(end_time - start_time, 4))
 
-    def choose_best_move(self, showStats: bool = False, datasetFlag: bool = False) -> int:
-        bestMove = None
-        highestN = 0
-        for move in self.actualState.children.keys():
-            if self.actualState.children[move].N > highestN:
-                highestN = self.actualState.children[move].N
-                bestMove = move
-        if not datasetFlag:
+    def choose_best_move(self, showStats: bool = False, datasetFlag: bool = False, testSoftMax: bool = False, temperature: float = 0.5) -> int:
+        def stable_softmax(visits, temperature):
+            if temperature == 0:
+                max_index = visits.index(max(visits))
+                return [1 if i == max_index else 0 for i in range(len(visits))]
+
+            # Apply log for better smoothing and scaling
+            scaled = [math.log(v + 1) / temperature for v in visits]
+            max_scaled = max(scaled)
+            exp_values = [math.exp(s - max_scaled) for s in scaled]
+            total = sum(exp_values)
+            return [ev / total for ev in exp_values]
+
+        if testSoftMax:
+            # Use softmax sampling
+            moves = list(self.actualState.children.keys())
+            visit_counts = [self.actualState.children[move].N for move in moves]
+            probabilities = stable_softmax(visit_counts, temperature)
+            bestMove = random.choices(moves, weights=probabilities, k=1)[0]
+            if showStats:
+                self.print_childrenStats(bestMove, probabilities)
+            self.actualState = self.actualState.children[bestMove]
+            self.actualState.parent = None
+            self.currentState.parent = None
+            gc.collect()
+        elif datasetFlag:
+            # Use softmax sampling
+            bestMove = max(self.actualState.children.items(), key=lambda item: item[1].N)[0]
+        else:
+            # Choose the move with highest visit count
+            bestMove = max(self.actualState.children.items(), key=lambda item: item[1].N)[0]
             if showStats:
                 self.print_childrenStats(bestMove)
+            # Update internal state
             self.actualState = self.actualState.children[bestMove]
-            self.actualState.parent = None    # Clears the parent Node from memory
-            self.currentState.parent = None   # Definetely clears the parent Node from memory  
+            self.actualState.parent = None
+            self.currentState.parent = None
             gc.collect()
+
         return bestMove
 
-    def print_childrenStats(self, bestMove: int):
+    def print_childrenStats(self, bestMove: int, probabilities: list[int] = None):
         for move, child in self.actualState.children.items():
             if move == bestMove:
-                print(f"\033[93m{move}: {child.Q} / {child.N}\033[0m")
+                if probabilities is None:
+                    print(f"\033[93m{move}: {child.Q:>7} / {child.N:<7}\033[0m")
+                else:
+                    print(f"\033[93m{move}: {child.Q:>7} / {child.N:<7}\t{round(probabilities[list(self.actualState.children).index(move)], 2)}%\033[0m")
             else:
-                print(f"{move}: {child.Q} / {child.N}")
+                if probabilities is None:
+                    print(f"{move}: {child.Q:>7} / {child.N:<7}")
+                else:
+                    print(f"{move}: {child.Q:>7} / {child.N:<7}\t{round(probabilities[list(self.actualState.children).index(move)], 2)}%")

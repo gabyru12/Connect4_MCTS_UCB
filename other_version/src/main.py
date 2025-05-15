@@ -105,7 +105,7 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
         connect4.printState()
         print("AI_1st is thinking...")
         mcts1.run_mcts(iterations_1st, connect4)
-        bestMove = mcts1.choose_best_move(showNodesStats)
+        bestMove = mcts1.choose_best_move(showNodesStats, testSoftMax = True)
         connect4.updateGameState(bestMove)
         mcts2.updateAfterAdversaryTurn(connect4, bestMove)
 
@@ -121,7 +121,7 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
         connect4.printState()
         print("AI_2nd is thinking...")
         mcts2.run_mcts(iterations_2nd, connect4)
-        bestMove = mcts2.choose_best_move(showNodesStats)
+        bestMove = mcts2.choose_best_move(showNodesStats, testSoftMax = True)
         connect4.updateGameState(bestMove)
         mcts1.updateAfterAdversaryTurn(connect4, bestMove)
 
@@ -153,7 +153,7 @@ def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset
     mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2)
     while True:
         mcts1.run_mcts(iterations_1st, connect4, dataset)
-        bestMove = mcts1.choose_best_move(showNodesStats)
+        bestMove = mcts1.choose_best_move(showNodesStats, testSoftMax=True)
         connect4.updateGameState(bestMove)
         mcts2.updateAfterAdversaryTurn(connect4, bestMove)
 
@@ -163,7 +163,7 @@ def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset
             break
 
         mcts2.run_mcts(iterations_2nd, connect4, dataset)
-        bestMove = mcts2.choose_best_move(showNodesStats)
+        bestMove = mcts2.choose_best_move(showNodesStats, testSoftMax=True)
         connect4.updateGameState(bestMove)
         mcts1.updateAfterAdversaryTurn(connect4, bestMove)
 
@@ -196,24 +196,21 @@ def read_input(config_filePath: str):
         resetTree0 = lines[3].strip().split(" = ")[1]
         resets.append(resetTree0)
         drawValue0 = float(lines[4].strip().split(" = ")[1])
-        speed0 = lines[5].strip().split(" = ")[1]
-        C1 = lines[8].strip().split(" = ")[1]
+        C1 = lines[7].strip().split(" = ")[1]
         Cs.append(C1)
-        iterations1 = int(lines[9].strip().split(" = ")[1])
-        resetTree1 = lines[10].strip().split(" = ")[1]
+        iterations1 = int(lines[8].strip().split(" = ")[1])
+        resetTree1 = lines[9].strip().split(" = ")[1]
         resets.append(resetTree1)
-        drawValue1 = float(lines[11].strip().split(" = ")[1])
-        speed1 = lines[12].strip().split(" = ")[1]
-        C2 = lines[13].strip().split(" = ")[1]
+        drawValue1 = float(lines[10].strip().split(" = ")[1])
+        C2 = lines[11].strip().split(" = ")[1]
         Cs.append(C2)
-        iterations2 = int(lines[14].strip().split(" = ")[1])
-        resetTree2 = lines[15].strip().split(" = ")[1]
+        iterations2 = int(lines[12].strip().split(" = ")[1])
+        resetTree2 = lines[13].strip().split(" = ")[1]
         resets.append(resetTree2)
-        drawValue2 = float(lines[16].strip().split(" = ")[1])
-        speed2 = lines[17].strip().split(" = ")[1]
-        showMCTSTime = lines[20].strip().split(" = ")[1]
-        showNodesStats = lines[23].strip().split(" = ")[1]
-        benchmarkingFile = lines[26].strip().split(" = ")[1]
+        drawValue2 = float(lines[14].strip().split(" = ")[1])
+        showMCTSTime = lines[17].strip().split(" = ")[1]
+        showNodesStats = lines[20].strip().split(" = ")[1]
+        benchmarkingFile = lines[23].strip().split(" = ")[1]
 
     for i in range(len(Cs)):
         if Cs[i][0:5] == "sqrt_":
@@ -237,10 +234,24 @@ def read_input(config_filePath: str):
     else:
         showNodesStats = False
 
-    return {"C0": Cs[0], "iterations0": iterations0, "resetTree0": resets[0], "drawValue0": drawValue0, "speed0": speed0,
-            "C1": Cs[1], "iterations1": iterations1, "resetTree1": resets[1], "drawValue1": drawValue1, "speed1": speed1,
-            "C2": Cs[2], "iterations2": iterations2, "resetTree2": resets[2], "drawValue2": drawValue2, "speed2": speed2,
+    return {"C0": Cs[0], "iterations0": iterations0, "resetTree0": resets[0], "drawValue0": drawValue0,
+            "C1": Cs[1], "iterations1": iterations1, "resetTree1": resets[1], "drawValue1": drawValue1, 
+            "C2": Cs[2], "iterations2": iterations2, "resetTree2": resets[2], "drawValue2": drawValue2,
             "showMCTSTime": showMCTSTime, "showNodesStats": showNodesStats, "benchmarkingFile": benchmarkingFile}
+
+def save_to_csv(dataset: list[list[str]], filePath: str):
+    col_names = [f"cell_{i}" for i in range(42)] + ["10kIter", "20kIter", "30kIter", "40kIter", "50kIter",]
+    df_new = pd.DataFrame(dataset, columns=col_names)
+    csv_path = f'other_version/datasets/{filePath}'
+
+    if os.path.exists(csv_path):
+        df_existing = pd.read_csv(csv_path)
+        df_combined = pd.concat([df_existing, df_new], ignore_index=True)
+        df_combined.to_csv(csv_path, index=False)
+        print(f"\nAppended to existing connect4_{filePath}.csv (total: {len(df_combined)} rows)")
+    else:
+        df_new.to_csv(csv_path, index=False)
+        print(f"\nDataset saved as new connect4_{filePath}.csv")
 
 if __name__ == "__main__":
     typeOfGame = ""
@@ -283,7 +294,7 @@ if __name__ == "__main__":
             
             manager = Manager()
             dataset = manager.list()
-            total_iterations = 78
+            total_iterations = 100
 
             with tqdm(total=total_iterations, desc="Benchmarking Progress", unit="iteration") as pbar:
                 for i in range(total_iterations):
@@ -299,16 +310,8 @@ if __name__ == "__main__":
                     # Update the progress bar
                     pbar.update(1)
             
-            # Ensure the directory exists
-            output_dir = r"other_version\datasets"
-            os.makedirs(output_dir, exist_ok=True)
-
-            # Write the results to a file
-            output_file_path = os.path.join(output_dir, config["benchmarkingFile"])
-            with open(output_file_path, "w") as file:
-                for row in dataset:
-                    file.write(f"{row}\n")
-            print(f"Results written to {output_file_path}")
+            # Write results to csv file
+            save_to_csv(dataset=dataset, filePath = config["benchmarkingFile"])
 
         else:
             if typeOfGame.lower() != "exit":

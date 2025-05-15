@@ -87,36 +87,22 @@ class Connect4:
         """Return the current player (0 or 1)."""
         return self.counter & 1
 
-def matrix_to_bitboard(matrix: list[list[str]]) -> tuple[list[int], int]:
-    """
-    Converts a 6x7 matrix to bitboards.
-    Returns:
-        - bitboards: [bitboard_O, bitboard_X]
-        - counter: number of total pieces (used to determine current player)
-    """
-    bitboards = [0, 0]  # bitboards[0] = O, bitboards[1] = X
-    counter = 0
-    matrix_reverse = list(reversed(matrix))
-    heights = []
+    def flatten_board(self, board: list[list[str]]) -> list[str]:
+        return [cell for row in board for cell in row]
 
-    for col in range(7):
-        for row in range(6):
-            if matrix_reverse[row][col] == "-":
-                heights.append(col * 7 + row)
-                break
-            if row == 6:
-                heights.append(col * 7 + row)
+    def bitboard_to_matrix(self) -> list[list[str]]:
+        bitboardO = self.bitboards[0]
+        bitboardX = self.bitboards[1]
+        matrix = [["-" for _ in range(7)] for _ in range(6)]
 
-    for row in range(6):
         for col in range(7):
-            piece = matrix_reverse[row][col]
-            if piece not in ('O', 'X'):
-                continue
-            bit_index = col * 7 + row
-            if piece == 'O':
-                bitboards[0] |= 1 << bit_index
-            elif piece == 'X':
-                bitboards[1] |= 1 << bit_index
-            counter += 1
+            for row in range(6):
+                bit_index = col * 7 + row
+                mask = 1 << bit_index
 
-    return bitboards, counter, heights
+                if bitboardO & mask:
+                    matrix[5 - row][col] = "O"
+                elif bitboardX & mask:
+                    matrix[5 - row][col] = "X"
+
+        return matrix
