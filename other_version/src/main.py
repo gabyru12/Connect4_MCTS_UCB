@@ -6,6 +6,7 @@ import gc
 from multiprocessing import Process, Manager
 from tqdm import tqdm  
 import os 
+import pandas as pd
 
 def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawValue: float, showMCTSTime: bool, showNodesStats: bool):
     mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
@@ -310,6 +311,7 @@ if __name__ == "__main__":
                     # Update the progress bar
                     pbar.update(1)
             
+            dataset = list(dataset)
             # Write results to csv file
             save_to_csv(dataset=dataset, filePath = config["benchmarkingFile"])
 

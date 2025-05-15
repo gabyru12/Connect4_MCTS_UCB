@@ -18,7 +18,7 @@ drawValue2 = 0
 showMCTSTime = False
 
 [show Q & N for Nodes]
-showNodesStats = False
+showNodesStats = True
 
 [output file for benchmarking]
 name = MCTSGeneratedDatasetSoftmax.csv

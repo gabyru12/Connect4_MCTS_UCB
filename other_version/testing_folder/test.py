@@ -4,9 +4,6 @@ def calculate_move_differences(dataset):
     # Extract the last 5 columns (best moves for 10,000 to 50,000 iterations)
     moves = dataset.iloc[:, -5:]
 
-    # Clean the data: Remove unwanted characters (quotes, spaces, brackets) and convert to integers
-    moves = moves.applymap(lambda x: int(x.strip(" '[]")))
-
     # Get the best move for 50,000 iterations
     best_move_50000 = moves.iloc[:, -1]
 
@@ -21,15 +18,15 @@ def calculate_move_differences(dataset):
     return differences
 
 # Load the dataset
-df = pd.read_csv(r"C:\Users\arcan\OneDrive\Ambiente de Trabalho\My apps\python\connect4Project\other_version\datasets\MCTSGeneratedDatasetSoftmax.txt", header=None)
-
+df = pd.read_csv(r"C:\Users\arcan\OneDrive\Ambiente de Trabalho\My apps\python\connect4Project\other_version\datasets\MCTSGeneratedDatasetSoftmax.csv", header=None)
+df = df.iloc[:, :-5]
 # Remove duplicate rows
 print(len(df))
 df = df.drop_duplicates()
 print(len(df))
 
 # Calculate differences
-differences = calculate_move_differences(df)
+#differences = calculate_move_differences(df)
 
 # Output the result
-print(differences)
+#print(differences)
