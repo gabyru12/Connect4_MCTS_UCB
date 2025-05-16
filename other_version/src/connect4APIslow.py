@@ -126,3 +126,29 @@ class Connect4:
                     matrix[5 - row][col] = "X"
 
         return matrix
+
+    def matrix_to_bitboard(self, matrix: list) -> tuple:
+        bitboardO = 0
+        bitboardX = 0
+        counter = 0
+        heights = [0, 7, 14, 21, 28, 35, 42]
+
+        # Fill bitboards and compute heights
+        for col in range(7):
+            for row in range(6):
+                cell = matrix[5 - row][col]  # Reverse row mapping to match bitboard_to_matrix
+                bit_index = col * 7 + row
+                if cell == "O":
+                    bitboardO |= 1 << bit_index
+                    counter += 1
+                    heights[col] += 1
+                elif cell == "X":
+                    bitboardX |= 1 << bit_index
+                    counter += 1
+                    heights[col] += 1
+
+        self.bitboards[0] = bitboardO
+        self.bitboards[1] = bitboardX
+        self.counter = counter
+        for i in range(len(self.heights)):
+            self.heights[i] = heights[i]

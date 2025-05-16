@@ -65,7 +65,7 @@ def generate_dataset(createFor: str, iterations: int, sendTo, progress_queue, co
             continue
 
         mcts.run_mcts(constants["iterations0"], connect4)
-        bestMove = str(mcts.choose_best_move())
+        bestMove = str(mcts.choose_best_move(datasetFlag = True))
 
         flat_board = flatten_board(board)
         flat_board.append(bestMove)
@@ -109,14 +109,15 @@ def generate_dataset_multiprocess(process_count: int, createFor: str, constants)
 
     combined_dataset = list(return_list)
     flattened_dataset = [inner for outer in combined_dataset for inner in outer]
-    save_to_csv(combined_dataset, saveFor="test")
+    save_to_csv(combined_dataset, saveFor=createFor)
 
 
 # === Entry Point ===
 if __name__ == '__main__':
     # === Constants ===
     constants = {"C0": math.sqrt(2), "iterations0": 50000, "resetTree0": True, "drawValue0": 0,
-                "GAMESTATES": {"early": (4, 14), "mid": (15, 28), "late": (29, 41)}, "ITERATIONS_PER_GAMESTATE": 3330}
-    #generate_dataset_multiprocess(process_count=5, createFor="early", constants=constants)
-    #generate_dataset_multiprocess(process_count=5, createFor="mid", constants=constants)
-    #generate_dataset_multiprocess(process_count=5, createFor="late", constants=constants)
+                "GAMESTATES": {"early": (0, 14), "mid": (15, 28), "late": (29, 41)}, "ITERATIONS_PER_GAMESTATE": 3330}
+
+    generate_dataset_multiprocess(process_count=5, createFor="early", constants=constants)
+    generate_dataset_multiprocess(process_count=5, createFor="mid", constants=constants)
+    generate_dataset_multiprocess(process_count=5, createFor="late", constants=constants)

@@ -119,11 +119,8 @@ cdef class Connect4:
         cdef long long bitboardX = 0
         cdef int col, row, counter = 0
         cdef long long bit_index
-        cdef int heights[7]
-        # Initialize heights to 0
-        for col in range(7):
-            heights[col] = 0
-
+        cdef int heights[7] = [0, 7, 14, 21, 28, 35, 42]
+    
         # Fill bitboards and compute heights
         for col in range(7):
             for row in range(6):
@@ -132,16 +129,14 @@ cdef class Connect4:
                 if cell == "O":
                     bitboardO |= 1LL << bit_index
                     counter += 1
-                    heights[col] = max(heights[col], row + 1)
+                    heights[col] += 1
                 elif cell == "X":
                     bitboardX |= 1LL << bit_index
                     counter += 1
-                    heights[col] = max(heights[col], row + 1)
-        # Convert heights to bit indices (as used in your Connect4 class)
-        for col in range(7):
-            heights[col] = col * 7 + heights[col]
-        self.bitboard[0] = bitboardO
-        self.bitboard[1] = bitboardX
+                    heights[col] += 1
+
+        self.bitboards[0] = bitboardO
+        self.bitboards[1] = bitboardX
         self.counter = counter
         for i in range(len(self.heights)):
             self.heights[i] = heights[i]
