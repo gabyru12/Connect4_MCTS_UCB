@@ -256,7 +256,7 @@ def save_to_csv(dataset: list[list[str]], filePath: str):
 
 if __name__ == "__main__":
     typeOfGame = ""
-    config = read_input(r"C:\Users\arcan\OneDrive\Ambiente de Trabalho\My apps\python\connect4Project\other_version\configs\configs.txt")
+    config = read_input(r"other_version\configs\configs.txt")
     showMCTSTime = config["showMCTSTime"]
     showNodesStats = config["showNodesStats"]
     while typeOfGame.lower() != "exit":

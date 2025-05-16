@@ -113,3 +113,35 @@ cdef class Connect4:
                     matrix[5 - row][col] = "X"
 
         return matrix
+
+    def matrix_to_bitboard(self, matrix: list) -> tuple:
+        cdef long long bitboardO = 0
+        cdef long long bitboardX = 0
+        cdef int col, row, counter = 0
+        cdef long long bit_index
+        cdef int heights[7]
+        # Initialize heights to 0
+        for col in range(7):
+            heights[col] = 0
+
+        # Fill bitboards and compute heights
+        for col in range(7):
+            for row in range(6):
+                cell = matrix[5 - row][col]  # Reverse row mapping to match bitboard_to_matrix
+                bit_index = col * 7 + row
+                if cell == "O":
+                    bitboardO |= 1LL << bit_index
+                    counter += 1
+                    heights[col] = max(heights[col], row + 1)
+                elif cell == "X":
+                    bitboardX |= 1LL << bit_index
+                    counter += 1
+                    heights[col] = max(heights[col], row + 1)
+        # Convert heights to bit indices (as used in your Connect4 class)
+        for col in range(7):
+            heights[col] = col * 7 + heights[col]
+        self.bitboard[0] = bitboardO
+        self.bitboard[1] = bitboardX
+        self.counter = counter
+        for i in range(len(self.heights)):
+            self.heights[i] = heights[i]

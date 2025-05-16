@@ -106,3 +106,23 @@ class Connect4:
                     matrix[5 - row][col] = "X"
 
         return matrix
+
+    def flatten_board(self, board: list[list[str]]) -> list[str]:
+        return [cell for row in board for cell in row]
+
+    def bitboard_to_matrix(self) -> list[list[str]]:
+        bitboardO = self.bitboards[0]
+        bitboardX = self.bitboards[1]
+        matrix = [["-" for _ in range(7)] for _ in range(6)]
+
+        for col in range(7):
+            for row in range(6):
+                bit_index = col * 7 + row
+                mask = 1 << bit_index
+
+                if bitboardO & mask:
+                    matrix[5 - row][col] = "O"
+                elif bitboardX & mask:
+                    matrix[5 - row][col] = "X"
+
+        return matrix

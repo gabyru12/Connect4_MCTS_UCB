@@ -39,53 +39,32 @@ class MctsAlgo:
     def updateMCTSState(self, move: int):
         self.currentState = self.currentState.children[move]
 
-    def upper_confidence_bound(self, node: Node) -> int:
-        return (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N)))
-
     def updateAfterAdversaryTurn(self, connect4Actual: Connect4, moveBefore: int):
         if len(self.actualState.children) == 0: 
             self.reset(connect4Actual)
             self.expansion_phase(checkIfGameFinished=False)          
         self.actualState = self.actualState.children[moveBefore]
 
-    def test(self, moveBefore):
-        self.connect4.current_player()
-        print(moveBefore)
-        self.connect4.printState()
-
     def selection_phase(self) -> None:
-        valuesForEachChildren = {}
-        promissingChildren = []
-        childrenWithNZero = []
         self.currentState = self.actualState
 
-        #trying to find a node without children
-        while len(self.currentState.children) != 0:
-            valuesForEachChildren = {}
-            promissingChildren = []
-            childrenWithNZero = []
-            bestValue = -1
-            for move in self.currentState.children.keys():
-                if self.currentState.children[move].N > 0:
-                    valuesForEachChildren[move] = self.upper_confidence_bound(self.currentState.children[move])
-                    if valuesForEachChildren[move] > bestValue:
-                        promissingChildren.clear()
-                        promissingChildren.append(move)
-                        bestValue = valuesForEachChildren[move]
-                    elif valuesForEachChildren[move] == bestValue:
-                        promissingChildren.append(move)
-                else:
-                    childrenWithNZero.append(move)
-            if len(childrenWithNZero) > 0:
-                randomChoice = random.choice(childrenWithNZero)    
+        while self.currentState.children:
+            children = self.currentState.children
+            unexplored = [move for move, node in children.items() if node.N == 0]
+            if unexplored:
+                randomChoice = random.choice(unexplored)
                 self.updateMCTSState(randomChoice)
                 self.connect4.updateGameState(randomChoice)
                 return
-            randomChoice = random.choice(promissingChildren)
+
+            # Compute UCB values for all children
+            ucb_values = {move: (node.Q / node.N) + (self.C * math.sqrt((math.log(node.parent.N) / node.N))) for move, node in children.items()}
+            max_ucb = max(ucb_values.values())
+            # In case of ties, randomly choose among the best
+            best_moves = [move for move, val in ucb_values.items() if val == max_ucb]
+            randomChoice = random.choice(best_moves)
             self.updateMCTSState(randomChoice)
             self.connect4.updateGameState(randomChoice)
-
-        return
 
     def expansion_phase(self, checkIfGameFinished: bool) -> bool:
         if checkIfGameFinished:

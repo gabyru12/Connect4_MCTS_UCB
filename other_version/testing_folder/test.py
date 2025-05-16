@@ -19,14 +19,8 @@ def calculate_move_differences(dataset):
 
 # Load the dataset
 df = pd.read_csv(r"C:\Users\arcan\OneDrive\Ambiente de Trabalho\My apps\python\connect4Project\other_version\datasets\MCTSGeneratedDatasetSoftmax.csv", header=None)
-df = df.iloc[:, :-5]
-# Remove duplicate rows
+#df = df.iloc[:, :-5]
 print(len(df))
 df = df.drop_duplicates()
 print(len(df))
 
-# Calculate differences
-#differences = calculate_move_differences(df)
-
-# Output the result
-#print(differences)

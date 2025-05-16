@@ -20,13 +20,13 @@ def make_random_move(board: list[list[str]], col: int, player: str, ROWS: int) -
             return True
     return False
 
-def generate_valid_board(num_moves: int, ROWS: int, COLS: int) -> (list[list[str]], str):
-    board = create_empty_board(ROWS=ROWS, COLS=COLS)
+def generate_valid_board(num_moves: int) -> (list[list[str]], str):
+    board = create_empty_board(ROWS=6, COLS=7)
     current_player = 'O'
     move_count = 0
     while move_count < num_moves:
-        col = random.randint(0, COLS - 1)
-        if make_random_move(board, col, current_player, ROWS):
+        col = random.randint(0, 7 - 1)
+        if make_random_move(board, col, current_player, 6):
             move_count += 1
             current_player = 'X' if current_player == 'O' else 'O'
     return board, current_player
@@ -51,17 +51,17 @@ def save_to_csv(dataset: list[list[str]], saveFor: str):
 # === Dataset Generation (child process) ===
 def generate_dataset(createFor: str, iterations: int, sendTo, progress_queue, constants) -> None:
     dataset = []
-    mcts = MctsAlgo(C=constants["C0"], reset=constants["resetTree0"], drawValue=constants["drawValue0"], speed="fast")
-    connect4 = Connect4(constants["ROWS"], constants["COLS"])
+    mcts = MctsAlgo(C=constants["C0"], reset=constants["resetTree0"], drawValue=constants["drawValue0"])
+    connect4 = Connect4()
     count = 0
     min_moves, max_moves = constants["GAMESTATES"][createFor]
 
     while count < iterations:
         num_moves = random.randint(min_moves, max_moves)
-        board, turn = generate_valid_board(num_moves=num_moves, ROWS=constants["ROWS"], COLS=constants["COLS"])
-        connect4.getIntoDesiredState(turn, gameState=board)
+        board, turn = generate_valid_board(num_moves=num_moves)
+        connect4.matrix_to_bitboard(board)
 
-        if connect4.checkGameOver(speed="slow"):
+        if connect4.checkGameOver():
             continue
 
         mcts.run_mcts(constants["iterations0"], connect4)
@@ -115,8 +115,8 @@ def generate_dataset_multiprocess(process_count: int, createFor: str, constants)
 # === Entry Point ===
 if __name__ == '__main__':
     # === Constants ===
-    constants = {"C0": math.sqrt(2), "iterations0": 2, "resetTree0": True, "drawValue0": 0,
-                "ROWS": 6, "COLS": 7, "GAMESTATES": {"early": (4, 14), "mid": (15, 28), "late": (29, 41)}, "ITERATIONS_PER_GAMESTATE": 3330}
+    constants = {"C0": math.sqrt(2), "iterations0": 50000, "resetTree0": True, "drawValue0": 0,
+                "GAMESTATES": {"early": (4, 14), "mid": (15, 28), "late": (29, 41)}, "ITERATIONS_PER_GAMESTATE": 3330}
     #generate_dataset_multiprocess(process_count=5, createFor="early", constants=constants)
     #generate_dataset_multiprocess(process_count=5, createFor="mid", constants=constants)
-    generate_dataset_multiprocess(process_count=5, createFor="late", constants=constants)
+    #generate_dataset_multiprocess(process_count=5, createFor="late", constants=constants)

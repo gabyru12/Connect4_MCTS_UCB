@@ -2396,6 +2396,7 @@ static const char __pyx_k_cell[] = "cell";
 static const char __pyx_k_copy[] = "copy";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_func[] = "__func__";
+static const char __pyx_k_list[] = "list";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_mask[] = "mask";
 static const char __pyx_k_move[] = "move";
@@ -2408,6 +2409,7 @@ static const char __pyx_k_print[] = "print";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_reset[] = "reset";
 static const char __pyx_k_state[] = "state";
+static const char __pyx_k_tuple[] = "tuple";
 static const char __pyx_k_A_t9Ba[] = "\200A\330\010\017\210t\2209\230B\230a";
 static const char __pyx_k_dict_2[] = "_dict";
 static const char __pyx_k_enable[] = "enable";
@@ -2420,7 +2422,9 @@ static const char __pyx_k_return[] = "return";
 static const char __pyx_k_update[] = "update";
 static const char __pyx_k_91mX_0m[] = "\033[91mX\033[0m";
 static const char __pyx_k_94mO_0m[] = "\033[94mO\033[0m";
+static const char __pyx_k_counter[] = "counter";
 static const char __pyx_k_disable[] = "disable";
+static const char __pyx_k_heights[] = "heights";
 static const char __pyx_k_7q_q_T_d[] = "\320\004#\320#7\260q\330\010\017\210q\220\005\220T\230\027\240\006\240d\250(\260!";
 static const char __pyx_k_Connect4[] = "Connect4";
 static const char __pyx_k_add_note[] = "add_note";
@@ -2477,6 +2481,7 @@ static const char __pyx_k_Connect4_checkTie[] = "Connect4.checkTie";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_bitboard_to_matrix[] = "bitboard_to_matrix";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
+static const char __pyx_k_matrix_to_bitboard[] = "matrix_to_bitboard";
 static const char __pyx_k_Connect4_printState[] = "Connect4.printState";
 static const char __pyx_k_checkAvailableMoves[] = "checkAvailableMoves";
 static const char __pyx_k_A_t4_3d_d_tSWW_jjkkl[] = "\200A\330\010\017\210t\2204\320\027+\2503\250d\260$\260d\270/\310\021\310%\310t\320SW\320W[\320[j\320jk\320kl";
@@ -2491,10 +2496,12 @@ static const char __pyx_k_Connect4_checkGameResult[] = "Connect4.checkGameResult
 static const char __pyx_k_Connect4_updateGameState[] = "Connect4.updateGameState";
 static const char __pyx_k_Connect4___setstate_cython[] = "Connect4.__setstate_cython__";
 static const char __pyx_k_Connect4_bitboard_to_matrix[] = "Connect4.bitboard_to_matrix";
+static const char __pyx_k_Connect4_matrix_to_bitboard[] = "Connect4.matrix_to_bitboard";
 static const char __pyx_k_Connect4_checkAvailableMoves[] = "Connect4.checkAvailableMoves";
 static const char __pyx_k_hk_A_1_G_G_I_I_J_881A_7_nA_1[] = "\200\001\360\006\000\005\010\200\220h\230k\250\033\260A\330\010\r\210^\2301\330\010\016\320\016!\360\000\000\"G\002\360\000\000G\002I\002\360\000\000I\002J\002\330\004\023\2208\2308\2401\240A\330\004\007\200|\2207\230!\330\010*\250!\250;\260n\300A\330\004\013\2101";
 static const char __pyx_k_A_4z_4z_1AT_U_q_D_U_1_G5_uAQ_D[] = "\320\004$\240A\330\010#\2404\240z\260\021\260!\330\010#\2404\240z\260\021\260!\330\010\033\2301\230A\230T\240\024\240U\250%\250q\260\004\260D\270\005\270U\300!\3001\360\010\000\t\r\210G\2205\230\001\230\021\330\014\020\220\007\220u\230A\230Q\330\020\034\230D\240\002\240\"\240B\240a\330\020\027\220t\2303\230a\340\020\023\220:\230R\230q\330\024\032\230!\2302\230R\230t\2401\240G\2501\330\025\037\230r\240\021\330\024\032\230!\2302\230R\230t\2401\240G\2501\340\010\017\210q";
 static const char __pyx_k_T_T_4q_G1F_a_vWA_q_q_q_Qg_q_Qg[] = "\200\001\360\010\000\005\016\210T\220\034\230T\240\032\2504\250q\330\004\014\210G\2201\220F\230,\240a\330\004\007\200v\210W\220A\330\010\022\220!\330\010\027\220q\340\010\027\220q\330\004\007\200q\330\010\017\320\017)\250\024\250Q\250g\260[\300\007\300q\340\010\017\320\017)\250\024\250Q\250g\260[\300\001";
+static const char __pyx_k_1_1_Q_G5_1G1_G5_uAQ_vQb_aq_D_Ba[] = "\320\004)\250\031\260!\330\010#\2401\330\010#\2401\330\010%\240Q\360\010\000\t\r\210G\2205\230\001\230\021\330\014\023\2201\220G\2301\360\006\000\t\r\210G\2205\230\001\230\021\330\014\020\220\007\220u\230A\230Q\330\020\027\220v\230Q\230b\240\002\240$\240a\240q\330\020\034\230D\240\002\240\"\240B\240a\330\020\023\2205\230\003\2301\330\024!\240\024\240S\250\001\330\024\037\230q\330\024\033\2301\230J\240a\240w\250a\250v\260T\270\022\2701\330\025\032\230#\230Q\330\024!\240\024\240S\250\001\330\024\037\230q\330\024\033\2301\230J\240a\240w\250a\250v\260T\270\022\2701\340\010\014\210G\2205\230\001\230\021\330\014\023\2201\220G\2304\230r\240\022\2402\240W\250A\250Q\340\010\017\210{\230+\240Y\250a\250w\260a\260s\270$\270e\3005\310\001\310\021";
 static const char __pyx_k_A_7_Q_t_Qa_t_Qa_E_S_1_Yc_s_S_Bb[] = "\200A\360\010\000\t\014\2107\220#\220Q\330\014\027\220t\230:\240Q\240a\340\014\027\220t\230:\240Q\240a\340\010\014\210E\220\021\220#\220S\230\003\2301\330\014\021\220\031\230#\230Y\240c\250\021\330\014\017\210s\220#\220S\230\004\230B\230b\240\001\330\020\027\220q\330\010\017\210q";
 static const char __pyx_k_A_5_t_q_AQ_Ct81E_1_Jat9BfA_HAU_F[] = "\200A\330\010\013\2105\220\007\220t\320\033/\250q\330\014\022\220*\230A\230Q\330\010\020\220\004\220C\220t\2308\2401\240E\250\022\2501\330\010\014\210J\220a\220t\2309\240B\240f\250A\330\010\014\210H\220A\220U\230\"\230F\240!\330\010\014\210L\230\001";
 static const char __pyx_k_A_JauHJaq_JauHJaq_Kxq_E_as_4q_hh[] = "\200A\330\010\014\210J\220a\220u\230H\240J\250a\250q\330\010\014\210J\220a\220u\230H\240J\250a\250q\330\010\014\210K\220x\230q\330\010\014\210E\220\025\220a\220s\230!\2304\230q\330\014\020\220\010\230\001\230\025\230h\240h\250a\250q";
@@ -2514,14 +2521,15 @@ static PyObject *__pyx_pf_11connect4API_8Connect4_16checkAvailableMoves(struct _
 static PyObject *__pyx_pf_11connect4API_8Connect4_18current_player(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_11connect4API_8Connect4_20flatten_board(CYTHON_UNUSED struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v_board); /* proto */
 static PyObject *__pyx_pf_11connect4API_8Connect4_22bitboard_to_matrix(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11connect4API_8Connect4_24matrix_to_bitboard(CYTHON_UNUSED struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v_matrix); /* proto */
 static PyObject *__pyx_pf_11connect4API_8Connect4_9bitboards___get__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self); /* proto */
 static int __pyx_pf_11connect4API_8Connect4_9bitboards_2__set__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_11connect4API_8Connect4_7heights___get__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self); /* proto */
 static int __pyx_pf_11connect4API_8Connect4_7heights_2__set__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_11connect4API_8Connect4_7counter___get__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self); /* proto */
 static int __pyx_pf_11connect4API_8Connect4_7counter_2__set__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_11connect4API_8Connect4_24__reduce_cython__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_11connect4API_8Connect4_26__setstate_cython__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_11connect4API_8Connect4_26__reduce_cython__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11connect4API_8Connect4_28__setstate_cython__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_11connect4API___pyx_unpickle_Connect4(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_11connect4API_Connect4(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 /* #### Code section: late_includes ### */
@@ -2566,8 +2574,8 @@ typedef struct {
   PyTypeObject *__pyx_ptype_11connect4API_Connect4;
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_pop;
   PyObject *__pyx_tuple[2];
-  PyObject *__pyx_codeobj_tab[14];
-  PyObject *__pyx_string_tab[116];
+  PyObject *__pyx_codeobj_tab[15];
+  PyObject *__pyx_string_tab[122];
   PyObject *__pyx_int_1;
   PyObject *__pyx_int_6;
   PyObject *__pyx_int_7;
@@ -2624,107 +2632,113 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_Connect4_checkTie __pyx_string_tab[12]
 #define __pyx_n_u_Connect4_current_player __pyx_string_tab[13]
 #define __pyx_n_u_Connect4_flatten_board __pyx_string_tab[14]
-#define __pyx_n_u_Connect4_printState __pyx_string_tab[15]
-#define __pyx_n_u_Connect4_reset __pyx_string_tab[16]
-#define __pyx_n_u_Connect4_updateGameState __pyx_string_tab[17]
-#define __pyx_kp_u_Incompatible_checksums_0x_x_vs_0 __pyx_string_tab[18]
-#define __pyx_n_u_IndexError __pyx_string_tab[19]
-#define __pyx_kp_u_Invalid_move __pyx_string_tab[20]
-#define __pyx_kp_u_Note_that_Cython_is_deliberately __pyx_string_tab[21]
-#define __pyx_n_u_O __pyx_string_tab[22]
-#define __pyx_n_u_OverflowError __pyx_string_tab[23]
-#define __pyx_n_u_PickleError __pyx_string_tab[24]
-#define __pyx_n_u_TOP __pyx_string_tab[25]
-#define __pyx_n_u_TypeError __pyx_string_tab[26]
-#define __pyx_n_u_ValueError __pyx_string_tab[27]
-#define __pyx_n_u_X __pyx_string_tab[28]
-#define __pyx_kp_u__2 __pyx_string_tab[29]
-#define __pyx_kp_u__3 __pyx_string_tab[30]
-#define __pyx_kp_u__4 __pyx_string_tab[31]
-#define __pyx_kp_u__5 __pyx_string_tab[32]
-#define __pyx_kp_u__6 __pyx_string_tab[33]
-#define __pyx_kp_u__7 __pyx_string_tab[34]
-#define __pyx_n_u__8 __pyx_string_tab[35]
-#define __pyx_kp_u_add_note __pyx_string_tab[36]
-#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[37]
-#define __pyx_n_u_bb __pyx_string_tab[38]
-#define __pyx_n_u_bit_index __pyx_string_tab[39]
-#define __pyx_n_u_bit_mask __pyx_string_tab[40]
-#define __pyx_n_u_bitboard __pyx_string_tab[41]
-#define __pyx_n_u_bitboardO __pyx_string_tab[42]
-#define __pyx_n_u_bitboardX __pyx_string_tab[43]
-#define __pyx_n_u_bitboard_to_matrix __pyx_string_tab[44]
-#define __pyx_n_u_board __pyx_string_tab[45]
-#define __pyx_n_u_cell __pyx_string_tab[46]
-#define __pyx_n_u_checkAvailableMoves __pyx_string_tab[47]
-#define __pyx_n_u_checkGameOver __pyx_string_tab[48]
-#define __pyx_n_u_checkGameResult __pyx_string_tab[49]
-#define __pyx_n_u_checkPlayerWon __pyx_string_tab[50]
-#define __pyx_n_u_checkTie __pyx_string_tab[51]
-#define __pyx_n_u_cline_in_traceback __pyx_string_tab[52]
-#define __pyx_n_u_col __pyx_string_tab[53]
-#define __pyx_n_u_connect4 __pyx_string_tab[54]
-#define __pyx_n_u_connect4API __pyx_string_tab[55]
-#define __pyx_kp_u_connect4API_pyx __pyx_string_tab[56]
-#define __pyx_n_u_copy __pyx_string_tab[57]
-#define __pyx_n_u_current_player __pyx_string_tab[58]
-#define __pyx_n_u_d __pyx_string_tab[59]
-#define __pyx_n_u_deepcopy __pyx_string_tab[60]
-#define __pyx_n_u_dict __pyx_string_tab[61]
-#define __pyx_n_u_dict_2 __pyx_string_tab[62]
-#define __pyx_kp_u_disable __pyx_string_tab[63]
-#define __pyx_kp_u_enable __pyx_string_tab[64]
-#define __pyx_n_u_end __pyx_string_tab[65]
-#define __pyx_n_u_enumerate __pyx_string_tab[66]
-#define __pyx_n_u_flatten_board __pyx_string_tab[67]
-#define __pyx_n_u_func __pyx_string_tab[68]
-#define __pyx_kp_u_gc __pyx_string_tab[69]
-#define __pyx_n_u_getstate __pyx_string_tab[70]
-#define __pyx_n_u_i __pyx_string_tab[71]
-#define __pyx_n_u_is_coroutine __pyx_string_tab[72]
-#define __pyx_kp_u_isenabled __pyx_string_tab[73]
-#define __pyx_n_u_last_player __pyx_string_tab[74]
-#define __pyx_kp_u_list_list_str __pyx_string_tab[75]
-#define __pyx_kp_u_list_str __pyx_string_tab[76]
-#define __pyx_n_u_main __pyx_string_tab[77]
-#define __pyx_n_u_mask __pyx_string_tab[78]
-#define __pyx_n_u_matrix __pyx_string_tab[79]
-#define __pyx_n_u_module __pyx_string_tab[80]
-#define __pyx_n_u_move __pyx_string_tab[81]
-#define __pyx_n_u_move1 __pyx_string_tab[82]
-#define __pyx_n_u_name __pyx_string_tab[83]
-#define __pyx_n_u_new __pyx_string_tab[84]
-#define __pyx_n_u_pickle __pyx_string_tab[85]
-#define __pyx_n_u_player __pyx_string_tab[86]
-#define __pyx_n_u_pop __pyx_string_tab[87]
-#define __pyx_n_u_print __pyx_string_tab[88]
-#define __pyx_n_u_printState __pyx_string_tab[89]
-#define __pyx_n_u_pyx_PickleError __pyx_string_tab[90]
-#define __pyx_n_u_pyx_checksum __pyx_string_tab[91]
-#define __pyx_n_u_pyx_result __pyx_string_tab[92]
-#define __pyx_n_u_pyx_state __pyx_string_tab[93]
-#define __pyx_n_u_pyx_type __pyx_string_tab[94]
-#define __pyx_n_u_pyx_unpickle_Connect4 __pyx_string_tab[95]
-#define __pyx_n_u_qualname __pyx_string_tab[96]
-#define __pyx_n_u_range __pyx_string_tab[97]
-#define __pyx_n_u_reduce __pyx_string_tab[98]
-#define __pyx_n_u_reduce_cython __pyx_string_tab[99]
-#define __pyx_n_u_reduce_ex __pyx_string_tab[100]
-#define __pyx_n_u_reset __pyx_string_tab[101]
-#define __pyx_n_u_return __pyx_string_tab[102]
-#define __pyx_n_u_reversed __pyx_string_tab[103]
-#define __pyx_n_u_row __pyx_string_tab[104]
-#define __pyx_n_u_self __pyx_string_tab[105]
-#define __pyx_n_u_set_name __pyx_string_tab[106]
-#define __pyx_n_u_setstate __pyx_string_tab[107]
-#define __pyx_n_u_setstate_cython __pyx_string_tab[108]
-#define __pyx_n_u_state __pyx_string_tab[109]
-#define __pyx_kp_u_stringsource __pyx_string_tab[110]
-#define __pyx_n_u_test __pyx_string_tab[111]
-#define __pyx_n_u_update __pyx_string_tab[112]
-#define __pyx_n_u_updateGameState __pyx_string_tab[113]
-#define __pyx_n_u_use_setstate __pyx_string_tab[114]
-#define __pyx_n_u_valid_moves __pyx_string_tab[115]
+#define __pyx_n_u_Connect4_matrix_to_bitboard __pyx_string_tab[15]
+#define __pyx_n_u_Connect4_printState __pyx_string_tab[16]
+#define __pyx_n_u_Connect4_reset __pyx_string_tab[17]
+#define __pyx_n_u_Connect4_updateGameState __pyx_string_tab[18]
+#define __pyx_kp_u_Incompatible_checksums_0x_x_vs_0 __pyx_string_tab[19]
+#define __pyx_n_u_IndexError __pyx_string_tab[20]
+#define __pyx_kp_u_Invalid_move __pyx_string_tab[21]
+#define __pyx_kp_u_Note_that_Cython_is_deliberately __pyx_string_tab[22]
+#define __pyx_n_u_O __pyx_string_tab[23]
+#define __pyx_n_u_OverflowError __pyx_string_tab[24]
+#define __pyx_n_u_PickleError __pyx_string_tab[25]
+#define __pyx_n_u_TOP __pyx_string_tab[26]
+#define __pyx_n_u_TypeError __pyx_string_tab[27]
+#define __pyx_n_u_ValueError __pyx_string_tab[28]
+#define __pyx_n_u_X __pyx_string_tab[29]
+#define __pyx_kp_u__2 __pyx_string_tab[30]
+#define __pyx_kp_u__3 __pyx_string_tab[31]
+#define __pyx_kp_u__4 __pyx_string_tab[32]
+#define __pyx_kp_u__5 __pyx_string_tab[33]
+#define __pyx_kp_u__6 __pyx_string_tab[34]
+#define __pyx_kp_u__7 __pyx_string_tab[35]
+#define __pyx_n_u__8 __pyx_string_tab[36]
+#define __pyx_kp_u_add_note __pyx_string_tab[37]
+#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[38]
+#define __pyx_n_u_bb __pyx_string_tab[39]
+#define __pyx_n_u_bit_index __pyx_string_tab[40]
+#define __pyx_n_u_bit_mask __pyx_string_tab[41]
+#define __pyx_n_u_bitboard __pyx_string_tab[42]
+#define __pyx_n_u_bitboardO __pyx_string_tab[43]
+#define __pyx_n_u_bitboardX __pyx_string_tab[44]
+#define __pyx_n_u_bitboard_to_matrix __pyx_string_tab[45]
+#define __pyx_n_u_board __pyx_string_tab[46]
+#define __pyx_n_u_cell __pyx_string_tab[47]
+#define __pyx_n_u_checkAvailableMoves __pyx_string_tab[48]
+#define __pyx_n_u_checkGameOver __pyx_string_tab[49]
+#define __pyx_n_u_checkGameResult __pyx_string_tab[50]
+#define __pyx_n_u_checkPlayerWon __pyx_string_tab[51]
+#define __pyx_n_u_checkTie __pyx_string_tab[52]
+#define __pyx_n_u_cline_in_traceback __pyx_string_tab[53]
+#define __pyx_n_u_col __pyx_string_tab[54]
+#define __pyx_n_u_connect4 __pyx_string_tab[55]
+#define __pyx_n_u_connect4API __pyx_string_tab[56]
+#define __pyx_kp_u_connect4API_pyx __pyx_string_tab[57]
+#define __pyx_n_u_copy __pyx_string_tab[58]
+#define __pyx_n_u_counter __pyx_string_tab[59]
+#define __pyx_n_u_current_player __pyx_string_tab[60]
+#define __pyx_n_u_d __pyx_string_tab[61]
+#define __pyx_n_u_deepcopy __pyx_string_tab[62]
+#define __pyx_n_u_dict __pyx_string_tab[63]
+#define __pyx_n_u_dict_2 __pyx_string_tab[64]
+#define __pyx_kp_u_disable __pyx_string_tab[65]
+#define __pyx_kp_u_enable __pyx_string_tab[66]
+#define __pyx_n_u_end __pyx_string_tab[67]
+#define __pyx_n_u_enumerate __pyx_string_tab[68]
+#define __pyx_n_u_flatten_board __pyx_string_tab[69]
+#define __pyx_n_u_func __pyx_string_tab[70]
+#define __pyx_kp_u_gc __pyx_string_tab[71]
+#define __pyx_n_u_getstate __pyx_string_tab[72]
+#define __pyx_n_u_heights __pyx_string_tab[73]
+#define __pyx_n_u_i __pyx_string_tab[74]
+#define __pyx_n_u_is_coroutine __pyx_string_tab[75]
+#define __pyx_kp_u_isenabled __pyx_string_tab[76]
+#define __pyx_n_u_last_player __pyx_string_tab[77]
+#define __pyx_n_u_list __pyx_string_tab[78]
+#define __pyx_kp_u_list_list_str __pyx_string_tab[79]
+#define __pyx_kp_u_list_str __pyx_string_tab[80]
+#define __pyx_n_u_main __pyx_string_tab[81]
+#define __pyx_n_u_mask __pyx_string_tab[82]
+#define __pyx_n_u_matrix __pyx_string_tab[83]
+#define __pyx_n_u_matrix_to_bitboard __pyx_string_tab[84]
+#define __pyx_n_u_module __pyx_string_tab[85]
+#define __pyx_n_u_move __pyx_string_tab[86]
+#define __pyx_n_u_move1 __pyx_string_tab[87]
+#define __pyx_n_u_name __pyx_string_tab[88]
+#define __pyx_n_u_new __pyx_string_tab[89]
+#define __pyx_n_u_pickle __pyx_string_tab[90]
+#define __pyx_n_u_player __pyx_string_tab[91]
+#define __pyx_n_u_pop __pyx_string_tab[92]
+#define __pyx_n_u_print __pyx_string_tab[93]
+#define __pyx_n_u_printState __pyx_string_tab[94]
+#define __pyx_n_u_pyx_PickleError __pyx_string_tab[95]
+#define __pyx_n_u_pyx_checksum __pyx_string_tab[96]
+#define __pyx_n_u_pyx_result __pyx_string_tab[97]
+#define __pyx_n_u_pyx_state __pyx_string_tab[98]
+#define __pyx_n_u_pyx_type __pyx_string_tab[99]
+#define __pyx_n_u_pyx_unpickle_Connect4 __pyx_string_tab[100]
+#define __pyx_n_u_qualname __pyx_string_tab[101]
+#define __pyx_n_u_range __pyx_string_tab[102]
+#define __pyx_n_u_reduce __pyx_string_tab[103]
+#define __pyx_n_u_reduce_cython __pyx_string_tab[104]
+#define __pyx_n_u_reduce_ex __pyx_string_tab[105]
+#define __pyx_n_u_reset __pyx_string_tab[106]
+#define __pyx_n_u_return __pyx_string_tab[107]
+#define __pyx_n_u_reversed __pyx_string_tab[108]
+#define __pyx_n_u_row __pyx_string_tab[109]
+#define __pyx_n_u_self __pyx_string_tab[110]
+#define __pyx_n_u_set_name __pyx_string_tab[111]
+#define __pyx_n_u_setstate __pyx_string_tab[112]
+#define __pyx_n_u_setstate_cython __pyx_string_tab[113]
+#define __pyx_n_u_state __pyx_string_tab[114]
+#define __pyx_kp_u_stringsource __pyx_string_tab[115]
+#define __pyx_n_u_test __pyx_string_tab[116]
+#define __pyx_n_u_tuple __pyx_string_tab[117]
+#define __pyx_n_u_update __pyx_string_tab[118]
+#define __pyx_n_u_updateGameState __pyx_string_tab[119]
+#define __pyx_n_u_use_setstate __pyx_string_tab[120]
+#define __pyx_n_u_valid_moves __pyx_string_tab[121]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
 static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
@@ -2748,8 +2762,8 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_11connect4API_Connect4);
   Py_CLEAR(clear_module_state->__pyx_type_11connect4API_Connect4);
   for (int i=0; i<2; ++i) { Py_CLEAR(clear_module_state->__pyx_tuple[i]); }
-  for (int i=0; i<14; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<116; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<15; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<122; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
   Py_CLEAR(clear_module_state->__pyx_int_1);
   Py_CLEAR(clear_module_state->__pyx_int_6);
   Py_CLEAR(clear_module_state->__pyx_int_7);
@@ -2780,8 +2794,8 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   Py_VISIT(traverse_module_state->__pyx_ptype_11connect4API_Connect4);
   Py_VISIT(traverse_module_state->__pyx_type_11connect4API_Connect4);
   for (int i=0; i<2; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_tuple[i]); }
-  for (int i=0; i<14; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<116; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<15; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<122; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_int_1);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_int_6);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_int_7);
@@ -6303,6 +6317,8 @@ static PyObject *__pyx_pf_11connect4API_8Connect4_22bitboard_to_matrix(struct __
  *                     matrix[5 - row][col] = "X"
  * 
  *         return matrix             # <<<<<<<<<<<<<<
+ * 
+ *     def matrix_to_bitboard(self, matrix: list) -> tuple:
 */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_matrix);
@@ -6325,6 +6341,426 @@ static PyObject *__pyx_pf_11connect4API_8Connect4_22bitboard_to_matrix(struct __
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_matrix);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "connect4API.pyx":117
+ *         return matrix
+ * 
+ *     def matrix_to_bitboard(self, matrix: list) -> tuple:             # <<<<<<<<<<<<<<
+ *         cdef long long bitboardO = 0
+ *         cdef long long bitboardX = 0
+*/
+
+/* Python wrapper */
+static PyObject *__pyx_pw_11connect4API_8Connect4_25matrix_to_bitboard(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static PyMethodDef __pyx_mdef_11connect4API_8Connect4_25matrix_to_bitboard = {"matrix_to_bitboard", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_25matrix_to_bitboard, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_11connect4API_8Connect4_25matrix_to_bitboard(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  PyObject *__pyx_v_matrix = 0;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[1] = {0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("matrix_to_bitboard (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_SIZE
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_matrix,0};
+    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 117, __pyx_L3_error)
+    if (__pyx_kwds_len > 0) {
+      switch (__pyx_nargs) {
+        case  1:
+        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 117, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      const Py_ssize_t kwd_pos_args = __pyx_nargs;
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "matrix_to_bitboard", 0) < 0) __PYX_ERR(0, 117, __pyx_L3_error)
+      for (Py_ssize_t i = __pyx_nargs; i < 1; i++) {
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("matrix_to_bitboard", 1, 1, 1, i); __PYX_ERR(0, 117, __pyx_L3_error) }
+      }
+    } else if (unlikely(__pyx_nargs != 1)) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 117, __pyx_L3_error)
+    }
+    __pyx_v_matrix = ((PyObject*)values[0]);
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("matrix_to_bitboard", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 117, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __Pyx_AddTraceback("connect4API.Connect4.matrix_to_bitboard", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_matrix), (&PyList_Type), 0, "matrix", 2))) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_r = __pyx_pf_11connect4API_8Connect4_24matrix_to_bitboard(((struct __pyx_obj_11connect4API_Connect4 *)__pyx_v_self), __pyx_v_matrix);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  goto __pyx_L7_cleaned_up;
+  __pyx_L0:;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __pyx_L7_cleaned_up:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11connect4API_8Connect4_24matrix_to_bitboard(CYTHON_UNUSED struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v_matrix) {
+  PY_LONG_LONG __pyx_v_bitboardO;
+  PY_LONG_LONG __pyx_v_bitboardX;
+  int __pyx_v_col;
+  int __pyx_v_row;
+  int __pyx_v_counter;
+  PY_LONG_LONG __pyx_v_bit_index;
+  int __pyx_v_heights[7];
+  PyObject *__pyx_v_cell = NULL;
+  long __pyx_8genexpr3__pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  long __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  int __pyx_t_7;
+  long __pyx_t_8;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("matrix_to_bitboard", 0);
+
+  /* "connect4API.pyx":118
+ * 
+ *     def matrix_to_bitboard(self, matrix: list) -> tuple:
+ *         cdef long long bitboardO = 0             # <<<<<<<<<<<<<<
+ *         cdef long long bitboardX = 0
+ *         cdef int col, row, counter = 0
+*/
+  __pyx_v_bitboardO = 0;
+
+  /* "connect4API.pyx":119
+ *     def matrix_to_bitboard(self, matrix: list) -> tuple:
+ *         cdef long long bitboardO = 0
+ *         cdef long long bitboardX = 0             # <<<<<<<<<<<<<<
+ *         cdef int col, row, counter = 0
+ *         cdef long long bit_index
+*/
+  __pyx_v_bitboardX = 0;
+
+  /* "connect4API.pyx":120
+ *         cdef long long bitboardO = 0
+ *         cdef long long bitboardX = 0
+ *         cdef int col, row, counter = 0             # <<<<<<<<<<<<<<
+ *         cdef long long bit_index
+ *         cdef int heights[7]
+*/
+  __pyx_v_counter = 0;
+
+  /* "connect4API.pyx":124
+ *         cdef int heights[7]
+ *         # Initialize heights to 0
+ *         for col in range(7):             # <<<<<<<<<<<<<<
+ *             heights[col] = 0
+ * 
+*/
+  for (__pyx_t_1 = 0; __pyx_t_1 < 7; __pyx_t_1+=1) {
+    __pyx_v_col = __pyx_t_1;
+
+    /* "connect4API.pyx":125
+ *         # Initialize heights to 0
+ *         for col in range(7):
+ *             heights[col] = 0             # <<<<<<<<<<<<<<
+ * 
+ *         # Fill bitboards and compute heights
+*/
+    (__pyx_v_heights[__pyx_v_col]) = 0;
+  }
+
+  /* "connect4API.pyx":128
+ * 
+ *         # Fill bitboards and compute heights
+ *         for col in range(7):             # <<<<<<<<<<<<<<
+ *             for row in range(6):
+ *                 cell = matrix[5 - row][col]  # Reverse row mapping to match bitboard_to_matrix
+*/
+  for (__pyx_t_1 = 0; __pyx_t_1 < 7; __pyx_t_1+=1) {
+    __pyx_v_col = __pyx_t_1;
+
+    /* "connect4API.pyx":129
+ *         # Fill bitboards and compute heights
+ *         for col in range(7):
+ *             for row in range(6):             # <<<<<<<<<<<<<<
+ *                 cell = matrix[5 - row][col]  # Reverse row mapping to match bitboard_to_matrix
+ *                 bit_index = col * 7 + row
+*/
+    for (__pyx_t_2 = 0; __pyx_t_2 < 6; __pyx_t_2+=1) {
+      __pyx_v_row = __pyx_t_2;
+
+      /* "connect4API.pyx":130
+ *         for col in range(7):
+ *             for row in range(6):
+ *                 cell = matrix[5 - row][col]  # Reverse row mapping to match bitboard_to_matrix             # <<<<<<<<<<<<<<
+ *                 bit_index = col * 7 + row
+ *                 if cell == "O":
+*/
+      __pyx_t_3 = (5 - __pyx_v_row);
+      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_matrix, __pyx_t_3, long, 1, __Pyx_PyLong_From_long, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_col, int, 1, __Pyx_PyLong_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_cell, __pyx_t_5);
+      __pyx_t_5 = 0;
+
+      /* "connect4API.pyx":131
+ *             for row in range(6):
+ *                 cell = matrix[5 - row][col]  # Reverse row mapping to match bitboard_to_matrix
+ *                 bit_index = col * 7 + row             # <<<<<<<<<<<<<<
+ *                 if cell == "O":
+ *                     bitboardO |= 1LL << bit_index
+*/
+      __pyx_v_bit_index = ((__pyx_v_col * 7) + __pyx_v_row);
+
+      /* "connect4API.pyx":132
+ *                 cell = matrix[5 - row][col]  # Reverse row mapping to match bitboard_to_matrix
+ *                 bit_index = col * 7 + row
+ *                 if cell == "O":             # <<<<<<<<<<<<<<
+ *                     bitboardO |= 1LL << bit_index
+ *                     counter += 1
+*/
+      __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_cell, __pyx_mstate_global->__pyx_n_u_O, Py_EQ)); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 132, __pyx_L1_error)
+      if (__pyx_t_6) {
+
+        /* "connect4API.pyx":133
+ *                 bit_index = col * 7 + row
+ *                 if cell == "O":
+ *                     bitboardO |= 1LL << bit_index             # <<<<<<<<<<<<<<
+ *                     counter += 1
+ *                     heights[col] = max(heights[col], row + 1)
+*/
+        __pyx_v_bitboardO = (__pyx_v_bitboardO | (1LL << __pyx_v_bit_index));
+
+        /* "connect4API.pyx":134
+ *                 if cell == "O":
+ *                     bitboardO |= 1LL << bit_index
+ *                     counter += 1             # <<<<<<<<<<<<<<
+ *                     heights[col] = max(heights[col], row + 1)
+ *                 elif cell == "X":
+*/
+        __pyx_v_counter = (__pyx_v_counter + 1);
+
+        /* "connect4API.pyx":135
+ *                     bitboardO |= 1LL << bit_index
+ *                     counter += 1
+ *                     heights[col] = max(heights[col], row + 1)             # <<<<<<<<<<<<<<
+ *                 elif cell == "X":
+ *                     bitboardX |= 1LL << bit_index
+*/
+        __pyx_t_3 = (__pyx_v_row + 1);
+        __pyx_t_7 = (__pyx_v_heights[__pyx_v_col]);
+        __pyx_t_6 = (__pyx_t_3 > __pyx_t_7);
+        if (__pyx_t_6) {
+          __pyx_t_8 = __pyx_t_3;
+        } else {
+          __pyx_t_8 = __pyx_t_7;
+        }
+        (__pyx_v_heights[__pyx_v_col]) = __pyx_t_8;
+
+        /* "connect4API.pyx":132
+ *                 cell = matrix[5 - row][col]  # Reverse row mapping to match bitboard_to_matrix
+ *                 bit_index = col * 7 + row
+ *                 if cell == "O":             # <<<<<<<<<<<<<<
+ *                     bitboardO |= 1LL << bit_index
+ *                     counter += 1
+*/
+        goto __pyx_L9;
+      }
+
+      /* "connect4API.pyx":136
+ *                     counter += 1
+ *                     heights[col] = max(heights[col], row + 1)
+ *                 elif cell == "X":             # <<<<<<<<<<<<<<
+ *                     bitboardX |= 1LL << bit_index
+ *                     counter += 1
+*/
+      __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_v_cell, __pyx_mstate_global->__pyx_n_u_X, Py_EQ)); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 136, __pyx_L1_error)
+      if (__pyx_t_6) {
+
+        /* "connect4API.pyx":137
+ *                     heights[col] = max(heights[col], row + 1)
+ *                 elif cell == "X":
+ *                     bitboardX |= 1LL << bit_index             # <<<<<<<<<<<<<<
+ *                     counter += 1
+ *                     heights[col] = max(heights[col], row + 1)
+*/
+        __pyx_v_bitboardX = (__pyx_v_bitboardX | (1LL << __pyx_v_bit_index));
+
+        /* "connect4API.pyx":138
+ *                 elif cell == "X":
+ *                     bitboardX |= 1LL << bit_index
+ *                     counter += 1             # <<<<<<<<<<<<<<
+ *                     heights[col] = max(heights[col], row + 1)
+ *         # Convert heights to bit indices (as used in your Connect4 class)
+*/
+        __pyx_v_counter = (__pyx_v_counter + 1);
+
+        /* "connect4API.pyx":139
+ *                     bitboardX |= 1LL << bit_index
+ *                     counter += 1
+ *                     heights[col] = max(heights[col], row + 1)             # <<<<<<<<<<<<<<
+ *         # Convert heights to bit indices (as used in your Connect4 class)
+ *         for col in range(7):
+*/
+        __pyx_t_8 = (__pyx_v_row + 1);
+        __pyx_t_7 = (__pyx_v_heights[__pyx_v_col]);
+        __pyx_t_6 = (__pyx_t_8 > __pyx_t_7);
+        if (__pyx_t_6) {
+          __pyx_t_3 = __pyx_t_8;
+        } else {
+          __pyx_t_3 = __pyx_t_7;
+        }
+        (__pyx_v_heights[__pyx_v_col]) = __pyx_t_3;
+
+        /* "connect4API.pyx":136
+ *                     counter += 1
+ *                     heights[col] = max(heights[col], row + 1)
+ *                 elif cell == "X":             # <<<<<<<<<<<<<<
+ *                     bitboardX |= 1LL << bit_index
+ *                     counter += 1
+*/
+      }
+      __pyx_L9:;
+    }
+  }
+
+  /* "connect4API.pyx":141
+ *                     heights[col] = max(heights[col], row + 1)
+ *         # Convert heights to bit indices (as used in your Connect4 class)
+ *         for col in range(7):             # <<<<<<<<<<<<<<
+ *             heights[col] = col * 7 + heights[col]
+ * 
+*/
+  for (__pyx_t_1 = 0; __pyx_t_1 < 7; __pyx_t_1+=1) {
+    __pyx_v_col = __pyx_t_1;
+
+    /* "connect4API.pyx":142
+ *         # Convert heights to bit indices (as used in your Connect4 class)
+ *         for col in range(7):
+ *             heights[col] = col * 7 + heights[col]             # <<<<<<<<<<<<<<
+ * 
+ *         return bitboardO, bitboardX, counter, [heights[i] for i in range(7)]
+*/
+    (__pyx_v_heights[__pyx_v_col]) = ((__pyx_v_col * 7) + (__pyx_v_heights[__pyx_v_col]));
+  }
+
+  /* "connect4API.pyx":144
+ *             heights[col] = col * 7 + heights[col]
+ * 
+ *         return bitboardO, bitboardX, counter, [heights[i] for i in range(7)]             # <<<<<<<<<<<<<<
+*/
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_5 = __Pyx_PyLong_From_PY_LONG_LONG(__pyx_v_bitboardO); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyLong_From_PY_LONG_LONG(__pyx_v_bitboardX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_9 = __Pyx_PyLong_From_int(__pyx_v_counter); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  { /* enter inner scope */
+    __pyx_t_10 = PyList_New(0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    for (__pyx_t_3 = 0; __pyx_t_3 < 7; __pyx_t_3+=1) {
+      __pyx_8genexpr3__pyx_v_i = __pyx_t_3;
+      __pyx_t_11 = __Pyx_PyLong_From_int((__pyx_v_heights[__pyx_8genexpr3__pyx_v_i])); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 144, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_10, (PyObject*)__pyx_t_11))) __PYX_ERR(0, 144, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    }
+  } /* exit inner scope */
+  __pyx_t_11 = PyTuple_New(4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __Pyx_GIVEREF(__pyx_t_5);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_5) != (0)) __PYX_ERR(0, 144, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_4);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_4) != (0)) __PYX_ERR(0, 144, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_9);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 2, __pyx_t_9) != (0)) __PYX_ERR(0, 144, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_10);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 3, __pyx_t_10) != (0)) __PYX_ERR(0, 144, __pyx_L1_error);
+  __pyx_t_5 = 0;
+  __pyx_t_4 = 0;
+  __pyx_t_9 = 0;
+  __pyx_t_10 = 0;
+  __pyx_r = ((PyObject*)__pyx_t_11);
+  __pyx_t_11 = 0;
+  goto __pyx_L0;
+
+  /* "connect4API.pyx":117
+ *         return matrix
+ * 
+ *     def matrix_to_bitboard(self, matrix: list) -> tuple:             # <<<<<<<<<<<<<<
+ *         cdef long long bitboardO = 0
+ *         cdef long long bitboardX = 0
+*/
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_AddTraceback("connect4API.Connect4.matrix_to_bitboard", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_cell);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -6586,15 +7022,15 @@ static int __pyx_pf_11connect4API_8Connect4_7counter_2__set__(struct __pyx_obj_1
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11connect4API_8Connect4_25__reduce_cython__(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_11connect4API_8Connect4_27__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_11connect4API_8Connect4_25__reduce_cython__ = {"__reduce_cython__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_25__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_11connect4API_8Connect4_25__reduce_cython__(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_11connect4API_8Connect4_27__reduce_cython__ = {"__reduce_cython__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_27__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_11connect4API_8Connect4_27__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6620,14 +7056,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   const Py_ssize_t __pyx_kwds_len = unlikely(__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
   if (unlikely(__pyx_kwds_len < 0)) return NULL;
   if (unlikely(__pyx_kwds_len > 0)) {__Pyx_RejectKeywords("__reduce_cython__", __pyx_kwds); return NULL;}
-  __pyx_r = __pyx_pf_11connect4API_8Connect4_24__reduce_cython__(((struct __pyx_obj_11connect4API_Connect4 *)__pyx_v_self));
+  __pyx_r = __pyx_pf_11connect4API_8Connect4_26__reduce_cython__(((struct __pyx_obj_11connect4API_Connect4 *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11connect4API_8Connect4_24__reduce_cython__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self) {
+static PyObject *__pyx_pf_11connect4API_8Connect4_26__reduce_cython__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -6860,15 +7296,15 @@ static PyObject *__pyx_pf_11connect4API_8Connect4_24__reduce_cython__(struct __p
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_11connect4API_8Connect4_27__setstate_cython__(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_11connect4API_8Connect4_29__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_11connect4API_8Connect4_27__setstate_cython__ = {"__setstate_cython__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_27__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_11connect4API_8Connect4_27__setstate_cython__(PyObject *__pyx_v_self, 
+static PyMethodDef __pyx_mdef_11connect4API_8Connect4_29__setstate_cython__ = {"__setstate_cython__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_29__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_11connect4API_8Connect4_29__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6934,7 +7370,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_11connect4API_8Connect4_26__setstate_cython__(((struct __pyx_obj_11connect4API_Connect4 *)__pyx_v_self), __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_11connect4API_8Connect4_28__setstate_cython__(((struct __pyx_obj_11connect4API_Connect4 *)__pyx_v_self), __pyx_v___pyx_state);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -6944,7 +7380,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_11connect4API_8Connect4_26__setstate_cython__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_11connect4API_8Connect4_28__setstate_cython__(struct __pyx_obj_11connect4API_Connect4 *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7479,8 +7915,9 @@ static PyMethodDef __pyx_methods_11connect4API_Connect4[] = {
   {"current_player", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_19current_player, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {"flatten_board", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_21flatten_board, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {"bitboard_to_matrix", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_23bitboard_to_matrix, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__reduce_cython__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_25__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__setstate_cython__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_27__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"matrix_to_bitboard", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_25matrix_to_bitboard, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_27__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__setstate_cython__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11connect4API_8Connect4_29__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 
@@ -8132,15 +8569,33 @@ __Pyx_RefNannySetupContext("PyInit_connect4API", 0);
   if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11connect4API_Connect4, __pyx_mstate_global->__pyx_n_u_bitboard_to_matrix, __pyx_t_3) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
+  /* "connect4API.pyx":117
+ *         return matrix
+ * 
+ *     def matrix_to_bitboard(self, matrix: list) -> tuple:             # <<<<<<<<<<<<<<
+ *         cdef long long bitboardO = 0
+ *         cdef long long bitboardX = 0
+*/
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_matrix, __pyx_mstate_global->__pyx_n_u_list) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_return, __pyx_mstate_global->__pyx_n_u_tuple) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_11connect4API_8Connect4_25matrix_to_bitboard, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_Connect4_matrix_to_bitboard, NULL, __pyx_mstate_global->__pyx_n_u_connect4API, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[11])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11connect4API_Connect4, __pyx_mstate_global->__pyx_n_u_matrix_to_bitboard, __pyx_t_2) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     cdef tuple state
  *     cdef object _dict
 */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_11connect4API_8Connect4_25__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_Connect4___reduce_cython, NULL, __pyx_mstate_global->__pyx_n_u_connect4API, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[11])); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11connect4API_Connect4, __pyx_mstate_global->__pyx_n_u_reduce_cython, __pyx_t_3) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_11connect4API_8Connect4_27__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_Connect4___reduce_cython, NULL, __pyx_mstate_global->__pyx_n_u_connect4API, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[12])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11connect4API_Connect4, __pyx_mstate_global->__pyx_n_u_reduce_cython, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "(tree fragment)":16
  *     else:
@@ -8148,30 +8603,30 @@ __Pyx_RefNannySetupContext("PyInit_connect4API", 0);
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Connect4__set_state(self, __pyx_state)
 */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_11connect4API_8Connect4_27__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_Connect4___setstate_cython, NULL, __pyx_mstate_global->__pyx_n_u_connect4API, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[12])); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11connect4API_Connect4, __pyx_mstate_global->__pyx_n_u_setstate_cython, __pyx_t_3) < 0) __PYX_ERR(1, 16, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_11connect4API_8Connect4_29__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_Connect4___setstate_cython, NULL, __pyx_mstate_global->__pyx_n_u_connect4API, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[13])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11connect4API_Connect4, __pyx_mstate_global->__pyx_n_u_setstate_cython, __pyx_t_2) < 0) __PYX_ERR(1, 16, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Connect4(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
 */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_11connect4API_1__pyx_unpickle_Connect4, 0, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Connect4, NULL, __pyx_mstate_global->__pyx_n_u_connect4API, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[13])); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Connect4, __pyx_t_3) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_11connect4API_1__pyx_unpickle_Connect4, 0, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Connect4, NULL, __pyx_mstate_global->__pyx_n_u_connect4API, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[14])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Connect4, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "connect4API.pyx":1
  * # connect4.pyx             # <<<<<<<<<<<<<<
  * cimport cython
  * from copy import deepcopy
 */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_test, __pyx_t_3) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -8247,6 +8702,7 @@ static const __Pyx_StringTabEntry __pyx_string_tab[] = {
   {__pyx_k_Connect4_checkTie, sizeof(__pyx_k_Connect4_checkTie), 0, 1, 1}, /* PyObject cname: __pyx_n_u_Connect4_checkTie */
   {__pyx_k_Connect4_current_player, sizeof(__pyx_k_Connect4_current_player), 0, 1, 1}, /* PyObject cname: __pyx_n_u_Connect4_current_player */
   {__pyx_k_Connect4_flatten_board, sizeof(__pyx_k_Connect4_flatten_board), 0, 1, 1}, /* PyObject cname: __pyx_n_u_Connect4_flatten_board */
+  {__pyx_k_Connect4_matrix_to_bitboard, sizeof(__pyx_k_Connect4_matrix_to_bitboard), 0, 1, 1}, /* PyObject cname: __pyx_n_u_Connect4_matrix_to_bitboard */
   {__pyx_k_Connect4_printState, sizeof(__pyx_k_Connect4_printState), 0, 1, 1}, /* PyObject cname: __pyx_n_u_Connect4_printState */
   {__pyx_k_Connect4_reset, sizeof(__pyx_k_Connect4_reset), 0, 1, 1}, /* PyObject cname: __pyx_n_u_Connect4_reset */
   {__pyx_k_Connect4_updateGameState, sizeof(__pyx_k_Connect4_updateGameState), 0, 1, 1}, /* PyObject cname: __pyx_n_u_Connect4_updateGameState */
@@ -8290,6 +8746,7 @@ static const __Pyx_StringTabEntry __pyx_string_tab[] = {
   {__pyx_k_connect4API, sizeof(__pyx_k_connect4API), 0, 1, 1}, /* PyObject cname: __pyx_n_u_connect4API */
   {__pyx_k_connect4API_pyx, sizeof(__pyx_k_connect4API_pyx), 0, 1, 0}, /* PyObject cname: __pyx_kp_u_connect4API_pyx */
   {__pyx_k_copy, sizeof(__pyx_k_copy), 0, 1, 1}, /* PyObject cname: __pyx_n_u_copy */
+  {__pyx_k_counter, sizeof(__pyx_k_counter), 0, 1, 1}, /* PyObject cname: __pyx_n_u_counter */
   {__pyx_k_current_player, sizeof(__pyx_k_current_player), 0, 1, 1}, /* PyObject cname: __pyx_n_u_current_player */
   {__pyx_k_d, sizeof(__pyx_k_d), 0, 1, 1}, /* PyObject cname: __pyx_n_u_d */
   {__pyx_k_deepcopy, sizeof(__pyx_k_deepcopy), 0, 1, 1}, /* PyObject cname: __pyx_n_u_deepcopy */
@@ -8303,15 +8760,18 @@ static const __Pyx_StringTabEntry __pyx_string_tab[] = {
   {__pyx_k_func, sizeof(__pyx_k_func), 0, 1, 1}, /* PyObject cname: __pyx_n_u_func */
   {__pyx_k_gc, sizeof(__pyx_k_gc), 0, 1, 0}, /* PyObject cname: __pyx_kp_u_gc */
   {__pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 1, 1}, /* PyObject cname: __pyx_n_u_getstate */
+  {__pyx_k_heights, sizeof(__pyx_k_heights), 0, 1, 1}, /* PyObject cname: __pyx_n_u_heights */
   {__pyx_k_i, sizeof(__pyx_k_i), 0, 1, 1}, /* PyObject cname: __pyx_n_u_i */
   {__pyx_k_is_coroutine, sizeof(__pyx_k_is_coroutine), 0, 1, 1}, /* PyObject cname: __pyx_n_u_is_coroutine */
   {__pyx_k_isenabled, sizeof(__pyx_k_isenabled), 0, 1, 0}, /* PyObject cname: __pyx_kp_u_isenabled */
   {__pyx_k_last_player, sizeof(__pyx_k_last_player), 0, 1, 1}, /* PyObject cname: __pyx_n_u_last_player */
+  {__pyx_k_list, sizeof(__pyx_k_list), 0, 1, 1}, /* PyObject cname: __pyx_n_u_list */
   {__pyx_k_list_list_str, sizeof(__pyx_k_list_list_str), 0, 1, 0}, /* PyObject cname: __pyx_kp_u_list_list_str */
   {__pyx_k_list_str, sizeof(__pyx_k_list_str), 0, 1, 0}, /* PyObject cname: __pyx_kp_u_list_str */
   {__pyx_k_main, sizeof(__pyx_k_main), 0, 1, 1}, /* PyObject cname: __pyx_n_u_main */
   {__pyx_k_mask, sizeof(__pyx_k_mask), 0, 1, 1}, /* PyObject cname: __pyx_n_u_mask */
   {__pyx_k_matrix, sizeof(__pyx_k_matrix), 0, 1, 1}, /* PyObject cname: __pyx_n_u_matrix */
+  {__pyx_k_matrix_to_bitboard, sizeof(__pyx_k_matrix_to_bitboard), 0, 1, 1}, /* PyObject cname: __pyx_n_u_matrix_to_bitboard */
   {__pyx_k_module, sizeof(__pyx_k_module), 0, 1, 1}, /* PyObject cname: __pyx_n_u_module */
   {__pyx_k_move, sizeof(__pyx_k_move), 0, 1, 1}, /* PyObject cname: __pyx_n_u_move */
   {__pyx_k_move1, sizeof(__pyx_k_move1), 0, 1, 1}, /* PyObject cname: __pyx_n_u_move1 */
@@ -8344,6 +8804,7 @@ static const __Pyx_StringTabEntry __pyx_string_tab[] = {
   {__pyx_k_state, sizeof(__pyx_k_state), 0, 1, 1}, /* PyObject cname: __pyx_n_u_state */
   {__pyx_k_stringsource, sizeof(__pyx_k_stringsource), 0, 1, 0}, /* PyObject cname: __pyx_kp_u_stringsource */
   {__pyx_k_test, sizeof(__pyx_k_test), 0, 1, 1}, /* PyObject cname: __pyx_n_u_test */
+  {__pyx_k_tuple, sizeof(__pyx_k_tuple), 0, 1, 1}, /* PyObject cname: __pyx_n_u_tuple */
   {__pyx_k_update, sizeof(__pyx_k_update), 0, 1, 1}, /* PyObject cname: __pyx_n_u_update */
   {__pyx_k_updateGameState, sizeof(__pyx_k_updateGameState), 0, 1, 1}, /* PyObject cname: __pyx_n_u_updateGameState */
   {__pyx_k_use_setstate, sizeof(__pyx_k_use_setstate), 0, 1, 1}, /* PyObject cname: __pyx_n_u_use_setstate */
@@ -8430,7 +8891,7 @@ static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
             unsigned int nlocals : 4;
             unsigned int flags : 10;
             unsigned int first_line : 7;
-            unsigned int line_table_length : 12;
+            unsigned int line_table_length : 13;
         } __Pyx_PyCode_New_function_description;
 /* NewCodeObj.proto */
 static PyObject* __Pyx_PyCode_New(
@@ -8502,19 +8963,24 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
     __pyx_mstate_global->__pyx_codeobj_tab[10] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_connect4API_pyx, __pyx_mstate->__pyx_n_u_bitboard_to_matrix, __pyx_k_A_4z_4z_1AT_U_q_D_U_1_G5_uAQ_D, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[10])) goto bad;
   }
   {
+    __Pyx_PyCode_New_function_description descr = {2, 0, 0, 11, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 117, 243};
+    PyObject* varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_matrix, __pyx_mstate->__pyx_n_u_bitboardO, __pyx_mstate->__pyx_n_u_bitboardX, __pyx_mstate->__pyx_n_u_col, __pyx_mstate->__pyx_n_u_row, __pyx_mstate->__pyx_n_u_counter, __pyx_mstate->__pyx_n_u_bit_index, __pyx_mstate->__pyx_n_u_heights, __pyx_mstate->__pyx_n_u_cell, __pyx_mstate->__pyx_n_u_i};
+    __pyx_mstate_global->__pyx_codeobj_tab[11] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_connect4API_pyx, __pyx_mstate->__pyx_n_u_matrix_to_bitboard, __pyx_k_1_1_Q_G5_1G1_G5_uAQ_vQb_aq_D_Ba, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[11])) goto bad;
+  }
+  {
     __Pyx_PyCode_New_function_description descr = {1, 0, 0, 4, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 1, 95};
     PyObject* varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_state, __pyx_mstate->__pyx_n_u_dict_2, __pyx_mstate->__pyx_n_u_use_setstate};
-    __pyx_mstate_global->__pyx_codeobj_tab[11] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_stringsource, __pyx_mstate->__pyx_n_u_reduce_cython, __pyx_k_T_T_4q_G1F_a_vWA_q_q_q_Qg_q_Qg, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[11])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[12] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_stringsource, __pyx_mstate->__pyx_n_u_reduce_cython, __pyx_k_T_T_4q_G1F_a_vWA_q_q_q_Qg_q_Qg, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[12])) goto bad;
   }
   {
     __Pyx_PyCode_New_function_description descr = {2, 0, 0, 2, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 16, 11};
     PyObject* varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_pyx_state};
-    __pyx_mstate_global->__pyx_codeobj_tab[12] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_stringsource, __pyx_mstate->__pyx_n_u_setstate_cython, __pyx_k_avQ, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[12])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[13] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_stringsource, __pyx_mstate->__pyx_n_u_setstate_cython, __pyx_k_avQ, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[13])) goto bad;
   }
   {
     __Pyx_PyCode_New_function_description descr = {3, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 1, 86};
     PyObject* varnames[] = {__pyx_mstate->__pyx_n_u_pyx_type, __pyx_mstate->__pyx_n_u_pyx_checksum, __pyx_mstate->__pyx_n_u_pyx_state, __pyx_mstate->__pyx_n_u_pyx_PickleError, __pyx_mstate->__pyx_n_u_pyx_result};
-    __pyx_mstate_global->__pyx_codeobj_tab[13] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_stringsource, __pyx_mstate->__pyx_n_u_pyx_unpickle_Connect4, __pyx_k_hk_A_1_G_G_I_I_J_881A_7_nA_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[13])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[14] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_stringsource, __pyx_mstate->__pyx_n_u_pyx_unpickle_Connect4, __pyx_k_hk_A_1_G_G_I_I_J_881A_7_nA_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[14])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;
