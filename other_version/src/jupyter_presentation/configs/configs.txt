@@ -1,0 +1,30 @@
+[User_vs_AI] or [DT_vs_AI]
+C0 = sqrt_2
+iterations0 = 50000
+resetTree0 = True
+drawValue0 = 0
+
+[AI_vs_AI]
+C1 = sqrt_2
+iterations1 = 10000
+resetTree1 = True
+drawValue1 = 0
+C2 = sqrt_2
+iterations2 = 10000
+resetTree2 = True
+drawValue2 = 0
+
+[mcts running time]
+showMCTSTime = False
+
+[show Q & N for Nodes]
+showNodesStats = True
+
+[output file for benchmarking]
+name = 30kVS50k.csv
+
+[file_to_train_DT]
+name = mcts_all.csv
+
+[activateSoftmax]
+activateSoftmax = True

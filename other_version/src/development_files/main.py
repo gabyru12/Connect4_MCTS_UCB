@@ -7,6 +7,8 @@ from multiprocessing import Process, Manager
 from tqdm import tqdm  
 import os 
 import pandas as pd
+from DTID3 import *
+from sklearn.model_selection import train_test_split
 
 def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawValue: float, showMCTSTime: bool, showNodesStats: bool):
     mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
@@ -98,7 +100,7 @@ def AI_first_vs_user(c_constant_mcts: float, iterations: int, reset: bool, drawV
     del connect4
     gc.collect()
 
-def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, showMCTSTime: bool, showNodesStats: bool):
+def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, showMCTSTime: bool, showNodesStats: bool, activateSoftmax):
     connect4 = Connect4()
     mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
     mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2)    
@@ -106,7 +108,7 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
         connect4.printState()
         print("AI_1st is thinking...")
         mcts1.run_mcts(iterations_1st, connect4)
-        bestMove = mcts1.choose_best_move(showNodesStats)
+        bestMove = mcts1.choose_best_move(showNodesStats, testSoftMax = activateSoftmax)
         connect4.updateGameState(bestMove)
         mcts2.updateAfterAdversaryTurn(connect4, bestMove)
 
@@ -122,7 +124,7 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
         connect4.printState()
         print("AI_2nd is thinking...")
         mcts2.run_mcts(iterations_2nd, connect4)
-        bestMove = mcts2.choose_best_move(showNodesStats)
+        bestMove = mcts2.choose_best_move(showNodesStats, testSoftMax = activateSoftmax)
         connect4.updateGameState(bestMove)
         mcts1.updateAfterAdversaryTurn(connect4, bestMove)
 
@@ -148,13 +150,66 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
     del connect4
     gc.collect()
 
-def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, showMCTSTime: bool, showNodesStats: bool, dataset):
+def DT_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, showMCTSTime: bool, showNodesStats: bool, training_data_file: str, tree_max_depth: int):
+    connect4 = Connect4()
+    mcts = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
+    df = pd.read_csv(f"other_version/datasets/{training_data_file}").drop(columns=["10kIter","20kIter","30kIter","40kIter"])
+    tree = ID3Tree(max_depth=tree_max_depth)
+    X = df.iloc[:, :-1]
+    y = df.iloc[:, -1]
+    tree.fit(df, X.columns)
+    col_names = [f"cell_{i}" for i in range(42)]
+    while True:
+        connect4.printState()
+        print("DT is thinking...")
+        matrix = connect4.bitboard_to_matrix()
+        flattened = connect4.flatten_board(matrix)
+        row = pd.DataFrame([flattened], columns=col_names)  # <-- fix here
+        bestMove = tree.classify(row)
+        try:
+            connect4.updateGameState(bestMove)
+        except TypeError:
+            print(bestMove)
+        mcts.updateAfterAdversaryTurn(connect4, bestMove)
+
+        if connect4.checkPlayerWon(player="O"):
+            connect4.printState()
+            print("DT won")
+            break
+        elif connect4.checkTie():
+            connect4.printState()
+            print("Tie")
+            break
+
+        connect4.printState()
+        mcts.run_mcts(iterations_1st, connect4)
+        bestMove = mcts.choose_best_move(showNodesStats)
+        connect4.updateGameState(bestMove)
+
+        if connect4.checkPlayerWon(player="X"):
+            connect4.printState()
+            print("MCTS won")
+            break
+        elif connect4.checkTie():
+            connect4.printState()
+            print("Tie")
+            break
+
+    if showMCTSTime:
+        print(f"MCTS: {mcts.runTimes}")
+    mcts.currentState.children = {}   
+    mcts.actualState.children = {}   
+    del mcts
+    del connect4
+    gc.collect()
+
+def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, showMCTSTime: bool, showNodesStats: bool, dataset, activateSoftmax):
     connect4 = Connect4()
     mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
     mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2)
     while True:
         mcts1.run_mcts(iterations_1st, connect4, dataset)
-        bestMove = mcts1.choose_best_move(showNodesStats)
+        bestMove = mcts1.choose_best_move(showNodesStats, testSoftMax = activateSoftmax)
         connect4.updateGameState(bestMove)
         mcts2.updateAfterAdversaryTurn(connect4, bestMove)
 
@@ -164,7 +219,7 @@ def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset
             break
 
         mcts2.run_mcts(iterations_2nd, connect4, dataset)
-        bestMove = mcts2.choose_best_move(showNodesStats)
+        bestMove = mcts2.choose_best_move(showNodesStats, testSoftMax = activateSoftmax)
         connect4.updateGameState(bestMove)
         mcts1.updateAfterAdversaryTurn(connect4, bestMove)
 
@@ -212,6 +267,8 @@ def read_input(config_filePath: str):
         showMCTSTime = lines[17].strip().split(" = ")[1]
         showNodesStats = lines[20].strip().split(" = ")[1]
         benchmarkingFile = lines[23].strip().split(" = ")[1]
+        DTtrainfile = lines[26].strip().split(" = ")[1]
+        activateSoftMax = lines[29].strip().split(" = ")[1]
 
     for i in range(len(Cs)):
         if Cs[i][0:5] == "sqrt_":
@@ -235,10 +292,15 @@ def read_input(config_filePath: str):
     else:
         showNodesStats = False
 
+    if activateSoftMax.lower() == "true":
+        activateSoftMax = True
+    else:
+        activateSoftMax = False
+
     return {"C0": Cs[0], "iterations0": iterations0, "resetTree0": resets[0], "drawValue0": drawValue0,
             "C1": Cs[1], "iterations1": iterations1, "resetTree1": resets[1], "drawValue1": drawValue1, 
             "C2": Cs[2], "iterations2": iterations2, "resetTree2": resets[2], "drawValue2": drawValue2,
-            "showMCTSTime": showMCTSTime, "showNodesStats": showNodesStats, "benchmarkingFile": benchmarkingFile}
+            "showMCTSTime": showMCTSTime, "showNodesStats": showNodesStats, "benchmarkingFile": benchmarkingFile, "DTtrainfile": DTtrainfile, "activateSoftMax": activateSoftMax}
 
 def save_to_csv(dataset: list[list[str]], filePath: str):
     col_names = [f"cell_{i}" for i in range(42)] + ["10kIter", "20kIter", "30kIter", "40kIter", "50kIter",]
@@ -259,6 +321,8 @@ if __name__ == "__main__":
     config = read_input(r"other_version\configs\configs.txt")
     showMCTSTime = config["showMCTSTime"]
     showNodesStats = config["showNodesStats"]
+    trainingDataFile = config["DTtrainfile"]
+    activateSoftMax = config["activateSoftMax"]
     while typeOfGame.lower() != "exit":
         print("""
 <---------------------------------------->
@@ -267,7 +331,8 @@ if __name__ == "__main__":
             1. User vs AI
             2. AI vs User
              3. AI vs AI
-         4. Benchmarking AIs
+             4. DT vs AI
+         5. Benchmarking AIs
 
               -- Exit --
 <---------------------------------------->
@@ -285,24 +350,28 @@ if __name__ == "__main__":
             C_constant1, nIterations1, reset1, drawValue1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"]
             C_constant2, nIterations2, reset2, drawValue2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"]
 
-            AI_vs_AI(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2, showMCTSTime, showNodesStats)
-
-
+            AI_vs_AI(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2, showMCTSTime, showNodesStats, activateSoftMax)
+        
         elif typeOfGame == "4":
+            C_constant0, nIterations0, reset0, drawValue0 = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
+
+            DT_vs_AI(C_constant0, nIterations0, reset0, drawValue0, showMCTSTime, showNodesStats, trainingDataFile, 20)
+
+        elif typeOfGame == "5":
             # Concurrent AI vs AI
             C_constant1, nIterations1, reset1, drawValue1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"]
             C_constant2, nIterations2, reset2, drawValue2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"]
             
             manager = Manager()
             dataset = manager.list()
-            total_iterations = 200
+            total_iterations = 20
 
             with tqdm(total=total_iterations, desc="Benchmarking Progress", unit="iteration") as pbar:
                 for i in range(total_iterations):
                     # Create and start 5 processes
                     processes = []
                     for _ in range(5):
-                        p = Process(target=Benchmarking_AI_vs_AI, args=(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2, showMCTSTime, showNodesStats, dataset))
+                        p = Process(target=Benchmarking_AI_vs_AI, args=(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2, showMCTSTime, showNodesStats, dataset, activateSoftMax))
                         processes.append(p)
                         p.start()
                     # Wait for all processes to complete

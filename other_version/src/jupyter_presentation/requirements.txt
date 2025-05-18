@@ -1,0 +1,6 @@
+Cython
+pandas
+tqdm
+notebook
+jupyterlab
+setuptools
