@@ -18,7 +18,6 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 - **src/connect4API.pyx**: Cython implementation of the Connect4 board and game logic.
 - **src/mcts_ucb.py**: Python implementation of the MCTS algorithm with UCB.
 - **src/main.py**: Entry point for running the game, AI matches, and benchmarking from the command line.
-- **src/[INDIVIDUAL]generateConnect4Data.ipynb**: Notebook for generating datasets using MCTS.
 - **src/[MULTIPROCESSING]generateConnect4Data.py**: Script for fast, multiprocessed dataset generation.
 - **configs/configs.txt**: Configuration file for AI parameters and game settings.
 - **datasets/**: Folder for generated datasets.
