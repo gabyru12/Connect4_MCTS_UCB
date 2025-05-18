@@ -21,4 +21,4 @@ showMCTSTime = False
 showNodesStats = False
 
 [output file for benchmarking]
-name = MCTSGeneratedDatasetSoftmax.csv
+name = MCTSGeneratedDatasetWithoutSoftmax.csv
