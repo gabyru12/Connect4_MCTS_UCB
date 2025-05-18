@@ -10,15 +10,16 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 - **Configurable AI**: Adjust parameters like exploration constant, number of iterations, and tie handling to customize AI behavior.
 - **Concurrent AI Matches**: Run multiple AI vs. AI matches concurrently using multiprocessing.
 - **Dataset Generation**: Generate datasets for Connect4 game states using MCTS for training or analysis.
+- **Decision Tree vs AI**: Given a generated dataset, this Descision Tree will learn from it and play against the MCTS AI, 1000x faster
 - **Benchmarking**: Benchmark different AI configurations and save results for analysis.
 
 ## Project Structure
 
 - **src/jupyter_presentation/jupyter_presentation.ipynb**: Jupyter notebook with Cython-accelerated Connect4 logic, MCTS implementation, and interactive experiments.
-- **src/connect4API.pyx**: Cython implementation of the Connect4 board and game logic.
-- **src/mcts_ucb.py**: Python implementation of the MCTS algorithm with UCB.
-- **src/main.py**: Entry point for running the game, AI matches, and benchmarking from the command line.
-- **src/[MULTIPROCESSING]generateConnect4Data.py**: Script for fast, multiprocessed dataset generation.
+- **src/development_files/connect4API.pyx**: Cython implementation of the Connect4 board and game logic.
+- **src/development_files/mcts_ucb.py**: Python implementation of the MCTS algorithm with UCB.
+- **src/development_files/main.py**: Entry point for running the game, AI matches, and benchmarking from the command line.
+- **src/development_files/[MULTIPROCESSING]generateConnect4Data.py**: Generate random boards for early, mid and late stages, and apply mcts to get the best move.
 - **configs/configs.txt**: Configuration file for AI parameters and game settings.
 - **datasets/**: Folder for generated datasets.
 - **ideas/**: Contains notes and experiments for future improvements.
@@ -42,9 +43,8 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 - **Benchmarking**: Run multiple concurrent AI vs AI matches and save results for analysis.
 
 ### Dataset Generation
-- Datasets can be generated for early, mid, and late game states using MCTS.
-- Use the Jupyter notebook or the multiprocessing script to generate large datasets for training or research.
-- Datasets are saved as CSV or Excel files in the `datasets/` folder.
+- Datasets can be generated using MCTS without or with softmax + datasets can also be generate creating random boards and applying MCTS to them.
+- Datasets are saved as CSV files in the `datasets/` folder.
 
 ### Configuration
 - All AI parameters (exploration constant, number of iterations, tie value, etc.) are set in [other_version/configs/configs.txt](other_version/configs/configs.txt).
@@ -69,7 +69,7 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 
 4. Build the Cython extension:
     ```bash
-    cd other_version/src
+    cd other_version/development_files/src
     python setup.py build_ext --inplace
     ```
 
@@ -78,19 +78,23 @@ This project is an implementation of the classic Connect4 game, enhanced with an
 ### Play the Game
 Run the main script and select a mode:
 ```bash
-python other_version/src/main.py
+python other_version/src/development_files/main.py
 ```
-You will be prompted to choose between User vs AI, AI vs User, AI vs AI, or Benchmarking.
+You will be prompted to choose between User vs AI, AI vs User, AI vs AI, DT vs AI or Benchmarking.
 
 ### Generate Datasets
-- Open [other_version/src/[INDIVIDUAL]generateConnect4Data.ipynb](other_version/src/[INDIVIDUAL]generateConnect4Data.ipynb) and execute the cells to generate datasets for early, mid, or late game states.
-- Or run the multiprocessing script for faster generation:
+- To create a dataset with randomly generated boards:
     ```bash
-    python other_version/src/[MULTIPROCESSING]generateConnect4Data.py
+    python other_version/src/development_files/[MULTIPROCESSING]generateConnect4Data.py
+    ```
+- To create a dataset generated while two mcts AI play against each other
+    To activate softmax make sure that in the configs file activateSoftmax = True
+    ```bash
+    python other_version/src/development_files/main.py
     ```
 
 ### Benchmarking
-- Select option 4 in the main script to run concurrent AI vs AI matches and save results to a CSV file.
+- Select option 5 in the main script to run concurrent AI vs AI matches and save results to a CSV file.
 
 ## Customization
 
@@ -108,9 +112,8 @@ You will be prompted to choose between User vs AI, AI vs User, AI vs AI, or Benc
 ## References
 
 - [src/jupyter_presentation/jupyter_presentation.ipynb](other_version/src/jupyter_presentation/jupyter_presentation.ipynb)
-- [src/connect4API.pyx](other_version/src/connect4API.pyx)
-- [src/mcts_ucb.py](other_version/src/mcts_ucb.py)
-- [src/main.py](other_version/src/main.py)
-- [src/[INDIVIDUAL]generateConnect4Data.ipynb](other_version/src/[INDIVIDUAL]generateConnect4Data.ipynb)
-- [src/[MULTIPROCESSING]generateConnect4Data.py](other_version/src/[MULTIPROCESSING]generateConnect4Data.py)
+- [src/development_files/connect4API.pyx](other_version/src/development_files/connect4API.pyx)
+- [src/development_files/mcts_ucb.py](other_version/src/development_files/mcts_ucb.py)
+- [src/development_files/main.py](other_version/src/development_files/main.py)
+- [src/development_files/[MULTIPROCESSING]generateConnect4Data.py](other_version/src/development_files/[MULTIPROCESSING]generateConnect4Data.py)
 - [configs/configs.txt](other_version/configs/configs.txt)
