@@ -6,11 +6,11 @@ drawValue0 = 0
 
 [AI_vs_AI]
 C1 = sqrt_2
-iterations1 = 10000
+iterations1 = 50000
 resetTree1 = True
 drawValue1 = 0
 C2 = sqrt_2
-iterations2 = 10000
+iterations2 = 50000
 resetTree2 = True
 drawValue2 = 0
 
@@ -18,7 +18,7 @@ drawValue2 = 0
 showMCTSTime = False
 
 [show Q & N for Nodes]
-showNodesStats = True
+showNodesStats = False
 
 [output file for benchmarking]
 name = 30kVS50k.csv
@@ -27,4 +27,4 @@ name = 30kVS50k.csv
 name = mcts_all.csv
 
 [activateSoftmax]
-activateSoftmax = True
+activateSoftmax = False

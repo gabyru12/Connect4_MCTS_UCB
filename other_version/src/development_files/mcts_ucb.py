@@ -31,6 +31,7 @@ class MctsAlgo:
         self.resetTree = reset
         self.drawValue = drawValue
         self.runTimes = []
+        self.selection_time = 0
 
     def reset(self, connect4Actual: Connect4):
         self.connect4.reset(connect4Actual)
@@ -46,6 +47,7 @@ class MctsAlgo:
         self.actualState = self.actualState.children[moveBefore]
 
     def selection_phase(self) -> None:
+        teme = time.time()
         self.currentState = self.actualState
 
         while self.currentState.children:
@@ -55,6 +57,7 @@ class MctsAlgo:
                 randomChoice = random.choice(unexplored)
                 self.updateMCTSState(randomChoice)
                 self.connect4.updateGameState(randomChoice)
+                self.selection_time += time.time() - teme
                 return
 
             # Compute UCB values for all children
@@ -65,6 +68,7 @@ class MctsAlgo:
             randomChoice = random.choice(best_moves)
             self.updateMCTSState(randomChoice)
             self.connect4.updateGameState(randomChoice)
+        self.selection_time += time.time() - teme
 
     def expansion_phase(self, checkIfGameFinished: bool) -> bool:
         if checkIfGameFinished:

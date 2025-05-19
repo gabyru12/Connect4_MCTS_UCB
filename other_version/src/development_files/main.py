@@ -17,14 +17,18 @@ def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawV
         connect4.printState()
         while True: 
             try:
-                move = int(input("Choose your move: "))
-                connect4.updateGameState(move)
+                move = input("Choose your move: ")
+                if move.lower() == "exit":
+                    break
+                connect4.updateGameState(int(move))
                 break
             except ValueError as e:
                 print(f"{e}")
                 continue 
 
-        mcts.updateAfterAdversaryTurn(connect4, move)
+        if move.lower() == "exit":
+            break
+        mcts.updateAfterAdversaryTurn(connect4, int(move))
         
         if connect4.checkPlayerWon(player="O"):
             connect4.printState()
@@ -76,14 +80,18 @@ def AI_first_vs_user(c_constant_mcts: float, iterations: int, reset: bool, drawV
         connect4.printState()
         while True: 
             try:
-                move = int(input("Choose your move: "))
-                connect4.updateGameState(move)
+                move = input("Choose your move: ")
+                if move.lower() == "exit":
+                    break
+                connect4.updateGameState(int(move))
                 break
             except ValueError as e:
                 print(f"{e}")
                 continue 
-        
-        mcts.updateAfterAdversaryTurn(connect4, move)
+
+        if move.lower() == "exit":
+            break
+        mcts.updateAfterAdversaryTurn(connect4, int(move))
 
         if connect4.checkPlayerWon(player="X"):
             connect4.printState()
@@ -150,15 +158,9 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
     del connect4
     gc.collect()
 
-def DT_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, showMCTSTime: bool, showNodesStats: bool, training_data_file: str, tree_max_depth: int):
+def DT_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, showMCTSTime: bool, showNodesStats: bool, tree, col_names):
     connect4 = Connect4()
     mcts = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
-    df = pd.read_csv(f"other_version/datasets/{training_data_file}").drop(columns=["10kIter","20kIter","30kIter","40kIter"])
-    tree = ID3Tree(max_depth=tree_max_depth)
-    X = df.iloc[:, :-1]
-    y = df.iloc[:, -1]
-    tree.fit(df, X.columns)
-    col_names = [f"cell_{i}" for i in range(42)]
     while True:
         connect4.printState()
         print("DT is thinking...")
@@ -166,10 +168,13 @@ def DT_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
         flattened = connect4.flatten_board(matrix)
         row = pd.DataFrame([flattened], columns=col_names)  # <-- fix here
         bestMove = tree.classify(row)
+
         try:
             connect4.updateGameState(bestMove)
         except TypeError:
             print(bestMove)
+            return
+
         mcts.updateAfterAdversaryTurn(connect4, bestMove)
 
         if connect4.checkPlayerWon(player="O"):
@@ -203,7 +208,7 @@ def DT_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
     del connect4
     gc.collect()
 
-def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, showMCTSTime: bool, showNodesStats: bool, dataset, activateSoftmax):
+def Benchmarking_AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, c_constant_mcts_2nd: float, iterations_2nd: int, reset2: bool, drawValue2: float, showMCTSTime: bool, showNodesStats: bool, dataset, activateSoftmax: bool):
     connect4 = Connect4()
     mcts1 = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
     mcts2 = MctsAlgo(C=c_constant_mcts_2nd, reset=reset2, drawValue=drawValue2)
@@ -305,7 +310,7 @@ def read_input(config_filePath: str):
 def save_to_csv(dataset: list[list[str]], filePath: str):
     col_names = [f"cell_{i}" for i in range(42)] + ["10kIter", "20kIter", "30kIter", "40kIter", "50kIter",]
     df_new = pd.DataFrame(dataset, columns=col_names)
-    csv_path = f'other_version/datasets/{filePath}'
+    csv_path = f'other_version/datasets/DT_vs_AI_(Gabriel)/{filePath}'
 
     if os.path.exists(csv_path):
         df_existing = pd.read_csv(csv_path)
@@ -316,6 +321,15 @@ def save_to_csv(dataset: list[list[str]], filePath: str):
         df_new.to_csv(csv_path, index=False)
         print(f"\nDataset saved as new connect4_{filePath}.csv")
 
+def train_DT(training_data_file: int, tree_max_depth: int):
+    df = pd.read_csv(f"other_version/datasets/DT_vs_AI_(Gabriel)/{training_data_file}").drop(columns=["10kIter","20kIter","30kIter","40kIter"])
+    tree = ID3Tree(max_depth=tree_max_depth)
+    X = df.iloc[:, :-1]
+    y = df.iloc[:, -1]
+    tree.fit(df, X.columns)
+    col_names = [f"cell_{i}" for i in range(42)]
+    return tree, col_names
+
 if __name__ == "__main__":
     typeOfGame = ""
     config = read_input(r"other_version\configs\configs.txt")
@@ -323,6 +337,8 @@ if __name__ == "__main__":
     showNodesStats = config["showNodesStats"]
     trainingDataFile = config["DTtrainfile"]
     activateSoftMax = config["activateSoftMax"]
+    DT_ID3, col_names = train_DT(trainingDataFile, 20)
+
     while typeOfGame.lower() != "exit":
         print("""
 <---------------------------------------->
@@ -355,7 +371,7 @@ if __name__ == "__main__":
         elif typeOfGame == "4":
             C_constant0, nIterations0, reset0, drawValue0 = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
 
-            DT_vs_AI(C_constant0, nIterations0, reset0, drawValue0, showMCTSTime, showNodesStats, trainingDataFile, 20)
+            DT_vs_AI(C_constant0, nIterations0, reset0, drawValue0, showMCTSTime, showNodesStats, DT_ID3, col_names)
 
         elif typeOfGame == "5":
             # Concurrent AI vs AI
