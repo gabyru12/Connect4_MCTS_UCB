@@ -18,13 +18,13 @@ drawValue2 = 0
 showMCTSTime = False
 
 [show Q & N for Nodes]
-showNodesStats = True
+showNodesStats = False
 
-[output file for benchmarking]
-name = 30kVS50k.csv
+[output file for datasets]
+name = DT_vs_AI(mcts).csv
 
 [file_to_train_DT]
 name = mcts_all.csv
 
 [activateSoftmax]
-activateSoftmax = True
+activateSoftmax = False

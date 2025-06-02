@@ -9,6 +9,108 @@ import os
 import pandas as pd
 from DTID3 import *
 from sklearn.model_selection import train_test_split
+import pickle
+
+def user_vs_user():
+    connect4 = Connect4()
+    while True:
+        connect4.printState()
+        while True: 
+            try:
+                move = input("Choose your move: ")
+                if move.lower() == "exit":
+                    break
+                connect4.updateGameState(int(move))
+                break
+            except ValueError as e:
+                print(f"{e}")
+                continue 
+
+        if move.lower() == "exit":
+            break
+        
+        if connect4.checkPlayerWon(player="O"):
+            connect4.printState()
+            print("O win")
+            break
+        elif connect4.checkTie():
+            print("Tie")
+            break
+
+        connect4.printState()
+        while True: 
+            try:
+                move = input("Choose your move: ")
+                if move.lower() == "exit":
+                    break
+                connect4.updateGameState(int(move))
+                break
+            except ValueError as e:
+                print(f"{e}")
+                continue 
+
+        if move.lower() == "exit":
+            break
+        
+        if connect4.checkPlayerWon(player="X"):
+            connect4.printState()
+            print("X win")
+            break
+        elif connect4.checkTie():
+            print("Tie")
+            break
+
+    del connect4
+
+def user_vs_DT(tree, col_names):
+    connect4 = Connect4()
+    while True:
+        connect4.printState()
+        while True: 
+            try:
+                move = input("Choose your move: ")
+                if move.lower() == "exit":
+                    break
+                connect4.updateGameState(int(move))
+                break
+            except ValueError as e:
+                print(f"{e}")
+                continue 
+
+        if move.lower() == "exit":
+            break
+        
+        if connect4.checkPlayerWon(player="O"):
+            connect4.printState()
+            print("O win")
+            break
+        elif connect4.checkTie():
+            print("Tie")
+            break
+
+        connect4.printState()
+        print("DT is thinking...")
+        matrix = connect4.bitboard_to_matrix()
+        flattened = connect4.flatten_board(matrix)
+        row = pd.DataFrame([flattened], columns=col_names)  # <-- fix here
+        bestMove = tree.classify(row)
+
+        try:
+            connect4.updateGameState(bestMove)
+        except (TypeError, ValueError):
+            bestMove = random.choice(connect4.checkAvailableMoves())
+            connect4.updateGameState(bestMove)
+
+        if connect4.checkPlayerWon(player="X"):
+            connect4.printState()
+            print("DT won")
+            break
+        elif connect4.checkTie():
+            connect4.printState()
+            print("Tie")
+            break
+
+    del connect4
 
 def user_first_vs_AI(c_constant_mcts: float, iterations: int, reset: bool, drawValue: float, showMCTSTime: bool, showNodesStats: bool):
     mcts = MctsAlgo(C=c_constant_mcts, reset=reset, drawValue=drawValue)
@@ -158,12 +260,103 @@ def AI_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
     del connect4
     gc.collect()
 
-def DT_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, showMCTSTime: bool, showNodesStats: bool, tree, col_names):
+def DT_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, showMCTSTime: bool, showNodesStats: bool, tree, col_names, dataset = None):
     connect4 = Connect4()
     mcts = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
     while True:
-        connect4.printState()
-        print("DT is thinking...")
+        if dataset == None:
+            connect4.printState()
+            print("DT is thinking...")
+        matrix = connect4.bitboard_to_matrix()
+        flattened = connect4.flatten_board(matrix)
+        row = pd.DataFrame([flattened], columns=col_names)
+        bestMove = tree.classify(row)
+
+        try:
+            connect4.updateGameState(bestMove)
+        except (TypeError, ValueError):
+            bestMove = random.choice(connect4.checkAvailableMoves())
+            connect4.updateGameState(bestMove)
+
+        mcts.updateAfterAdversaryTurn(connect4, bestMove)
+
+        if connect4.checkPlayerWon(player="O"):
+            if dataset is not None:
+                dataset.append("DT")
+            else:
+                connect4.printState()
+                print("DT won")
+            break
+        elif connect4.checkTie():
+            if dataset is not None:
+                dataset.append("-")
+            else:
+                connect4.printState()
+                print("Tie")
+            break
+
+        if dataset == None:
+            connect4.printState()
+            print("MCTS is thinking...")
+
+        mcts.run_mcts(iterations_1st, connect4)
+        bestMove = mcts.choose_best_move(showNodesStats)
+        connect4.updateGameState(bestMove)
+
+        if connect4.checkPlayerWon(player="X"):
+            if dataset is not None:
+                dataset.append("MCTS")
+            else:
+                connect4.printState()
+                print("MCTS won")
+            break
+        elif connect4.checkTie():
+            if dataset is not None:
+                dataset.append("-")
+            else:
+                connect4.printState()
+                print("Tie")
+            break
+
+    if showMCTSTime:
+        print(f"MCTS: {mcts.runTimes}")
+    mcts.currentState.children = {}   
+    mcts.actualState.children = {}   
+    del mcts
+    del connect4
+    gc.collect()
+
+def AI_vs_DT(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, drawValue1: float, showMCTSTime: bool, showNodesStats: bool, tree, col_names, dataset = None):
+    connect4 = Connect4()
+    mcts = MctsAlgo(C=c_constant_mcts_1st, reset=reset1, drawValue=drawValue1)
+    while True:
+        if dataset is None:
+            connect4.printState()
+            print("DT is thinking...")
+        mcts.run_mcts(iterations_1st, connect4)
+        bestMove = mcts.choose_best_move(showNodesStats)
+        connect4.updateGameState(bestMove)
+
+        if connect4.checkPlayerWon(player="O"):
+            if dataset:
+                dataset.append("MCTS")
+                break
+            elif dataset is None:
+                connect4.printState()
+                print("MCTS won")
+                break
+        elif connect4.checkTie():
+            if dataset:
+                dataset.append("-")
+                break
+            elif dataset is None:
+                connect4.printState()
+                print("Tie")
+                break
+
+        if dataset is None:
+            connect4.printState()
+            print("DT is thinking...")
         matrix = connect4.bitboard_to_matrix()
         flattened = connect4.flatten_board(matrix)
         row = pd.DataFrame([flattened], columns=col_names)  # <-- fix here
@@ -171,34 +364,28 @@ def DT_vs_AI(c_constant_mcts_1st: float, iterations_1st: int, reset1: bool, draw
 
         try:
             connect4.updateGameState(bestMove)
-        except TypeError:
-            print(bestMove)
-            return
+        except (TypeError, ValueError):
+            bestMove = random.choice(connect4.checkAvailableMoves())
+            connect4.updateGameState(bestMove)
 
         mcts.updateAfterAdversaryTurn(connect4, bestMove)
 
-        if connect4.checkPlayerWon(player="O"):
-            connect4.printState()
-            print("DT won")
-            break
-        elif connect4.checkTie():
-            connect4.printState()
-            print("Tie")
-            break
-
-        connect4.printState()
-        mcts.run_mcts(iterations_1st, connect4)
-        bestMove = mcts.choose_best_move(showNodesStats)
-        connect4.updateGameState(bestMove)
-
         if connect4.checkPlayerWon(player="X"):
-            connect4.printState()
-            print("MCTS won")
-            break
+            if dataset:
+                dataset.append("DT")
+                break
+            elif dataset is None:
+                connect4.printState()
+                print("DT won")
+                break
         elif connect4.checkTie():
-            connect4.printState()
-            print("Tie")
-            break
+            if dataset:
+                dataset.append("-")
+                break
+            elif dataset is None:
+                connect4.printState()
+                print("Tie")
+                break
 
     if showMCTSTime:
         print(f"MCTS: {mcts.runTimes}")
@@ -307,8 +494,11 @@ def read_input(config_filePath: str):
             "C2": Cs[2], "iterations2": iterations2, "resetTree2": resets[2], "drawValue2": drawValue2,
             "showMCTSTime": showMCTSTime, "showNodesStats": showNodesStats, "benchmarkingFile": benchmarkingFile, "DTtrainfile": DTtrainfile, "activateSoftMax": activateSoftMax}
 
-def save_to_csv(dataset: list[list[str]], filePath: str):
-    col_names = [f"cell_{i}" for i in range(42)] + ["10kIter", "20kIter", "30kIter", "40kIter", "50kIter",]
+def save_to_csv(dataset: list[list[str]], filePath: str, VS: bool):
+    if not VS:
+        col_names = [f"cell_{i}" for i in range(42)] + ["10kIter", "20kIter", "30kIter", "40kIter", "50kIter",]
+    else:
+        col_names = ["result"]
     df_new = pd.DataFrame(dataset, columns=col_names)
     csv_path = f'other_version/datasets/DT_vs_AI_(Gabriel)/{filePath}'
 
@@ -321,12 +511,23 @@ def save_to_csv(dataset: list[list[str]], filePath: str):
         df_new.to_csv(csv_path, index=False)
         print(f"\nDataset saved as new connect4_{filePath}.csv")
 
-def train_DT(training_data_file: int, tree_max_depth: int):
-    df = pd.read_csv(f"other_version/datasets/DT_vs_AI_(Gabriel)/{training_data_file}").drop(columns=["10kIter","20kIter","30kIter","40kIter"])
-    tree = ID3Tree(max_depth=tree_max_depth)
-    X = df.iloc[:, :-1]
-    y = df.iloc[:, -1]
-    tree.fit(df, X.columns)
+def train_DT(training_data_file: int, tree_max_depth: int, use_cache=True):
+    cache_file = f"other_version/src/development_files/id3_tree_cache_depth{tree_max_depth}_file{training_data_file}.pkl"
+
+    if use_cache and os.path.exists(cache_file):
+        with open(cache_file, "rb") as f:
+            tree = pickle.load(f)
+        print("Loaded cached decision tree.")
+    else:
+        df = pd.read_csv(f"other_version/datasets/DT_vs_AI_(Gabriel)/{training_data_file}")
+        if len(df.columns) > 43:
+            df = df.drop(columns=["10kIter", "20kIter", "30kIter", "40kIter"])
+        tree = ID3Tree(max_depth=tree_max_depth)
+        tree.fit(df, df.columns[:-1])
+        with open(cache_file, "wb") as f:
+            pickle.dump(tree, f)
+        print("Trained and cached new decision tree.")
+
     col_names = [f"cell_{i}" for i in range(42)]
     return tree, col_names
 
@@ -343,44 +544,52 @@ if __name__ == "__main__":
         print("""
 <---------------------------------------->
         What do you want to play:
-
-            1. User vs AI
-            2. AI vs User
-             3. AI vs AI
-             4. DT vs AI
-         5. Benchmarking AIs
+            1. User vs User
+            2. User vs AI
+            3. User vs DT  
+            4. AI vs User
+             5. AI vs AI
+             6. DT vs AI
+    7. Generate Datasets (500 games)
+        8. Simulate 100 games
 
               -- Exit --
 <---------------------------------------->
 """)
         typeOfGame = input("Choose: ")
         if typeOfGame == "1":
-            C_constant, nIterations, reset, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
-            user_first_vs_AI(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats)
+            user_vs_user()
 
         elif typeOfGame == "2":
             C_constant, nIterations, reset, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
-            AI_first_vs_user(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats)
+            user_first_vs_AI(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats)
 
         elif typeOfGame == "3":
+            user_vs_DT(DT_ID3, col_names)
+
+        elif typeOfGame == "4":
+            C_constant, nIterations, reset, drawValue = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
+            AI_first_vs_user(C_constant, nIterations, reset, drawValue, showMCTSTime, showNodesStats)
+
+        elif typeOfGame == "5":
             C_constant1, nIterations1, reset1, drawValue1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"]
             C_constant2, nIterations2, reset2, drawValue2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"]
 
             AI_vs_AI(C_constant1, nIterations1, reset1, drawValue1, C_constant2, nIterations2, reset2, drawValue2, showMCTSTime, showNodesStats, activateSoftMax)
         
-        elif typeOfGame == "4":
+        elif typeOfGame == "6":
             C_constant0, nIterations0, reset0, drawValue0 = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
 
             DT_vs_AI(C_constant0, nIterations0, reset0, drawValue0, showMCTSTime, showNodesStats, DT_ID3, col_names)
 
-        elif typeOfGame == "5":
+        elif typeOfGame == "7":
             # Concurrent AI vs AI
             C_constant1, nIterations1, reset1, drawValue1 = config["C1"], config["iterations1"], config["resetTree1"], config["drawValue1"]
             C_constant2, nIterations2, reset2, drawValue2 = config["C2"], config["iterations2"], config["resetTree2"], config["drawValue2"]
             
             manager = Manager()
             dataset = manager.list()
-            total_iterations = 20
+            total_iterations = 100
 
             with tqdm(total=total_iterations, desc="Benchmarking Progress", unit="iteration") as pbar:
                 for i in range(total_iterations):
@@ -399,6 +608,37 @@ if __name__ == "__main__":
             dataset = list(dataset)
             # Write results to csv file
             save_to_csv(dataset=dataset, filePath = config["benchmarkingFile"])
+
+        elif typeOfGame == "8":
+            # Concurrent DT vs MCTS
+            C_constant0, nIterations0, reset0, drawValue0 = config["C0"], config["iterations0"], config["resetTree0"], config["drawValue0"]
+            
+            manager = Manager()
+            dataset = manager.list()
+            total_iterations = 20
+
+            with tqdm(total=total_iterations, desc="Benchmarking Progress", unit="iteration") as pbar:
+                for i in range(total_iterations):
+                    # Create and start 5 processes
+                    processes = []
+                    for _ in range(5):
+                        if i%2 == 0:
+                            p = Process(target=DT_vs_AI, args=(C_constant0, nIterations0, reset0, drawValue0, showMCTSTime, showNodesStats, DT_ID3, col_names, dataset))
+                            processes.append(p)
+                            p.start()
+                        else:
+                            p = Process(target=AI_vs_DT, args=(C_constant0, nIterations0, reset0, drawValue0, showMCTSTime, showNodesStats, DT_ID3, col_names, dataset))
+                            processes.append(p)
+                            p.start()
+                    # Wait for all processes to complete
+                    for p in processes:
+                        p.join()
+                    # Update the progress bar
+                    pbar.update(1)
+            
+            dataset = list(dataset)
+            # Write results to csv file
+            save_to_csv(dataset=dataset, filePath = config["benchmarkingFile"], VS=True)
 
         else:
             if typeOfGame.lower() != "exit":
